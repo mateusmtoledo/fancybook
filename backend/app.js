@@ -9,7 +9,7 @@ app.use(cors({
   origin: process.env.ORIGIN,
 }));
 
-require('./mongoConfig');
+require('./databaseUtils/config/mongoConfig');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
