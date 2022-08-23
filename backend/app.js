@@ -20,14 +20,14 @@ app.get('/', (req, res) => {
   res.send('Fancybook');
 });
 
-app.use((req, res, next) => {
-  // 404
-  next();
+app.use((req, res) => {
+  res.status(404).send('404 Not Found');
 });
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  // error
+  console.log(err);
+  res.status(500).send('Something went wrong');
 });
 
 app.listen(process.env.PORT, () => {
