@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../../models/User');
 
 exports.addFriend = (requesterId, recipientId) => {
   const queries = [

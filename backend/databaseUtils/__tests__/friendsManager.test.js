@@ -1,6 +1,6 @@
 const { generateRandomUser } = require('../seeding/fakeData');
 const { addFriend } = require('../operations/friendsManager');
-const User = require('../models/User');
+const User = require('../../models/User');
 
 const fakeUsers = new Array(10).fill().map(() => generateRandomUser());
 
