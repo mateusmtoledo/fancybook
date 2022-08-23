@@ -1,22 +1,13 @@
-const { initializeMongoServer, resetDb, disconnectMongoose } = require('../config/mongoTestingConfig');
 const { generateRandomUser } = require('../seeding/fakeData');
 const { addFriend } = require('../operations/friendsManager');
 const User = require('../models/User');
 
 const fakeUsers = new Array(10).fill().map(() => generateRandomUser());
-let mongoServer;
 
-beforeAll(async () => {
-  mongoServer = await initializeMongoServer();
-});
+require('../config/jestDbConfig');
+
 beforeEach(async () => {
   await User.insertMany(fakeUsers);
-});
-afterEach(async () => {
-  await resetDb();
-});
-afterAll(async () => {
-  await disconnectMongoose(mongoServer);
 });
 
 describe('addFriend', () => {
