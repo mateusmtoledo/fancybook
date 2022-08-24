@@ -6,7 +6,12 @@ const signUpRouter = require('../signUp');
 
 app.use('/sign-up', signUpRouter);
 
-const userData = 'firstName=John&lastName=Doe&email=johndoe@fancybook.com&password=johndoe123';
+const userData = {
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'johndoe@fancybook.com',
+  password: 'johndoe123',
+};
 
 describe('signUp route', () => {
   it('responds with json', (done) => {
