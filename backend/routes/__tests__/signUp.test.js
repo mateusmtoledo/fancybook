@@ -1,14 +1,8 @@
 const request = require('supertest');
-const express = require('express');
-
-const app = express();
-
-require('../../databaseUtils/config/jestDbConfig');
-
-app.use(express.urlencoded({ extended: false }));
+const User = require('../../models/User');
+const app = require('../../testingServer');
 
 const signUpRouter = require('../signUp');
-const User = require('../../models/User');
 
 app.use('/sign-up', signUpRouter);
 
