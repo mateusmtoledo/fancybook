@@ -1,11 +1,8 @@
 const request = require('supertest');
 const bcrypt = require('bcryptjs');
 const User = require('../../models/User');
-const app = require('../../testingServer');
-
-const loginRouter = require('../login');
-
-app.use('/login', loginRouter);
+// const app = require('../../testingServer');
+const app = require('../../app');
 
 const userData = {
   firstName: 'John',
@@ -34,7 +31,6 @@ describe('login route', () => {
 
         expect(response.body.token).toBeTruthy();
         expect(response.body.user).toMatchObject(expectedUser);
-        console.log(response.body.user);
         done();
       })
       .catch((err) => done(err));

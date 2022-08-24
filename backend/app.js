@@ -10,7 +10,7 @@ app.use(cors({
   origin: process.env.ORIGIN,
 }));
 
-require('./databaseUtils/config/mongoConfig');
+require('./databaseUtils/config/mongoSetup');
 
 const passport = require('passport');
 
@@ -20,6 +20,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+const signUpRouter = require('./routes/signUp');
+const loginRouter = require('./routes/login');
+const usersRouter = require('./routes/users');
+
+app.use('/sign-up', signUpRouter);
+app.use('/login', loginRouter);
+app.use('/users', passport.authenticate('jwt', { session: false }), usersRouter);
 
 app.get('/', (req, res) => {
   res.send('Fancybook');
@@ -35,8 +43,10 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong');
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Listening on port ${process.env.PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(process.env.PORT, () => {
+    console.log(`Listening on port ${process.env.PORT}`);
+  });
+}
 
 module.exports = app;

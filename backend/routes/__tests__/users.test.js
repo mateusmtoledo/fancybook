@@ -1,14 +1,8 @@
 const request = require('supertest');
 const bcrypt = require('bcryptjs');
-const app = require('../../testingServer');
+const app = require('../../app');
 const User = require('../../models/User');
 const { addFriend } = require('../../databaseUtils/operations/friendsManager');
-
-const loginRouter = require('../login');
-const usersRouter = require('../users');
-
-app.use('/login', loginRouter);
-app.use('/users', usersRouter);
 
 const userData = {
   firstName: 'John',

@@ -1,10 +1,6 @@
 const request = require('supertest');
 const User = require('../../models/User');
-const app = require('../../testingServer');
-
-const signUpRouter = require('../signUp');
-
-app.use('/sign-up', signUpRouter);
+const app = require('../../app');
 
 const userData = {
   firstName: 'John',

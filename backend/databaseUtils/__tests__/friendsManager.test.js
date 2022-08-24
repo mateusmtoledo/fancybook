@@ -4,7 +4,7 @@ const User = require('../../models/User');
 
 const fakeUsers = new Array(10).fill().map(() => generateRandomUser());
 
-require('../config/jestDbConfig');
+require('../config/mongoSetup');
 
 beforeEach(async () => {
   await User.insertMany(fakeUsers);
