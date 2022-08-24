@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+require('./services/passportConfig');
 const cors = require('cors');
 
 const app = express();
@@ -10,6 +11,10 @@ app.use(cors({
 }));
 
 require('./databaseUtils/config/mongoConfig');
+
+const passport = require('passport');
+
+app.use(passport.initialize());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
