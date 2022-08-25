@@ -19,3 +19,15 @@ exports.generateRandomUser = () => {
     password,
   });
 };
+
+exports.generateRandomPost = (authorId) => ({
+  author: authorId,
+  text: faker.lorem.lines(),
+  date: Date.now() - Math.floor(Math.random() * 20000000000),
+});
+
+exports.generateRandomComment = (authorId, postId) => ({
+  author: authorId,
+  post: postId,
+  text: faker.lorem.lines(),
+});
