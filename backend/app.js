@@ -24,10 +24,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 const signUpRouter = require('./routes/signUp');
 const loginRouter = require('./routes/login');
 const usersRouter = require('./routes/users');
+const postsRouter = require('./routes/posts');
 
 app.use('/sign-up', signUpRouter);
 app.use('/login', loginRouter);
 app.use('/users', passport.authenticate('jwt', { session: false }), usersRouter);
+app.use('/posts', passport.authenticate('jwt', { session: false }), postsRouter);
 
 app.get('/', (req, res) => {
   res.send('Fancybook');
