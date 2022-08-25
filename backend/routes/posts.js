@@ -3,6 +3,10 @@ const Post = require('../models/Post');
 
 const router = express.Router();
 
+const commentsRouter = require('./comments');
+
+router.use('/:postId/comments', commentsRouter);
+
 router.get('/', (req, res, next) => {
   const friendsIds = req.user.friendList
     .filter((friendship) => friendship.status === 'friends')
