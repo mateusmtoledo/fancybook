@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Form from "./Form";
 import GOOGLE_SIGN_IN from "../img/google-sign-in.png";
+import { Link } from "react-router-dom";
 
 const Hero = styled.div`
   font-size: 1.5rem;
@@ -72,7 +73,7 @@ function SignUpPage() {
         <GoogleSignIn>
           <img src={GOOGLE_SIGN_IN} alt="Sign in with Google" />
         </GoogleSignIn>
-        <p>Not registered? <a href="/sign-up">Create account</a></p>
+        <p>Not registered? <Link to="/sign-up">Create account</Link></p>
       </LoginForm>
     </>
   );

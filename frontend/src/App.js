@@ -1,6 +1,6 @@
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "./components/Footer";
-import LoginPage from "./components/LoginPage";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -31,7 +31,7 @@ function App() {
   return (
     <Container>
       <Main>
-        <LoginPage />
+        <Outlet />
       </Main>
       <Footer />
     </Container>
