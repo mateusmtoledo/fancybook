@@ -5,22 +5,23 @@ const StyledFooter = styled.footer`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #2C2727;
+  background-color: var(--color-brown-dark);
   padding: 12px;
 `;
 
 const GithubLink = styled.a`
+  img {
+    height: 24px;
+  }
+  
   display: flex;
   gap: 8px;
   align-items: center;
   text-decoration: none;
-  color: white;
+  color: var(--color-white);
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   
-  img {
-    height: 24px;
-  }
 `;
 
 function Footer() {

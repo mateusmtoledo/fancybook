@@ -2,7 +2,15 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   :root {
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
+    --color-brown-light: #3E3939;
+    --color-brown-dark: #2C2727;
+    --color-orange: #FF7517;
+    --color-white: #FFFFFF;
+    --color-gray: #555555;
+    --shadow-card: 0px 3px 7px -3px rgba(0, 0, 0, 0.3),
+      0px 6px 12px -2px rgba(50, 50, 50, 0.25);
   }
 
   *, *::after, *::before {
@@ -12,8 +20,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: #3E3939;
-    color: #FFFFFF;
+    background-color: var(--color-brown-light);
+    color: var(--color-white);
   }
 `;
 
