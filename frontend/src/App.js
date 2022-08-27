@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "./components/Footer";
 import { UserContext } from "./contexts/UserContext";
+import api from "./adapters/api";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -32,8 +33,32 @@ const Main = styled.main`
 function App() {
   const [user, setUser] = useState(null);
 
+  const login = useCallback(async () => {
+    if(localStorage.getItem('token')) {
+      try {
+        const response = await api.get('/login');
+        setUser(response.data.user);
+      } catch(err) {
+        localStorage.removeItem('token');
+        setUser(null);
+        console.log(err);
+      }
+    }
+  }, []);
+
+  const logout = useCallback(() => {
+    if(localStorage.getItem('token')) {
+      localStorage.removeItem('token');
+      setUser(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    login();
+  }, [login]);
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, login, logout }}>
       <Container>
         <Main>
           <Outlet />
