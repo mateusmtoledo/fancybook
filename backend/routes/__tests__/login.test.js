@@ -17,7 +17,7 @@ beforeEach(async () => {
 });
 
 describe('login route', () => {
-  it('sends jwt and user as POST response', (done) => {
+  it('sends jwt as POST response', (done) => {
     request(app)
       .post('/login')
       .send({
@@ -26,11 +26,7 @@ describe('login route', () => {
       })
       .expect(200)
       .then((response) => {
-        const expectedUser = { ...userData };
-        delete expectedUser.password;
-
         expect(response.body.token).toBeTruthy();
-        expect(response.body.user).toMatchObject(expectedUser);
         done();
       })
       .catch((err) => done(err));

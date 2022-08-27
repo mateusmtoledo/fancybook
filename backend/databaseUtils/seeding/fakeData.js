@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { faker } = require('@faker-js/faker');
+const bcrypt = require('bcryptjs');
 
 exports.generateRandomUser = () => {
   const avatar = `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/480/480`;
@@ -8,7 +9,7 @@ exports.generateRandomUser = () => {
   const lastName = faker.name.lastName(gender);
   const username = (`${firstName} ${lastName}`).split(' ').join('').toLowerCase();
   const email = `${username}@fancybook.com`;
-  const password = username;
+  const password = bcrypt.hashSync(username, 10);
   return ({
     firstName,
     lastName,
