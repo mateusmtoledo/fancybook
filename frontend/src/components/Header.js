@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext";
 import SEARCH_ICON from "../img/search.svg";
+import Avatar from "../styles/Avatar";
 
 const StyledHeader = styled.header`
   background-color: var(--color-brown-dark);
@@ -55,11 +56,6 @@ const SearchBar = styled.div`
   input::placeholder {
     color: var(--color-gray);
   }
-`;
-
-const Avatar = styled.img`
-  border-radius: 100%;
-  cursor: pointer;
 `;
 
 function Header() {
