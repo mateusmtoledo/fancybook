@@ -4,6 +4,9 @@ import styled from "styled-components";
 import Footer from "./components/Footer";
 import { UserContext } from "./contexts/UserContext";
 import api from "./adapters/api";
+import Login from "./pages/Login";
+import Header from "./components/Header";
+import Loading from "./components/Loading";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -32,15 +35,22 @@ const Main = styled.main`
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const login = useCallback(async () => {
     if(localStorage.getItem('token')) {
       try {
-        const response = await api.get('/login');
-        setUser(response.data.user);
+        setLoading(true);
+        setTimeout(async () => {
+          const response = await api.get('/login');
+          setUser(response.data.user);
+          setLoading(false);
+        }, 3000);
+        
       } catch(err) {
         localStorage.removeItem('token');
         setUser(null);
+        setLoading(false);
         console.log(err);
       }
     }
@@ -59,11 +69,28 @@ function App() {
 
   return (
     <UserContext.Provider value={{ user, login, logout }}>
+      {
+        loading
+        ? <Loading />
+        : null
+      }
       <Container>
-        <Main>
-          <Outlet />
-        </Main>
-        <Footer />
+        {
+          user
+          ? <>
+              <Header />
+              <Main>
+                <Outlet />
+              </Main>
+              <Footer />
+            </>
+          : <>
+              <Main>
+                <Login />
+              </Main>
+              <Footer />
+            </>
+        }
       </Container>
     </UserContext.Provider>
   );

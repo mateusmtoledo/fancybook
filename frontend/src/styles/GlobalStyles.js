@@ -8,7 +8,9 @@ const GlobalStyles = createGlobalStyle`
     --color-brown-dark: #2C2727;
     --color-orange: #FF7517;
     --color-white: #FFFFFF;
-    --color-gray: #555555;
+    --color-gray-dark: #555555;
+    --color-gray: #7B7B7B;
+    --color-gray-light: #BBBBBB;
     --shadow-card: 0px 3px 7px -3px rgba(0, 0, 0, 0.3),
       0px 6px 12px -2px rgba(50, 50, 50, 0.25);
   }

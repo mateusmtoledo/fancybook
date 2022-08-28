@@ -14,7 +14,7 @@ const Form = styled.form`
   }
 
   input::placeholder {
-    color: var(--color-gray);
+    color: var(--color-gray-dark);
   }
 
   input[type="submit"] {
