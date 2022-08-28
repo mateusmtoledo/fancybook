@@ -18,6 +18,7 @@ exports.generateRandomUser = () => {
     username,
     email,
     password,
+    sample: true,
   });
 };
 

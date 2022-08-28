@@ -20,6 +20,7 @@ const UserSchema = new Schema({
   username: { type: String },
   email: { type: String },
   password: { type: String, select: false },
+  sample: { type: Boolean, default: false },
 }, {
   toJSON: { virtuals: true },
 });
