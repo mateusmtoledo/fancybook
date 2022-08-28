@@ -5,7 +5,6 @@ import Footer from "./components/Footer";
 import { UserContext } from "./contexts/UserContext";
 import api from "./adapters/api";
 import Login from "./pages/Login";
-import Header from "./components/Header";
 import Loading from "./components/Loading";
 
 const Container = styled.div`
@@ -13,24 +12,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
-
-const Main = styled.main`
-  padding: 4px;
-  flex: 1;
-  display: flex;
-  max-width: 1064px;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  width: 100%;
-  column-gap: 105px;
-  row-gap: 16px;
-
-  @media(max-width: 950px) {
-    flex-direction: column;
-    max-width: 345px;
-  }
 `;
 
 function App() {
@@ -41,12 +22,9 @@ function App() {
     if(localStorage.getItem('token')) {
       try {
         setLoading(true);
-        setTimeout(async () => {
-          const response = await api.get('/login');
-          setUser(response.data.user);
-          setLoading(false);
-        }, 3000);
-        
+        const response = await api.get('/login');
+        setUser(response.data.user);
+        setLoading(false);
       } catch(err) {
         localStorage.removeItem('token');
         setUser(null);
@@ -77,20 +55,10 @@ function App() {
       <Container>
         {
           user
-          ? <>
-              <Header />
-              <Main>
-                <Outlet />
-              </Main>
-              <Footer />
-            </>
-          : <>
-              <Main>
-                <Login />
-              </Main>
-              <Footer />
-            </>
+          ? <Outlet />
+          : <Login />
         }
+        <Footer />
       </Container>
     </UserContext.Provider>
   );

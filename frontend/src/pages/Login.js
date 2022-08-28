@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import LoginForm from "../components/LoginForm";
+import Main from "../styles/Main";
 
 
 const Hero = styled.div`
@@ -15,15 +16,31 @@ const Hero = styled.div`
   }
 `;
 
+const LoginStyled = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  column-gap: 105px;
+  row-gap: 16px;
+  
+  @media(max-width: 950px) {
+    flex-direction: column;
+    max-width: 345px;
+  }
+`;
+
 function Login() {
   return (
-    <>
-      <Hero>
-        <h1>fancybook</h1>
-        <p>Fancybook is a social network that helps you stay connected with people who are a part of your life.</p>
-      </Hero>
-      <LoginForm />
-    </>
+    <Main>
+      <LoginStyled>
+        <Hero>
+          <h1>fancybook</h1>
+          <p>Fancybook is a social network that helps you stay connected with people who are a part of your life.</p>
+        </Hero>
+        <LoginForm />
+      </LoginStyled>
+    </Main>
   );
 }
 
