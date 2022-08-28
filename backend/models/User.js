@@ -20,6 +20,12 @@ const UserSchema = new Schema({
   username: { type: String },
   email: { type: String },
   password: { type: String, select: false },
+}, {
+  toJSON: { virtuals: true },
+});
+
+UserSchema.virtual('fullName').get(function getFullName() {
+  return this.firstName + this.lastName;
 });
 
 module.exports = mongoose.model('User', UserSchema);
