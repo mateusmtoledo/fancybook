@@ -5,8 +5,10 @@ import Avatar from "../styles/Avatar";
 import Card from "../styles/Card";
 import SEND_ICON from '../img/send.svg';
 import api from "../adapters/api";
+import Loading from "./Loading";
 
 const StyledPostForm = styled(Card)`
+  position: relative;
   .post-text {
     display: flex;
     gap: 16px;
@@ -54,6 +56,7 @@ const StyledPostForm = styled(Card)`
 function PostForm({ getPosts }) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
 
   function handleChange(event) {
     const element = event.target;
@@ -64,17 +67,26 @@ function PostForm({ getPosts }) {
 
   async function submitPost(event) {
     event.preventDefault();
+    setLoading(true);
     try {
-      api.post('/posts', { text });
+      await api.post('/posts', { text });
       getPosts();
+      setLoading(false);
     } catch (err) {
       // TODO implement error handling
       console.log(err);
+      setLoading(false);
     }
   }
 
   return (
     <StyledPostForm>
+      {
+        loading
+        ? <Loading />
+        : null
+      }
+
       <form onSubmit={submitPost}>
         <div className="post-text">
           <Avatar

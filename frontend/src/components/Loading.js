@@ -57,19 +57,23 @@ const StyledLoading = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: ${props => props.window ? '100vw' : '100%'};
+  height: ${props => props.window ? '100vh' : '100%'};
+  position: ${props => props.window ? 'fixed' : 'absolute'};
+  border-radius: inherit;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
   background-color: var(--color-brown-dark);
-  opacity: 95%;
+  opacity: 90%;
+  z-index: 1;
 `;
 
-function Loading() {
+function Loading({ window }) {
   return (
-    <Wrapper>
+    <Wrapper window={window}>
       <StyledLoading>
         <div></div>
         <div></div>

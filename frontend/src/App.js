@@ -49,7 +49,7 @@ function App() {
     <UserContext.Provider value={{ user, login, logout }}>
       {
         loading
-        ? <Loading />
+        ? <Loading window />
         : null
       }
       <Container>
