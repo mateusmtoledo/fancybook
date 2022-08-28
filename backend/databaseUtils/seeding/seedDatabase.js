@@ -2,6 +2,7 @@ const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Comment = require('../../models/Comment');
 const { generateRandomUser, generateRandomPost, generateRandomComment } = require('./fakeData');
+const { addFriend } = require('../operations/friendsManager');
 require('../config/mongoSetup');
 
 async function saveUsers(numberOfUsers) {
@@ -33,16 +34,29 @@ async function saveComments(users, posts) {
   return Promise.all(promises);
 }
 
+async function sendFriendRequests(requesterId, users) {
+  const potentialFriends = users.filter((user) => !requesterId.equals(user._id));
+  for (let i = 0; i < potentialFriends.length; i += 1) {
+    if (Math.floor(Math.random() * 2)) {
+      // eslint-disable-next-line no-await-in-loop
+      await addFriend(requesterId, potentialFriends[i]._id);
+    }
+  }
+}
+
+async function sendAllRequests(users) {
+  for (let i = 0; i < users.length; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    await sendFriendRequests(users[i]._id, users);
+  }
+}
+
 async function seedDatabase(numberOfUsers) {
   const users = await saveUsers(numberOfUsers);
   const posts = await savePosts(users);
-  const comments = await saveComments(users, posts);
+  await saveComments(users, posts);
+  await sendAllRequests(users);
   console.log('Done');
-  return {
-    users,
-    posts,
-    comments,
-  };
 }
 
 seedDatabase(30);
