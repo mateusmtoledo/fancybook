@@ -15,6 +15,8 @@ router.get('/', (req, res, next) => {
   Post
     .find({ author: { $in: [...friendsIds, req.user._id] } })
     .sort({ date: 'descending' })
+    .limit(8)
+    .populate('author', 'firstName lastName fullName avatar')
     .exec((err, posts) => {
       if (err) {
         next(err);
