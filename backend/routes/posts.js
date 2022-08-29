@@ -1,4 +1,5 @@
 const express = require('express');
+const { body, validationResult } = require('express-validator');
 const Post = require('../models/Post');
 
 const router = express.Router();
@@ -27,5 +28,29 @@ router.get('/', (req, res, next) => {
       });
     });
 });
+
+router.post('/', [
+  body('text', 'Text is required').trim().isLength({ min: 3 }).escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      next(errors.array());
+      return;
+    }
+    new Post({
+      author: req.user._id,
+      text: req.body.text,
+    }).save((err, post) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.json({
+        post,
+      });
+    });
+  },
+]);
 
 module.exports = router;

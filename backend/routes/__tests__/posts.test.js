@@ -26,7 +26,7 @@ beforeEach(async () => {
     .then((response) => response.body.token);
 });
 
-describe('posts route', () => {
+describe('/posts GET method', () => {
   it('requires authentication', async () => {
     await request(app)
       .get('/posts')
@@ -60,6 +60,28 @@ describe('posts route', () => {
         });
         expect(response.status).toBe(200);
         expect(posts.length).toBe(7);
+      });
+  });
+});
+
+describe('/posts POST method', () => {
+  it('requires authentication', async () => {
+    await request(app)
+      .post('/posts')
+      .expect(401);
+  });
+
+  it('saves post in the database', async () => {
+    await request(app)
+      .post('/posts')
+      .auth(token, { type: 'bearer' })
+      .send({
+        text: 'I love fancybook!',
+      })
+      .expect(200)
+      .expect(async (response) => {
+        const post = await Post.findById(response.body.post._id);
+        expect(post.text).toBe('I love fancybook!');
       });
   });
 });
