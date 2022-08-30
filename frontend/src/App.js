@@ -7,6 +7,7 @@ import api from "./adapters/api";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Loading from "./components/Loading";
+import SignUp from "./pages/SignUp";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -63,6 +64,7 @@ function App() {
                 </>
               : <>
                   <Route index element={<Login />} />
+                  <Route path="/sign-up" element={<SignUp />} />
                 </>
             }
           </Routes>
