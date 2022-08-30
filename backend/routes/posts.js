@@ -9,6 +9,9 @@ const commentsRouter = require('./comments');
 router.use('/:postId/comments', commentsRouter);
 
 router.get('/', (req, res, next) => {
+  const resultsPerPage = 8;
+  const page = Number(req.query.page) >= 0 ? Number(req.query.page) : 0;
+
   const friendsIds = req.user.friendList
     .filter((friendship) => friendship.status === 'friends')
     .map((friendship) => friendship.user);
@@ -16,7 +19,8 @@ router.get('/', (req, res, next) => {
   Post
     .find({ author: { $in: [...friendsIds, req.user._id] } })
     .sort({ date: 'descending' })
-    .limit(8)
+    .limit(resultsPerPage)
+    .skip(resultsPerPage * page)
     .populate('author', 'firstName lastName fullName avatar')
     .exec((err, posts) => {
       if (err) {

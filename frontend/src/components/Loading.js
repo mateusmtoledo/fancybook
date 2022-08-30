@@ -66,14 +66,14 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-brown-dark);
+  background-color: ${props => props.transparent ? '#00000000' : 'var(--color-brown-dark)'};
   opacity: 90%;
   z-index: 1;
 `;
 
-function Loading({ window }) {
+function Loading({ window, transparent }) {
   return (
-    <Wrapper window={window}>
+    <Wrapper window={window} transparent={transparent}>
       <StyledLoading>
         <div></div>
         <div></div>

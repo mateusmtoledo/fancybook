@@ -53,7 +53,7 @@ const StyledPostForm = styled(Card)`
   }
 `;
 
-function PostForm({ getPosts }) {
+function PostForm({ refreshPosts }) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -70,13 +70,12 @@ function PostForm({ getPosts }) {
     setLoading(true);
     try {
       await api.post('/posts', { text });
-      getPosts();
-      setLoading(false);
+      refreshPosts();
     } catch (err) {
       // TODO implement error handling
       console.log(err);
-      setLoading(false);
     }
+    setLoading(false);
   }
 
   return (
