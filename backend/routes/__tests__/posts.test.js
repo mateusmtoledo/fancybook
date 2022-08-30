@@ -79,7 +79,7 @@ describe('/posts POST method', () => {
         text: 'I love fancybook!',
       })
       .expect(200)
-      .expect(async (response) => {
+      .then(async (response) => {
         const post = await Post.findById(response.body.post._id);
         expect(post.text).toBe('I love fancybook!');
       });
