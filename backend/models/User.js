@@ -6,7 +6,7 @@ const UserSchema = new Schema({
   firstName: { type: String },
   lastName: { type: String },
   gender: { type: String },
-  avatar: { type: String },
+  avatar: { type: String, default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
   friendList: [{
     user: Schema.Types.ObjectId,
     /*
@@ -26,7 +26,7 @@ const UserSchema = new Schema({
 });
 
 UserSchema.virtual('fullName').get(function getFullName() {
-  return this.firstName + this.lastName;
+  return `${this.firstName} ${this.lastName}`;
 });
 
 module.exports = mongoose.model('User', UserSchema);
