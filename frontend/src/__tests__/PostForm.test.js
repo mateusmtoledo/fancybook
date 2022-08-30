@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import userEvent from "@testing-library/user-event";
 import { UserContext } from "../contexts/UserContext";
@@ -23,25 +23,25 @@ describe('Post form', () => {
   it('renders text input', () => {
     render(
       <UserContext.Provider value={userContextValue}>
-        <PostForm getPosts={jest.fn()} />
+        <PostForm refreshPosts={jest.fn()} />
       </UserContext.Provider>
     );
     const textInput = screen.getByPlaceholderText(/share your thoughts/i);
     expect(textInput).toBeInTheDocument();
   });
 
-  it('calls api.post with correct arguments', () => {
+  it('calls api.post with correct arguments', async () => {
     render(
       <UserContext.Provider value={userContextValue}>
-        <PostForm getPosts={jest.fn()} />
+        <PostForm refreshPosts={jest.fn()} />
       </UserContext.Provider>
     );
     const textInput = screen.getByPlaceholderText(/share your thoughts/i);
     userEvent.type(textInput, 'I love fancybook!');
     const submitButton = screen.getByRole('button');
     userEvent.click(submitButton);
-    expect(api.post).toBeCalledWith('/posts', {
+    await waitFor(() => expect(api.post).toBeCalledWith('/posts', {
       text: 'I love fancybook!',
-    });
+    }));
   });
 });
