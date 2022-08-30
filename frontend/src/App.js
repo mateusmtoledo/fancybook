@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "./components/Footer";
 import { UserContext } from "./contexts/UserContext";
 import api from "./adapters/api";
 import Login from "./pages/Login";
+import Home from "./pages/Home";
 import Loading from "./components/Loading";
 
 const Container = styled.div`
@@ -53,11 +54,19 @@ function App() {
         : null
       }
       <Container>
-        {
-          user
-          ? <Outlet />
-          : <Login />
-        }
+        <BrowserRouter>
+          <Routes>
+            {
+              user
+              ? <>
+                  <Route index element={<Home />} />
+                </>
+              : <>
+                  <Route index element={<Login />} />
+                </>
+            }
+          </Routes>
+        </BrowserRouter>
         <Footer />
       </Container>
     </UserContext.Provider>
