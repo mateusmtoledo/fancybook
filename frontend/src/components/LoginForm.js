@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Form from "./Form";
+import Form from "../styles/Form";
 import GOOGLE_SIGN_IN from "../img/google-sign-in.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
