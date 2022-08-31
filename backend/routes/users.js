@@ -5,14 +5,14 @@ const router = express.Router();
 
 router.get('/:userId', (req, res, next) => {
   const requestedUserId = req.params.userId;
-  const usersAreFriends = req.user.friendList.some(
-    (friendship) => friendship.user.toString() === requestedUserId && friendship.status === 'friends',
-  );
-  if (!usersAreFriends) {
-    res.status(401).send('Unauthorized');
-    return;
-  }
-  User.findById(requestedUserId, (err, requestedUser) => {
+  // const usersAreFriends = req.user.friendList.some(
+  //   (friendship) => friendship
+  //     .user.toString() === requestedUserId && friendship.status === 'friends',
+  // );
+  const projection = 'firstName lastName fullName avatar';
+  // if (usersAreFriends) projection += ' friendList';
+
+  User.findById(requestedUserId, projection, (err, requestedUser) => {
     if (err) {
       next(err);
       return;

@@ -40,23 +40,37 @@ describe('GET users/:userId route', () => {
       .expect(401, done);
   });
 
-  it('responds with 401 if users are not friends', async () => {
+  it('sends user\'s publicly available info', async () => {
     await addFriend(users[0]._id, users[1]._id);
     await request(app)
       .get(`/users/${users[1]._id}`)
       .auth(token, { type: 'bearer' })
-      .expect(401);
-  });
-
-  it('works if users are friends', async () => {
-    await addFriend(users[0]._id, users[1]._id);
-    await addFriend(users[1]._id, users[0]._id);
-    await request(app)
-      .get(`/users/${users[1]._id}`)
-      .auth(token, { type: 'bearer' })
+      .expect(200)
       .expect((response) => {
-        expect(response.status).toBe(200);
-        expect(response.body.user).toMatchObject(secondUserData);
+        const { user } = response.body;
+        expect(user).toMatchObject({
+          firstName: 'Jane',
+          lastName: 'Doe',
+        });
+        expect(user).not.toHaveProperty('friendList');
       });
   });
+
+  // it('sends full result if users are friends', async () => {
+  //   await addFriend(users[0]._id, users[1]._id);
+  //   await addFriend(users[1]._id, users[0]._id);
+  //   await request(app)
+  //     .get(`/users/${users[1]._id}`)
+  //     .auth(token, { type: 'bearer' })
+  //     .expect((response) => {
+  //       expect(response.status).toBe(200);
+  //       const { user } = response.body;
+  //       expect(user).toMatchObject({
+  //         firstName: 'Jane',
+  //         lastName: 'Doe',
+  //       });
+  //       expect(user.friendList[0].user.str).toBe(users[0]._id.str);
+  //       expect(user).not.toHaveProperty('email');
+  //     });
+  // });
 });
