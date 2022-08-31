@@ -35,8 +35,7 @@ const StyledPostList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 615px;
-  flex: 1;
+  flex: 0 3 615px;
 `;
 
 function PostList() {

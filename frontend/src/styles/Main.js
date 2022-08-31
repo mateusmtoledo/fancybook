@@ -8,6 +8,7 @@ const Main = styled.main`
   display: flex;
   justify-content: center;
   margin: auto;
+  gap: 16px;
 `;
 
 export default Main;
