@@ -3,6 +3,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const passportJWT = require('passport-jwt');
+const GoogleStrategy = require('passport-google-oidc');
 const User = require('../models/User');
 
 passport.use(new LocalStrategy(
@@ -48,3 +49,45 @@ passport.use(new JWTStrategy(
     .then((user) => cb(null, user))
     .catch((err) => cb(err)),
 ));
+
+passport.use(new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: '/login/google/redirect',
+  },
+  (issuer, profile, cb) => {
+    User.findOne({ googleId: profile.id }, (err, user) => {
+      if (err) {
+        cb(err);
+        return;
+      }
+      if (!user) {
+        new User({
+          googleId: profile.id,
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
+          email: profile.emails[0].value,
+        }).save((err, user) => {
+          if (err) {
+            cb(err);
+            return;
+          }
+          cb(null, user);
+        });
+        return;
+      }
+      cb(null, user);
+    });
+  },
+));
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});

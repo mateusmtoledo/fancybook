@@ -5,6 +5,10 @@ require('dotenv').config();
 
 const router = express.Router();
 
+const googleRouter = require('./google');
+
+router.use('/google', googleRouter);
+
 router.post('/', (req, res, next) => {
   passport.authenticate('local', { session: false }, (err, user) => {
     if (err) {

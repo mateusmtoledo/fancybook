@@ -87,7 +87,9 @@ function LoginForm() {
       </Form>
       <p className="small-text">OR</p>
       <GoogleSignIn>
-        <img src={GOOGLE_SIGN_IN} alt="Sign in with Google" />
+        <a href={`${process.env.REACT_APP_API_URL}/login/google`}>
+          <img src={GOOGLE_SIGN_IN} alt="Sign in with Google" />
+        </a>
       </GoogleSignIn>
       <p>Not registered? <Link to="/sign-up">Create account</Link></p>
     </LoginContainer>

@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Loading from "./components/Loading";
 import SignUp from "./pages/SignUp";
+import GoogleAuth from "./components/GoogleAuth";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -65,6 +66,7 @@ function App() {
               : <>
                   <Route index element={<Login />} />
                   <Route path="/sign-up" element={<SignUp />} />
+                  <Route path="/googleauth" element={<GoogleAuth />} />
                 </>
             }
           </Routes>

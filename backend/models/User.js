@@ -21,6 +21,7 @@ const UserSchema = new Schema({
   email: { type: String },
   password: { type: String, select: false },
   sample: { type: Boolean, default: false },
+  googleId: { type: String },
 }, {
   toJSON: { virtuals: true },
 });

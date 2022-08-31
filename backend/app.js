@@ -12,9 +12,14 @@ app.use(cors({
 
 require('./databaseUtils/config/mongoSetup');
 
+const session = require('express-session');
+
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+
 const passport = require('passport');
 
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
