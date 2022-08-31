@@ -24,6 +24,20 @@ const GlobalStyles = createGlobalStyle`
   body {
     background-color: var(--color-brown-light);
     color: var(--color-white);
+    overflow: visible;
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  @media (max-width: 650px) {
+    .desktop {
+        display: none;
+    }
+    .mobile {
+      display: block;
+    }
   }
 `;
 

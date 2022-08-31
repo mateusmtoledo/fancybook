@@ -19,7 +19,6 @@ const StyledPost = styled(Card)`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 615px;
 
   .buttons {
     display: flex;
