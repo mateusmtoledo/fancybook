@@ -1,36 +1,32 @@
+const mongoose = require('mongoose');
 const request = require('supertest');
-const bcrypt = require('bcryptjs');
 const app = require('../../app');
 const User = require('../../models/User');
-const { addFriend } = require('../../databaseUtils/operations/friendsManager');
+// const { addFriend } = require('../../databaseUtils/operations/friendsManager');
 
 const userData = {
+  _id: new mongoose.Types.ObjectId('6311384d39fcee4794f5678c'),
   firstName: 'John',
   lastName: 'Doe',
   email: 'johndoe@fancybook.com',
-  password: 'password123',
+  password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+  plainTextPassword: 'pAssWord&4r(3*',
+  authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzExMzg0ZDM5ZmNlZTQ3OTRmNTY3OGMiLCJmaXJzdE5hbWUiOiJKb2huIiwibGFzdE5hbWUiOiJEb2UiLCJhdmF0YXIiOiJodHRwczovL2Nkbi5waXhhYmF5LmNvbS9waG90by8yMDE1LzEwLzA1LzIyLzM3L2JsYW5rLXByb2ZpbGUtcGljdHVyZS05NzM0NjBfOTYwXzcyMC5wbmciLCJlbWFpbCI6ImpvaG5kb2VAZmFuY3lib29rLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEJ1UmszZ203ZGhORFJIUFFxNVZSa08uTTV4OUx4MmcvdTZNZDRGTDFGSVNTLkcvRlJHSzR1Iiwic2FtcGxlIjpmYWxzZSwiZnJpZW5kTGlzdCI6W10sIl9fdiI6MCwiaWF0IjoxNjYyMDc0NzAyfQ.3PlU6QL8_N1HBTzp7jb_s7tKK3uPYNpJ35nSPWB9qqE',
 };
 
 const secondUserData = {
+  _id: new mongoose.Types.ObjectId('63114a15ee51f867417b3d8a'),
   firstName: 'Jane',
   lastName: 'Doe',
   email: 'janedoe@fancybook.com',
+  password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+  plainTextPassword: 'pAssWord&4r(3*',
 };
 
-const users = [];
-let token;
+const users = [userData, secondUserData];
 
 beforeEach(async () => {
-  const hashedPassword = await bcrypt.hash(userData.password, 10);
-  users[0] = await new User({ ...userData, password: hashedPassword }).save();
-  users[1] = await new User({ ...secondUserData, password: hashedPassword }).save();
-  token = await request(app)
-    .post('/login/')
-    .send({
-      email: userData.email,
-      password: userData.password,
-    })
-    .then((response) => response.body.token);
+  await User.insertMany(users);
 });
 
 describe('GET users/:userId route', () => {
@@ -41,10 +37,10 @@ describe('GET users/:userId route', () => {
   });
 
   it('sends user\'s publicly available info', async () => {
-    await addFriend(users[0]._id, users[1]._id);
+    // await addFriend(users[0]._id, users[1]._id);
     await request(app)
       .get(`/users/${users[1]._id}`)
-      .auth(token, { type: 'bearer' })
+      .auth(userData.authToken, { type: 'bearer' })
       .expect(200)
       .expect((response) => {
         const { user } = response.body;
@@ -53,6 +49,7 @@ describe('GET users/:userId route', () => {
           lastName: 'Doe',
         });
         expect(user).not.toHaveProperty('friendList');
+        expect(user).not.toHaveProperty('password');
       });
   });
 

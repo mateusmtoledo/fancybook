@@ -21,11 +21,9 @@ router.get('/:userId', (req, res, next) => {
       next();
       return;
     }
-    const response = { ...requestedUser.toJSON() };
-    delete response.__v;
 
     res.json({
-      user: response,
+      user: requestedUser,
     });
   });
 });

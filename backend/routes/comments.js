@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
     }
     const usersAreFriends = req.user.friendList
       .some((friendship) => friendship.status === 'friends'
-        && friendship.user.str === post.author._id.str);
+        && friendship.user.equals(post.author._id));
     if (!usersAreFriends) {
       res.status(401).send('Unauthorized');
       return;

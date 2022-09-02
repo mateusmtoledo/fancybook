@@ -1,5 +1,4 @@
 const request = require('supertest');
-const bcrypt = require('bcryptjs');
 const app = require('../../app');
 const { fakeUsers } = require('../../databaseUtils/seeding/staticFakeUsers');
 const { fakePosts } = require('../../databaseUtils/seeding/staticFakePosts');
@@ -7,23 +6,11 @@ const User = require('../../models/User');
 const Post = require('../../models/Post');
 const { addFriend } = require('../../databaseUtils/operations/friendsManager');
 
-let token;
-const loginCredentials = {
-  email: fakeUsers[0].email,
-  password: fakeUsers[0].password,
-};
-let savedUsers;
-
-const hashedPassword = bcrypt.hashSync(fakeUsers[0].password, 10);
-fakeUsers[0].password = hashedPassword;
+const token = fakeUsers[0].authToken;
 
 beforeEach(async () => {
-  savedUsers = await User.insertMany(fakeUsers);
+  await User.insertMany(fakeUsers);
   await Post.insertMany(fakePosts);
-  token = await request(app)
-    .post('/login')
-    .send(loginCredentials)
-    .then((response) => response.body.token);
 });
 
 describe('/posts GET method', () => {
@@ -35,22 +22,22 @@ describe('/posts GET method', () => {
 
   it('only sends posts created by friends', async () => {
     const ids = fakeUsers.map((user) => user._id);
-    await addFriend(ids[0], ids[1]);
-    await addFriend(ids[0], ids[2]);
     await addFriend(ids[0], ids[3]);
-    await addFriend(ids[1], ids[6]);
-    await addFriend(ids[2], ids[4]);
-    await addFriend(ids[0], ids[6]);
-    await addFriend(ids[7], ids[0]);
-    await addFriend(ids[3], ids[0]);
-    await addFriend(ids[2], ids[0]);
+    await addFriend(ids[0], ids[4]);
+    await addFriend(ids[0], ids[5]);
+    await addFriend(ids[3], ids[8]);
+    await addFriend(ids[4], ids[6]);
+    await addFriend(ids[0], ids[8]);
+    await addFriend(ids[9], ids[0]);
+    await addFriend(ids[5], ids[0]);
+    await addFriend(ids[4], ids[0]);
 
     await request(app)
       .get('/posts')
       .auth(token, { type: 'bearer' })
       .expect((response) => {
         const { posts } = response.body;
-        User.findById(savedUsers[0]._id).then((user) => {
+        User.findById(fakeUsers[0]._id).then((user) => {
           const friendsIds = user.friendList
             .filter((friendship) => friendship.status === 'friends')
             .map((friendship) => friendship.user.str);
@@ -59,7 +46,7 @@ describe('/posts GET method', () => {
               .toContainEqual(post.author.str));
         });
         expect(response.status).toBe(200);
-        expect(posts.length).toBe(7);
+        expect(posts.length).toBe(6);
       });
   });
 });

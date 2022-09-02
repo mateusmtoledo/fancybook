@@ -23,7 +23,7 @@ const UserSchema = new Schema({
   sample: { type: Boolean, default: false },
   googleId: { type: String },
 }, {
-  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
 });
 
 UserSchema.virtual('fullName').get(function getFullName() {
