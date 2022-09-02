@@ -30,10 +30,10 @@ beforeEach(async () => {
 });
 
 describe('GET users/:userId route', () => {
-  it('is protected', (done) => {
-    request(app)
+  it('is protected', async () => {
+    await request(app)
       .get(`/users/${users[1]._id}`)
-      .expect(401, done);
+      .expect(401);
   });
 
   it('sends user\'s publicly available info', async () => {

@@ -10,55 +10,49 @@ const userData = {
 };
 
 describe('signUp route', () => {
-  it('responds with json', (done) => {
-    request(app)
+  it('responds with json', async () => {
+    await request(app)
       .post('/sign-up')
       .send(userData)
       .expect(200)
       .expect('Content-Type', /json/)
-      .then((response) => {
+      .expect((response) => {
         expect(response.body.firstName).toBe('John');
         expect(response.body.lastName).toBe('Doe');
         expect(response.body.email).toBe('johndoe@fancybook.com');
-        done();
-      })
-      .catch((err) => done(err));
+      });
   });
 
-  it('adds user to database', (done) => {
-    request(app)
+  it('adds user to database', async () => {
+    await request(app)
       .post('/sign-up')
-      .send(userData)
-      .then(() => {
-        User
-          .findOne({ email: 'johndoe@fancybook.com' })
-          .select('+password')
-          .then((user) => {
-            expect(user).not.toBeNull();
-            expect(user.password).not.toBe('johndoe123');
-            done();
-          });
-      })
-      .catch((err) => done(err));
+      .send(userData);
+    await User
+      .findOne({ email: 'johndoe@fancybook.com' })
+      .select('+password')
+      .then((user) => {
+        expect(user).not.toBeNull();
+        expect(user.password).not.toBe('johndoe123');
+      });
   });
 
-  it('does not add user if email is not unique', (done) => {
-    const userDataWithSameEmail = 'firstName=NotJohn&lastName=NotDoe&email=johndoe@fancybook.com&password=notjohndoe123';
-    request(app)
+  it('does not add user if email is not unique', async () => {
+    const userWithSameEmail = {
+      firstName: 'NotJohn',
+      lastName: 'NotDoe',
+      email: 'johndoe@fancybook.com',
+      password: 'notjohndoe123',
+    };
+    await request(app)
       .post('/sign-up')
-      .send(userData)
-      .then(() => {
-        request(app)
-          .post('/sign-up')
-          .send(userDataWithSameEmail)
-          .then((response) => {
-            expect(response.status).not.toBe(200);
-            User.find({ email: 'johndoe@fancybook.com' }).then((users) => {
-              expect(users.length).toBe(1);
-              done();
-            });
-          });
-      })
-      .catch((err) => done(err));
+      .send(userData);
+    await request(app)
+      .post('/sign-up')
+      .send(userWithSameEmail)
+      .expect((response) => {
+        expect(response.status).not.toBe(200);
+      });
+    const usersWithGivenEmail = await User.find({ email: 'johndoe@fancybook.com' });
+    expect(usersWithGivenEmail.length).toBe(1);
   });
 });

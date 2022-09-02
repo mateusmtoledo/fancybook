@@ -18,8 +18,8 @@ beforeEach(async () => {
 });
 
 describe('login route', () => {
-  it('sends jwt as POST response', (done) => {
-    request(app)
+  it('sends jwt as POST response', async () => {
+    await request(app)
       .post('/login')
       .send({
         email: 'johndoe@fancybook.com',
@@ -29,8 +29,6 @@ describe('login route', () => {
       .then((response) => {
         expect(typeof response.body.token).toBe('string');
         expect(response.body.token.length).not.toBe(0);
-        done();
-      })
-      .catch((err) => done(err));
+      });
   });
 });
