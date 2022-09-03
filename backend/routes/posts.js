@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
         return;
       }
       res.json({
-        posts,
+        posts: posts.map((post) => post.toObject()),
       });
     });
 });

@@ -42,7 +42,7 @@ router.get('/', [
 
   (req, res) => {
     res.json({
-      user: req.user,
+      user: req.user.toObject(),
     });
   },
 ]);

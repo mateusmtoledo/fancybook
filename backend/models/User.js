@@ -24,6 +24,7 @@ const UserSchema = new Schema({
   googleId: { type: String },
 }, {
   toObject: { virtuals: true },
+  toJSON: { virtuals: true },
 });
 
 UserSchema.virtual('fullName').get(function getFullName() {
