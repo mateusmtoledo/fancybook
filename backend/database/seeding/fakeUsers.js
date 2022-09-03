@@ -7,6 +7,7 @@ exports.fakeUsers = [
     lastName: 'Doe',
     email: 'johndoe@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
     authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzExMzg0ZDM5ZmNlZTQ3OTRmNTY3OGMiLCJmaXJzdE5hbWUiOiJKb2huIiwibGFzdE5hbWUiOiJEb2UiLCJhdmF0YXIiOiJodHRwczovL2Nkbi5waXhhYmF5LmNvbS9waG90by8yMDE1LzEwLzA1LzIyLzM3L2JsYW5rLXByb2ZpbGUtcGljdHVyZS05NzM0NjBfOTYwXzcyMC5wbmciLCJlbWFpbCI6ImpvaG5kb2VAZmFuY3lib29rLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEJ1UmszZ203ZGhORFJIUFFxNVZSa08uTTV4OUx4MmcvdTZNZDRGTDFGSVNTLkcvRlJHSzR1Iiwic2FtcGxlIjpmYWxzZSwiZnJpZW5kTGlzdCI6W10sIl9fdiI6MCwiaWF0IjoxNjYyMDc0NzAyfQ.3PlU6QL8_N1HBTzp7jb_s7tKK3uPYNpJ35nSPWB9qqE',
   },
@@ -16,6 +17,7 @@ exports.fakeUsers = [
     lastName: 'Doe',
     email: 'janedoe@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
   {
@@ -27,6 +29,7 @@ exports.fakeUsers = [
     username: 'reynoldspinka',
     email: 'reynoldspinka@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
   {
@@ -38,6 +41,7 @@ exports.fakeUsers = [
     username: 'elnorasteuber',
     email: 'elnorasteuber@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
   {
@@ -49,6 +53,7 @@ exports.fakeUsers = [
     username: 'tiffanysimonis',
     email: 'tiffanysimonis@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
   {
@@ -60,6 +65,7 @@ exports.fakeUsers = [
     username: 'madalyndickinson',
     email: 'madalyndickinson@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
   {
@@ -71,6 +77,7 @@ exports.fakeUsers = [
     username: 'christopcasper',
     email: 'christopcasper@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
   {
@@ -82,6 +89,7 @@ exports.fakeUsers = [
     username: 'alvisvolkman',
     email: 'alvisvolkman@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
   {
@@ -93,6 +101,7 @@ exports.fakeUsers = [
     username: 'kaciehilll',
     email: 'kaciehilll@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
   {
@@ -104,28 +113,7 @@ exports.fakeUsers = [
     username: 'autumnjast',
     email: 'autumnjast@fancybook.com',
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
-    plainTextPassword: 'pAssWord&4r(3*',
-  },
-  {
-    _id: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa72a'),
-    firstName: 'Nedra',
-    lastName: 'Hamill',
-    gender: 'Male',
-    avatar: 'https://picsum.photos/id/233/480/480',
-    username: 'nedrahamill',
-    email: 'nedrahamill@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
-    plainTextPassword: 'pAssWord&4r(3*',
-  },
-  {
-    _id: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa72b'),
-    firstName: 'Johnny',
-    lastName: 'Murphy',
-    gender: 'Female',
-    avatar: 'https://picsum.photos/id/158/480/480',
-    username: 'johnnymurphy',
-    email: 'johnnymurphy@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
   },
 ];

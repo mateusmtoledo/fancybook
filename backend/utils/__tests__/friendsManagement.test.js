@@ -1,9 +1,9 @@
-const { sendFriendRequest, acceptFriendRequest } = require('../operations/friendsManager');
+const { sendFriendRequest, acceptFriendRequest } = require('../friendsManagement');
 const User = require('../../models/User');
 
-const { fakeUsers } = require('../seeding/staticFakeUsers');
+const { fakeUsers } = require('../../database/seeding/fakeUsers');
 
-require('../config/mongoSetup');
+require('../../database/config/mongoSetup');
 
 beforeEach(async () => {
   await User.insertMany(fakeUsers);

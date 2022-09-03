@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../../app');
 const User = require('../../models/User');
-// const { addFriend } = require('../../databaseUtils/operations/friendsManager');
+// const { addFriend } = require('../../database/operations/friendsManager');
 
 const userData = {
   _id: new mongoose.Types.ObjectId('6311384d39fcee4794f5678c'),

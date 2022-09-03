@@ -1,11 +1,11 @@
 const request = require('supertest');
 const app = require('../../app');
-const { fakeUsers } = require('../../databaseUtils/seeding/staticFakeUsers');
-const { fakePosts } = require('../../databaseUtils/seeding/staticFakePosts');
+const { fakeUsers } = require('../../database/seeding/fakeUsers');
+const { fakePosts } = require('../../database/seeding/fakePosts');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
 const Comment = require('../../models/Comment');
-const { sendFriendRequest, acceptFriendRequest } = require('../../databaseUtils/operations/friendsManager');
+const { sendFriendRequest, acceptFriendRequest } = require('../../utils/friendsManagement');
 
 const token = fakeUsers[0].authToken;
 let postWithComments;

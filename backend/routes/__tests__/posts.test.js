@@ -1,10 +1,9 @@
 const request = require('supertest');
 const app = require('../../app');
-const { fakeUsers } = require('../../databaseUtils/seeding/staticFakeUsers');
-const { fakePosts } = require('../../databaseUtils/seeding/staticFakePosts');
+const { fakeUsers } = require('../../database/seeding/fakeUsersAndFriends');
+const { fakePosts } = require('../../database/seeding/fakePosts');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
-const { sendFriendRequest, acceptFriendRequest } = require('../../databaseUtils/operations/friendsManager');
 
 const token = fakeUsers[0].authToken;
 let users = [];
@@ -22,19 +21,14 @@ describe('/posts GET method', () => {
   });
 
   it('only sends posts created by friends', async () => {
-    await sendFriendRequest({ from: users[0], to: users[3] });
-    await sendFriendRequest({ from: users[0], to: users[4] });
-    await sendFriendRequest({ from: users[0], to: users[5] });
-    await sendFriendRequest({ from: users[9], to: users[0] });
-    await acceptFriendRequest({ from: users[4], to: users[0] });
-    await acceptFriendRequest({ from: users[5], to: users[0] });
-
     await request(app)
       .get('/posts')
       .auth(token, { type: 'bearer' })
-      .expect((response) => {
+      .expect(async (response) => {
         const { posts } = response.body;
-        User.findById(fakeUsers[0]._id).then((user) => {
+        expect(response.status).toBe(200);
+        expect(posts.length).toBe(7);
+        await User.findById(users[0]._id).then((user) => {
           const friendsIds = user.friendList
             .filter((friendship) => friendship.status === 'friends')
             .map((friendship) => friendship.user.str);
@@ -42,8 +36,6 @@ describe('/posts GET method', () => {
             .forEach((post) => expect([...friendsIds, user._id.str])
               .toContainEqual(post.author.str));
         });
-        expect(response.status).toBe(200);
-        expect(posts.length).toBe(6);
       });
   });
 });

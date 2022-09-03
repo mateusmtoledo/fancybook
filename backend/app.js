@@ -10,7 +10,7 @@ app.use(cors({
   origin: process.env.ORIGIN,
 }));
 
-require('./databaseUtils/config/mongoSetup');
+require('./database/config/mongoSetup');
 
 const session = require('express-session');
 
