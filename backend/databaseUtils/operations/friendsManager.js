@@ -1,37 +1,32 @@
-const User = require('../../models/User');
+exports.sendFriendRequest = ({ from, to }) => {
+  if (from
+    .friendList
+    .some((friendship) => friendship.user.equals(to._id))
+  ) {
+    throw new Error('Users are already friends or there is a pending request');
+  }
 
-exports.addFriend = (requesterId, recipientId) => {
-  const queries = [
-    User.findById(requesterId),
-    User.findById(recipientId),
-  ];
-
-  return Promise.all(queries).then(([requester, recipient]) => {
-    const recipientFriendship = recipient
-      .friendList
-      .find((item) => item.user.equals(requester._id));
-    if (recipientFriendship) {
-      const requesterFriendship = requester
-        .friendList
-        .find((item) => item.user.equals(recipient._id));
-      if (recipientFriendship.status === 'pending') {
-        throw new Error('Request already sent');
-      } else if (recipientFriendship.status === 'friends') {
-        throw new Error('Users are already friends');
-      } else if (recipientFriendship.status === 'sent') {
-        recipientFriendship.status = 'friends';
-        requesterFriendship.status = 'friends';
-      }
-    } else {
-      recipient.friendList.push({
-        user: requester._id,
-        status: 'pending',
-      });
-      requester.friendList.push({
-        user: recipient._id,
-        status: 'sent',
-      });
-    }
-    return Promise.all([recipient.save(), requester.save()]);
+  from.friendList.push({
+    user: to._id,
+    status: 'sent',
   });
+  to.friendList.push({
+    user: from._id,
+    status: 'pending',
+  });
+  return Promise.all([from.save(), to.save()]);
+};
+
+exports.acceptFriendRequest = ({ from, to }) => {
+  const friendshipFrom = from.friendList.find((friendship) => friendship.user.equals(to._id));
+  const friendshipTo = to.friendList.find((friendship) => friendship.user.equals(from._id));
+  if (!friendshipFrom || friendshipFrom.status === 'sent') {
+    throw new Error('There is no pending request');
+  }
+  if (friendshipFrom.status === 'pending') {
+    friendshipFrom.status = 'friends';
+    friendshipTo.status = 'friends';
+    return Promise.all([from.save(), to.save()]);
+  }
+  throw new Error('Users are friends already');
 };

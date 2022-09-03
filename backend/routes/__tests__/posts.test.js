@@ -4,12 +4,13 @@ const { fakeUsers } = require('../../databaseUtils/seeding/staticFakeUsers');
 const { fakePosts } = require('../../databaseUtils/seeding/staticFakePosts');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
-const { addFriend } = require('../../databaseUtils/operations/friendsManager');
+const { sendFriendRequest, acceptFriendRequest } = require('../../databaseUtils/operations/friendsManager');
 
 const token = fakeUsers[0].authToken;
+let users = [];
 
 beforeEach(async () => {
-  await User.insertMany(fakeUsers);
+  users = await User.insertMany(fakeUsers);
   await Post.insertMany(fakePosts);
 });
 
@@ -21,16 +22,12 @@ describe('/posts GET method', () => {
   });
 
   it('only sends posts created by friends', async () => {
-    const ids = fakeUsers.map((user) => user._id);
-    await addFriend(ids[0], ids[3]);
-    await addFriend(ids[0], ids[4]);
-    await addFriend(ids[0], ids[5]);
-    await addFriend(ids[3], ids[8]);
-    await addFriend(ids[4], ids[6]);
-    await addFriend(ids[0], ids[8]);
-    await addFriend(ids[9], ids[0]);
-    await addFriend(ids[5], ids[0]);
-    await addFriend(ids[4], ids[0]);
+    await sendFriendRequest({ from: users[0], to: users[3] });
+    await sendFriendRequest({ from: users[0], to: users[4] });
+    await sendFriendRequest({ from: users[0], to: users[5] });
+    await sendFriendRequest({ from: users[9], to: users[0] });
+    await acceptFriendRequest({ from: users[4], to: users[0] });
+    await acceptFriendRequest({ from: users[5], to: users[0] });
 
     await request(app)
       .get('/posts')

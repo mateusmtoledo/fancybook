@@ -5,13 +5,14 @@ const { fakePosts } = require('../../databaseUtils/seeding/staticFakePosts');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
 const Comment = require('../../models/Comment');
-const { addFriend } = require('../../databaseUtils/operations/friendsManager');
+const { sendFriendRequest, acceptFriendRequest } = require('../../databaseUtils/operations/friendsManager');
 
 const token = fakeUsers[0].authToken;
 let postWithComments;
+let users = [];
 
 beforeEach(async () => {
-  await User.insertMany(fakeUsers);
+  users = await User.insertMany(fakeUsers);
   await Post.insertMany(fakePosts);
   postWithComments = await Post.findOne({ author: fakeUsers[3]._id });
   await Comment.insertMany([
@@ -30,9 +31,9 @@ beforeEach(async () => {
 
 describe('comments route', () => {
   it('responds with 401 if user is not friends with post author', async () => {
-    await addFriend(fakeUsers[0]._id, fakeUsers[1]._id);
-    await addFriend(fakeUsers[1]._id, fakeUsers[0]._id);
-    await addFriend(fakeUsers[0]._id, fakeUsers[3]._id);
+    await sendFriendRequest({ from: users[0], to: users[1] });
+    await acceptFriendRequest({ from: users[1], to: users[0] });
+    await sendFriendRequest({ from: users[0], to: users[3] });
     await request(app)
       .get(`/posts/${postWithComments._id}/comments`)
       .auth(token, { type: 'bearer' })
@@ -40,8 +41,8 @@ describe('comments route', () => {
   });
 
   it('sends comments', async () => {
-    await addFriend(fakeUsers[0]._id, fakeUsers[3]._id);
-    await addFriend(fakeUsers[3]._id, fakeUsers[0]._id);
+    await sendFriendRequest({ from: users[0], to: users[3] });
+    await acceptFriendRequest({ from: users[3], to: users[0] });
     await request(app)
       .get(`/posts/${postWithComments._id}/comments`)
       .auth(token, { type: 'bearer' })
