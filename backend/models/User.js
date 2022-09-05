@@ -8,7 +8,10 @@ const UserSchema = new Schema({
   gender: { type: String },
   avatar: { type: String, default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
   friendList: [{
-    user: Schema.Types.ObjectId,
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
     /*
     status:
       'sent' (sent request to another user)

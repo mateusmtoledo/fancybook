@@ -9,19 +9,19 @@ exports.fakeUsers = [
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
     friendList: [
       {
-        user: '63114a15ee51f867417b3d8a',
+        user: new mongoose.Types.ObjectId('63114a15ee51f867417b3d8a'),
+        status: 'pending',
+      },
+      {
+        user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa725'),
         status: 'sent',
       },
       {
-        user: '6306d7ae5a4d17eafd1fa725',
-        status: 'sent',
-      },
-      {
-        user: '6306d7ae5a4d17eafd1fa723',
+        user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa723'),
         status: 'friends',
       },
       {
-        user: '6306d7ae5a4d17eafd1fa722',
+        user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa722'),
         status: 'friends',
       },
     ],
@@ -37,7 +37,7 @@ exports.fakeUsers = [
     friendList: [
       {
         user: '6311384d39fcee4794f5678c',
-        status: 'pending',
+        status: 'sent',
       },
       {
         user: '6306d7ae5a4d17eafd1fa728',
@@ -69,27 +69,27 @@ exports.fakeUsers = [
     password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
     friendList: [
       {
-        user: '6311384d39fcee4794f5678c',
+        user: new mongoose.Types.ObjectId('6311384d39fcee4794f5678c'),
         status: 'friends',
       },
       {
-        user: '6306d7ae5a4d17eafd1fa727',
+        user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa727'),
         status: 'sent',
       },
       {
-        user: '6306d7ae5a4d17eafd1fa724',
+        user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa724'),
         status: 'friends',
       },
       {
-        user: '6306d7ae5a4d17eafd1fa725',
+        user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa725'),
         status: 'pending',
       },
       {
-        user: '6306d7ae5a4d17eafd1fa726',
+        user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa726'),
         status: 'pending',
       },
       {
-        user: '6306d7ae5a4d17eafd1fa729',
+        user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa729'),
         status: 'pending',
       },
     ],
