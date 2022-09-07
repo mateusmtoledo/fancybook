@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
-const { sendFriendRequest } = require('../utils/friendsManagement');
+const { sendFriendRequest, acceptFriendRequest } = require('../utils/friendsManagement');
 
 const router = express.Router({ mergeParams: true });
 
@@ -57,6 +57,28 @@ router.post('/', (req, res, next) => {
     } catch (err) {
       next(err);
     }
+  });
+});
+
+router.put('/', (req, res, next) => {
+  const { userId } = req.params;
+  if (!req.user.friendList
+    .some((friendship) => friendship.user.equals(userId))
+  ) {
+    next(new Error('friendship request not found'));
+    return;
+  }
+  User.findById(userId, (err, user) => {
+    if (err) {
+      next(err);
+      return;
+    }
+    if (!user) {
+      next(new Error('User not found'));
+      return;
+    }
+    acceptFriendRequest({ from: req.user, to: user });
+    res.json('Success');
   });
 });
 

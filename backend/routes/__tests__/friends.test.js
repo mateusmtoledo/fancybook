@@ -53,4 +53,17 @@ describe('friends route', () => {
       expect(usersFriendship.status).toBe('pending');
     });
   });
+
+  describe('PUT method', () => {
+    it('accepts existing friend request', async () => {
+      await request(app)
+        .put(`/users/${fakeUsers[1]._id}/friends`)
+        .auth(fakeUsers[0].authToken, { type: 'bearer' })
+        .expect(200);
+      await User
+        .findById(fakeUsers[0]._id)
+        .then((user) => expect(user.friendList
+          .find((friendship) => friendship.user.equals(fakeUsers[1]._id)).status).toBe('friends'));
+    });
+  });
 });
