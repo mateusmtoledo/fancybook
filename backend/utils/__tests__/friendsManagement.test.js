@@ -1,4 +1,4 @@
-const { sendFriendRequest, acceptFriendRequest } = require('../friendsManagement');
+const { sendFriendRequest, acceptFriendRequest, removeFriend } = require('../friendsManagement');
 const User = require('../../models/User');
 
 const { fakeUsers } = require('../../database/seeding/fakeUsers');
@@ -68,6 +68,18 @@ describe('acceptFriendRequest', () => {
     await User.find({ _id: { $in: [users[0]._id, users[1]._id] } }).then((users) => {
       expect(users[0].friendList[0].status).toBe('sent');
       expect(users[1].friendList[0].status).toBe('pending');
+    });
+  });
+});
+
+describe('removeFriend', () => {
+  it('removes users from both friendLists', async () => {
+    const users = await User.find().limit(2);
+    await sendFriendRequest({ from: users[0], to: users[1] });
+    await removeFriend({ from: users[0], to: users[1] });
+    await User.find({ _id: { $in: [users[0]._id, users[1]._id] } }).then((users) => {
+      expect(users[0].friendList.length).toBe(0);
+      expect(users[1].friendList.length).toBe(0);
     });
   });
 });

@@ -30,3 +30,16 @@ exports.acceptFriendRequest = ({ from, to }) => {
   }
   throw new Error('Users are friends already');
 };
+
+exports.removeFriend = ({ from, to }) => {
+  const friendshipFromIndex = from.friendList
+    .findIndex((friendship) => friendship.user.equals(to._id));
+  const friendshipToIndex = to.friendList
+    .findIndex((friendship) => friendship.user.equals(from._id));
+  if (friendshipFromIndex === -1) {
+    throw new Error('There\'s no friendship between the users');
+  }
+  from.friendList.splice(friendshipFromIndex);
+  to.friendList.splice(friendshipToIndex);
+  return Promise.all([from.save(), to.save()]);
+};
