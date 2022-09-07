@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
+const { sendFriendRequest } = require('../utils/friendsManagement');
 
 const router = express.Router({ mergeParams: true });
 
@@ -37,6 +38,26 @@ router.get('/', (req, res, next) => {
       }
       res.json(response);
     });
+});
+
+router.post('/', (req, res, next) => {
+  const { userId } = req.params;
+  User.findById(userId, (err, user) => {
+    if (err) {
+      next(err);
+      return;
+    }
+    if (!user) {
+      next(new Error('User not found'));
+      return;
+    }
+    try {
+      sendFriendRequest({ from: req.user, to: user });
+      res.json('Success');
+    } catch (err) {
+      next(err);
+    }
+  });
 });
 
 module.exports = router;
