@@ -10,6 +10,11 @@ import Loading from "./components/Loading";
 import SignUp from "./pages/SignUp";
 import GoogleAuth from "./components/GoogleAuth";
 
+async function getFriends() {
+  const response = await api.get('/users/me/friends');
+  return response.data;
+}
+
 const Container = styled.div`
   min-height: 100vh;
   display: flex;
@@ -19,7 +24,12 @@ const Container = styled.div`
 
 function App() {
   const [user, setUser] = useState(null);
+  const [friends, setFriends] = useState({});
   const [loading, setLoading] = useState(false);
+
+  async function getAndSetFriends() {
+    getFriends().then((data) => setFriends(data));
+  }
 
   const login = useCallback(async () => {
     if(localStorage.getItem('token')) {
@@ -46,6 +56,7 @@ function App() {
 
   useEffect(() => {
     login();
+    getAndSetFriends();
   }, [login]);
 
   return (
@@ -61,7 +72,7 @@ function App() {
             {
               user
               ? <>
-                  <Route index element={<Home />} />
+                  <Route index element={<Home friends={friends} />} />
                 </>
               : <>
                   <Route index element={<Login />} />

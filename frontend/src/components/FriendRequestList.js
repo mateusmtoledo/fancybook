@@ -1,6 +1,3 @@
-import { useContext, useEffect, useState } from "react";
-import api from "../adapters/api";
-import { UserContext } from "../contexts/UserContext";
 import Avatar from "../styles/Avatar";
 import Card from "../styles/Card";
 import FriendRequest from "../styles/FriendRequest";
@@ -8,15 +5,6 @@ import styled from "styled-components";
 import CHECK_ICON from "../img/check-square.svg";
 import X_ICON from "../img/x-square.svg";
 import USERS_ICON from "../img/users.svg";
-
-
-function getUsers(userIds) {
-  const promises = [];
-  userIds.forEach((userId) => {
-    promises.push(api.get(`/users/${userId}`));
-  });
-  return Promise.all(promises);
-}
 
 const StyledFriendRequestList = styled(Card)`
   max-height: 300px;
@@ -73,22 +61,7 @@ const StyledFriendRequestList = styled(Card)`
   }
 `;
 
-function FriendRequestList() {
-  const { user } = useContext(UserContext);
-  const [requesters, setRequesters] = useState([]);
-  
-  useEffect(() => {
-    const friendRequestIds = user
-      .friendList
-      .filter((friendship) =>
-        friendship.status === 'pending')
-      .map((friendship) => friendship.user);
-    getUsers(friendRequestIds)
-      .then((response) => {
-        setRequesters(response.map((element) => element.data.user));
-      });
-  }, [user]);
-
+function FriendRequestList({ friendRequests }) {
   return (
     <StyledFriendRequestList>
       <div className="title">
@@ -101,16 +74,16 @@ function FriendRequestList() {
         <h2>Friend Requests</h2>
       </div>
       {
-        requesters.length
+        friendRequests.length
         ? <ul>
             {
-              requesters.map((requester) =>
-                <li key={requester._id}>
+              friendRequests.map((friendRequest) =>
+                <li key={friendRequest._id}>
                   <FriendRequest>
                     <div className="requester">
                       <Avatar
-                        alt={`${requester.firstName}'s avatar`}
-                        src={requester.avatar}
+                        alt={`${friendRequest.firstName}'s avatar`}
+                        src={friendRequest.avatar}
                         onError={(event) => {
                           if(event.target.src !== 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png') {
                             event.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
@@ -119,7 +92,7 @@ function FriendRequestList() {
                         width="32px"
                         height="32px"
                       />
-                      <p>{requester.fullName}</p>
+                      <p>{friendRequest.fullName}</p>
                     </div>
                     <div className="buttons">
                       <button>

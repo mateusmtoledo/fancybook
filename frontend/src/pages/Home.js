@@ -11,21 +11,18 @@ const Aside = styled.aside`
   height: max-content;
   
   @media (max-width: 650px) {
-    aside {
-      display: none;
-    }
+    display: none;
   }
 `;
 
-function Home() {
-
+function Home({ friends }) {
   return (
     <>
       <Header />
       <Main>
         <PostList />
         <Aside>
-          <FriendRequestList />
+          <FriendRequestList friendRequests={friends.pending || []} />
         </Aside>
       </Main>
     </>
