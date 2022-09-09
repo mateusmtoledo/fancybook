@@ -1,9 +1,6 @@
-import Avatar from "../styles/Avatar";
 import Card from "../styles/Card";
-import FriendRequest from "../styles/FriendRequest";
+import FriendRequest from "../components/FriendRequest";
 import styled from "styled-components";
-import CHECK_ICON from "../img/check-square.svg";
-import X_ICON from "../img/x-square.svg";
 import USERS_ICON from "../img/users.svg";
 
 const StyledFriendRequestList = styled(Card)`
@@ -78,42 +75,10 @@ function FriendRequestList({ friendRequests }) {
         ? <ul>
             {
               friendRequests.map((friendRequest) =>
-                <li key={friendRequest._id}>
-                  <FriendRequest>
-                    <div className="requester">
-                      <Avatar
-                        alt={`${friendRequest.firstName}'s avatar`}
-                        src={friendRequest.avatar}
-                        onError={(event) => {
-                          if(event.target.src !== 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png') {
-                            event.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
-                          }
-                        }}
-                        width="32px"
-                        height="32px"
-                      />
-                      <p>{friendRequest.fullName}</p>
-                    </div>
-                    <div className="buttons">
-                      <button>
-                        <img
-                          alt="Decline request"
-                          src={X_ICON}
-                          width="24px"
-                          height="24px"
-                        />
-                      </button>
-                      <button>
-                        <img
-                          alt="Accept request"
-                          src={CHECK_ICON}
-                          width="24px"
-                          height="24px"
-                        />
-                      </button>
-                    </div>
-                  </FriendRequest>
-                </li>
+                <FriendRequest
+                  key={friendRequest._id}
+                  friendRequest={friendRequest}
+                />
               )
             }
           </ul>
