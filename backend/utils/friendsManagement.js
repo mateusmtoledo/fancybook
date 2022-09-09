@@ -39,7 +39,7 @@ exports.removeFriend = ({ from, to }) => {
   if (friendshipFromIndex === -1) {
     throw new Error('There\'s no friendship between the users');
   }
-  from.friendList.splice(friendshipFromIndex);
-  to.friendList.splice(friendshipToIndex);
+  from.friendList.splice(friendshipFromIndex, 1);
+  to.friendList.splice(friendshipToIndex, 1);
   return Promise.all([from.save(), to.save()]);
 };
