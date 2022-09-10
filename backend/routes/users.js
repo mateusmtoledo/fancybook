@@ -7,14 +7,36 @@ const friendsRouter = require('./friends');
 
 router.use('/:userId/friends', friendsRouter);
 
+router.get('/', (req, res, next) => {
+  const search = req.query.search || '';
+  const regex = new RegExp(search, 'gi');
+  const projection = 'firstName lastName fullName avatar';
+  User.find(
+    {
+      $expr: {
+        $regexMatch: {
+          input: { $concat: ['$firstName', ' ', '$lastName'] },
+          regex,
+        },
+      },
+    },
+    projection,
+  )
+    .limit(8)
+    .exec((err, users) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.json({
+        users,
+      });
+    });
+});
+
 router.get('/:userId', (req, res, next) => {
   const requestedUserId = req.params.userId;
-  // const usersAreFriends = req.user.friendList.some(
-  //   (friendship) => friendship
-  //     .user.toString() === requestedUserId && friendship.status === 'friends',
-  // );
   const projection = 'firstName lastName fullName avatar';
-  // if (usersAreFriends) projection += ' friendList';
 
   User.findById(requestedUserId, projection, (err, requestedUser) => {
     if (err) {

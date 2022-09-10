@@ -29,6 +29,19 @@ beforeEach(async () => {
   await User.insertMany(users);
 });
 
+describe('users route GET method', () => {
+  it.only('sends users whose names match query', async () => {
+    await request(app)
+      .get('/users?search=oHn dO')
+      .auth(userData.authToken, { type: 'bearer' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.users.length).toBe(1);
+        expect(response.body.users[0].firstName).toBe('John');
+      });
+  });
+});
+
 describe('GET users/:userId route', () => {
   it('is protected', async () => {
     await request(app)
