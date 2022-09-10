@@ -27,8 +27,10 @@ function App() {
   const [friends, setFriends] = useState({});
   const [loading, setLoading] = useState(false);
 
-  async function getAndSetFriends() {
-    getFriends().then((data) => setFriends(data));
+  async function refreshFriends() {
+    if(localStorage.getItem('token')) {
+      getFriends().then((data) => setFriends(data));
+    }
   }
 
   const login = useCallback(async () => {
@@ -37,13 +39,13 @@ function App() {
         setLoading(true);
         const response = await api.get('/login');
         setUser(response.data.user);
-        setLoading(false);
+        await refreshFriends();
       } catch(err) {
         localStorage.removeItem('token');
         setUser(null);
-        setLoading(false);
         console.log(err);
       }
+      setLoading(false);
     }
   }, []);
 
@@ -56,11 +58,10 @@ function App() {
 
   useEffect(() => {
     login();
-    getAndSetFriends();
   }, [login]);
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, friends, refreshFriends }}>
       {
         loading
         ? <Loading window />

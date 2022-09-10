@@ -2,6 +2,9 @@ import styled from "styled-components";
 import CHECK_ICON from "../img/check-square.svg";
 import X_ICON from "../img/x-square.svg";
 import Avatar from "../styles/Avatar";
+import api from "../adapters/api";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 const StyledFriendRequest = styled.li`
   display: flex;
@@ -36,7 +39,9 @@ const StyledFriendRequest = styled.li`
   }
 `;
 
-function FriendRequest({ friendRequest }) {
+function FriendRequest({ friendRequest, refreshPosts }) {
+  const { refreshFriends } = useContext(UserContext);
+
   return (
     <StyledFriendRequest>
       <div className="requester">
@@ -47,7 +52,16 @@ function FriendRequest({ friendRequest }) {
         <p>{friendRequest.fullName}</p>
       </div>
       <div className="buttons">
-        <button>
+        <button onClick={async () => {
+          try {
+            await api.delete(`/users/${friendRequest._id}/friends`);
+          } catch (err) {
+            // TODO implement error handling
+            console.log(err);
+          }
+          refreshFriends();
+          refreshPosts();
+        }}>
           <img
             alt="Decline request"
             src={X_ICON}
@@ -55,7 +69,16 @@ function FriendRequest({ friendRequest }) {
             height="24px"
           />
         </button>
-        <button>
+        <button onClick={async () => {
+          try {
+            await api.put(`/users/${friendRequest._id}/friends`);
+          } catch (err) {
+            // TODO implement error handling
+            console.log(err);
+          }
+          refreshFriends();
+          refreshPosts();
+        }}>
           <img
             alt="Accept request"
             src={CHECK_ICON}

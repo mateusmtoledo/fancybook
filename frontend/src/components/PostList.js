@@ -1,15 +1,7 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import api from "../adapters/api";
 import Loading from "./Loading";
 import Post from "./Post";
 import PostForm from "./PostForm";
-
-async function getPosts(page) {
-  page = page || 0;
-  const response = await api.get(`/posts?page=${page}`);
-  return response.data.posts;
-}
 
 const NextPageDiv = styled.div`
   position: relative;
@@ -38,51 +30,7 @@ const StyledPostList = styled.div`
   flex: 0 3 700px;
 `;
 
-function PostList() {
-  const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(0);
-  const [noMorePosts, setNoMorePosts] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  async function refreshPosts() {
-    setPosts([]);
-    setLoading(true);
-    try {
-      const returnedPosts = await getPosts(0);
-      setPosts(returnedPosts);
-      setPage(0);
-      if(returnedPosts.length < 8) {
-        setNoMorePosts(true);
-      } else {
-        setNoMorePosts(false);
-      }
-    } catch (err) {
-      // TODO implement error handling
-      console.log(err);
-    }
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    refreshPosts();
-  }, []);
-
-  async function nextPage() {
-    try {
-      setLoading(true);
-      const newPosts = await getPosts(page + 1);
-      setPosts([...posts, ...newPosts]);
-      setPage(page + 1);
-      if(newPosts.length < 8) {
-        setNoMorePosts(true);
-      }
-    } catch (err) {
-      // TODO implement error handling
-      console.log(err);
-    }
-    setLoading(false);
-  }
-
+function PostList({ posts, refreshPosts, page, nextPage, postsLoading, noMorePosts }) {
   return (
     <StyledPostList>
       <PostForm refreshPosts={refreshPosts} />
@@ -91,12 +39,12 @@ function PostList() {
         ? posts.map((post) => (
           <Post key={post._id} post={post} />
         ))
-        : loading
+        : postsLoading
         ? null
         : <p>No posts found</p>
       }
       {
-        loading
+        postsLoading
         ? <NextPageDiv>
             <Loading transparent />
           </NextPageDiv>

@@ -2,6 +2,8 @@ import Card from "../styles/Card";
 import FriendRequest from "../components/FriendRequest";
 import styled from "styled-components";
 import USERS_ICON from "../img/users.svg";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 const StyledFriendRequestList = styled(Card)`
   max-height: 300px;
@@ -58,7 +60,10 @@ const StyledFriendRequestList = styled(Card)`
   }
 `;
 
-function FriendRequestList({ friendRequests }) {
+function FriendRequestList({ refreshPosts }) {
+  const { friends } = useContext(UserContext);
+  const friendRequests = friends.pending || [];
+
   return (
     <StyledFriendRequestList>
       <div className="title">
@@ -78,6 +83,7 @@ function FriendRequestList({ friendRequests }) {
                 <FriendRequest
                   key={friendRequest._id}
                   friendRequest={friendRequest}
+                  refreshPosts={refreshPosts}
                 />
               )
             }
