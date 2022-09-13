@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Loading from "./components/Loading";
 import SignUp from "./pages/SignUp";
 import GoogleAuth from "./components/GoogleAuth";
+import UserProfile from "./pages/UserProfile";
 
 async function getFriends() {
   const response = await api.get('/users/me/friends');
@@ -74,6 +75,7 @@ function App() {
               user
               ? <>
                   <Route index element={<Home friends={friends} />} />
+                  <Route path="/user/:userId" element={<UserProfile />} />
                 </>
               : <>
                   <Route index element={<Login />} />
