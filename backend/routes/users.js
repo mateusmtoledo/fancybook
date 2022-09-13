@@ -4,8 +4,10 @@ const User = require('../models/User');
 const router = express.Router();
 
 const friendsRouter = require('./friends');
+const userPostsRouter = require('./userPosts');
 
 router.use('/:userId/friends', friendsRouter);
+router.use('/:userId/posts', userPostsRouter);
 
 router.get('/', (req, res, next) => {
   const search = req.query.search || '';

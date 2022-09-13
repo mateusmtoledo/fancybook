@@ -30,7 +30,7 @@ beforeEach(async () => {
 });
 
 describe('users route GET method', () => {
-  it.only('sends users whose names match query', async () => {
+  it('sends users whose names match query', async () => {
     await request(app)
       .get('/users?search=oHn dO')
       .auth(userData.authToken, { type: 'bearer' })
