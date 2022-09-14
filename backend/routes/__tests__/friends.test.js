@@ -60,10 +60,9 @@ describe('friends route', () => {
         .put(`/users/${fakeUsers[1]._id}/friends`)
         .auth(fakeUsers[0].authToken, { type: 'bearer' })
         .expect(200);
-      await User
-        .findById(fakeUsers[0]._id)
-        .then((user) => expect(user.friendList
-          .find((friendship) => friendship.user.equals(fakeUsers[1]._id)).status).toBe('friends'));
+      const user = await User.findById(fakeUsers[0]._id);
+      expect(user.friendList
+        .find((friendship) => friendship.user.equals(fakeUsers[1]._id)).status).toBe('friends');
     });
   });
 
@@ -73,13 +72,10 @@ describe('friends route', () => {
         .delete(`/users/${fakeUsers[1]._id}/friends`)
         .auth(fakeUsers[0].authToken, { type: 'bearer' })
         .expect(200);
-      await User
-        .findById(fakeUsers[0]._id)
-        .then((user) => {
-          expect(user.friendList
-            .some((friendship) => friendship.user.equals(fakeUsers[1]._id))).toBe(false);
-          expect(user.friendList.length).toBe(3);
-        });
+      const user = await User.findById(fakeUsers[0]._id);
+      expect(user.friendList.length).toBe(3);
+      expect(user.friendList
+        .some((friendship) => friendship.user.equals(fakeUsers[1]._id))).toBe(false);
     });
   });
 });
