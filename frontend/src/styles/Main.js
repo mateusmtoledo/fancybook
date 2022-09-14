@@ -6,7 +6,8 @@ const Main = styled.main`
   max-width: 1064px;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: ${(props) => props.column ? 'column' : 'row'};
+  justify-content: ${(props) => props.column ? 'flex-start' : 'center'};
   margin: auto;
   gap: 16px;
 `;

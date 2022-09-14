@@ -5,7 +5,7 @@ const StyledAvatar = styled.img`
   cursor: pointer;
 `;
 
-function Avatar({ src, alt, width, height }) {
+function Avatar({ src, alt, width, height, className }) {
   return (
     <StyledAvatar
       src={src}
@@ -17,6 +17,7 @@ function Avatar({ src, alt, width, height }) {
       }}
       width={width || '32px'}
       height={height || '32px'}
+      className={className || ''}
     />
   );
 }

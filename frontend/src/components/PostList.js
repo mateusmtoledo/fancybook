@@ -30,10 +30,21 @@ const StyledPostList = styled.div`
   flex: 0 3 700px;
 `;
 
-function PostList({ posts, refreshPosts, page, nextPage, postsLoading, noMorePosts }) {
+function PostList({
+  posts,
+  refreshPosts,
+  nextPage,
+  postsLoading,
+  noMorePosts,
+  renderForm
+}) {
   return (
     <StyledPostList>
-      <PostForm refreshPosts={refreshPosts} />
+      {
+        renderForm
+        ? <PostForm refreshPosts={refreshPosts} />
+        : null
+      }
       {
         posts.length
         ? posts.map((post) => (

@@ -11,10 +11,10 @@ const StyledUserInfo = styled(Card)`
   .user-info {
     display: flex;
     align-items: flex-end;
-    gap: 32px;
+    gap: 16px;
     background: ${props => `url(${props.coverPhoto})`};
     background-position: center;
-    height: 350px;
+    height: 220px;
     padding: 8px 32px;
     border-radius: inherit;
 
