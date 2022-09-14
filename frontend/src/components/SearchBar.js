@@ -60,7 +60,18 @@ function SearchBar() {
   }, [input]);
 
   return (
-    <StyledSearchBar>
+    <StyledSearchBar
+      tabindex="100"
+      onFocus={() => setResultsVisible(true)}
+      onBlur={(e) => {
+        const currentTarget = e.currentTarget;
+        requestAnimationFrame(() => {
+          if (!currentTarget.contains(document.activeElement)) {
+            setResultsVisible(false);
+          }
+        });
+      }}
+    >
       <label htmlFor="search">
         <img alt="Search" src={SEARCH_ICON} width="20px" height="20px" />
       </label>
@@ -70,8 +81,6 @@ function SearchBar() {
         id="search"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        onFocus={() => setResultsVisible(true)}
-        onBlur={() => setResultsVisible(false)}
       />
       {
         resultsVisible && input
