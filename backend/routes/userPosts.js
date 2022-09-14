@@ -9,6 +9,7 @@ router.get('/', (req, res, next) => {
   const { userId } = req.params;
 
   Post.find({ author: userId })
+    .sort({ date: 'descending' })
     .limit(resultsPerPage)
     .skip(resultsPerPage * page)
     .exec((err, posts) => {
