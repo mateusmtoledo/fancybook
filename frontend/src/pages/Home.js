@@ -65,10 +65,10 @@ function Home() {
         <PostList
           posts={posts}
           refreshPosts={refreshPosts}
-          page={page}
           nextPage={nextPage}
           postsLoading={postsLoading}
           noMorePosts={noMorePosts}
+          renderForm
         />
         <Aside>
           <FriendRequestList
