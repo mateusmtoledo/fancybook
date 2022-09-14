@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import Card from "../styles/Card";
 import Loading from "./Loading";
 import Post from "./Post";
 import PostForm from "./PostForm";
+import NO_DATA_IMG from "../img/no-data.svg";
 
 const NextPageDiv = styled.div`
   position: relative;
@@ -22,6 +24,19 @@ const NextPageDiv = styled.div`
     cursor: pointer;
   }
 `
+
+const NoPosts = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 48px;
+  img, p {
+    opacity: 0.8;
+  }
+`;
 
 const StyledPostList = styled.div`
   display: flex;
@@ -52,7 +67,15 @@ function PostList({
         ))
         : postsLoading
         ? null
-        : <p>No posts found</p>
+        : <NoPosts>
+            <img
+              src={NO_DATA_IMG}
+              alt="No posts found"
+              width="128px"
+              height="128px"
+            />
+            <p>No posts found</p>
+          </NoPosts>
       }
       {
         postsLoading
