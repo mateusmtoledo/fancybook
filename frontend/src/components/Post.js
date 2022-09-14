@@ -51,6 +51,14 @@ const StyledPost = styled(Card)`
 `;
 
 function Post({ post }) {
+  const dateOptions = {
+    minute: '2-digit',
+    hour: '2-digit',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }
+
   return (
     <StyledPost>
       <Link to={`/user/${post.author._id}`}>
@@ -63,7 +71,7 @@ function Post({ post }) {
           />
           <div>
             <p className="author-name">{post.author.fullName}</p>
-            <p className="post-date">{new Date(post.date).toLocaleString('en-US')}</p>
+            <p className="post-date">{new Date(post.date).toLocaleString('en-US', dateOptions)}</p>
           </div>
         </div>
       </Link>
