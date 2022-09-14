@@ -5,6 +5,7 @@ import Avatar from "../styles/Avatar";
 import api from "../adapters/api";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 const StyledFriendRequest = styled.li`
   display: flex;
@@ -37,6 +38,11 @@ const StyledFriendRequest = styled.li`
       cursor: pointer;
     }
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 `;
 
 function FriendRequest({ friendRequest, refreshPosts }) {
@@ -44,13 +50,15 @@ function FriendRequest({ friendRequest, refreshPosts }) {
 
   return (
     <StyledFriendRequest>
-      <div className="requester">
-        <Avatar
-          alt={`${friendRequest.firstName}'s avatar`}
-          src={friendRequest.avatar}
-        />
-        <p>{friendRequest.fullName}</p>
-      </div>
+      <Link to={`/user/${friendRequest._id}`}>
+        <div className="requester">
+          <Avatar
+            alt={`${friendRequest.firstName}'s avatar`}
+            src={friendRequest.avatar}
+          />
+          <p>{friendRequest.fullName}</p>
+        </div>
+      </Link>
       <div className="buttons">
         <button onClick={async () => {
           try {

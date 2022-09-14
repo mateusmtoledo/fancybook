@@ -32,6 +32,11 @@ const StyledSearchResultsList = styled.div`
     display: flex;
     flex-direction: column;
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 `;
 
 function SearchResultsList({ searchResults, searchLoading }) {

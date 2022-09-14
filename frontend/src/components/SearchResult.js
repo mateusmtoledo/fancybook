@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../styles/Avatar";
 
@@ -15,13 +16,15 @@ const StyledSearchResult = styled.div`
 
 function SearchResult({ user }) {
   return (
-    <StyledSearchResult>
-      <Avatar
-        src={user.avatar}
-        alt={`${user.firstName}'s avatar`}
-      />
-      <p>{user.fullName}</p>
-    </StyledSearchResult>
+    <Link to={`/user/${user._id}`}>
+      <StyledSearchResult>
+        <Avatar
+          src={user.avatar}
+          alt={`${user.firstName}'s avatar`}
+        />
+        <p>{user.fullName}</p>
+      </StyledSearchResult>
+    </Link>
   );
 }
 

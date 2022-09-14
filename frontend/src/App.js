@@ -78,9 +78,9 @@ function App() {
                   <Route path="/user/:userId" element={<UserProfile />} />
                 </>
               : <>
-                  <Route index element={<Login />} />
                   <Route path="/sign-up" element={<SignUp />} />
                   <Route path="/googleauth" element={<GoogleAuth />} />
+                  <Route path="*" element={<Login />} />
                 </>
             }
           </Routes>

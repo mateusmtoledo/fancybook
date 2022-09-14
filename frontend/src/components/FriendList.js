@@ -7,6 +7,11 @@ const StyledFriendList = styled(Card)`
     font-family: 'Outfit', sans-serif;
     font-size: 1.6rem;
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 `;
 
 const Friends = styled.div`
@@ -24,10 +29,7 @@ function FriendList({ friends }) {
       <Friends>
         {
           friends.map((friend) =>
-            <Friend
-              key={friend._id}
-              friend={friend}
-            />
+            <Friend friend={friend} key={friend._id} />
           )
         }
       </Friends>

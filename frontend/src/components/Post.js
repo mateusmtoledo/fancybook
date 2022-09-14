@@ -3,6 +3,7 @@ import Avatar from "../styles/Avatar";
 import Card from "../styles/Card";
 import LIKE_ICON from "../img/thumbs-up.svg";
 import COMMENT_ICON from "../img/comment.svg";
+import { Link } from "react-router-dom";
 
 const InteractButton = styled.button`
   background: none;
@@ -43,23 +44,29 @@ const StyledPost = styled(Card)`
     font-size: 0.75rem;
     color: var(--color-gray-light);
   }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 function Post({ post }) {
   return (
     <StyledPost>
-      <div className="post-info">
-        <Avatar
-          alt={`${post.author.firstName}'s avatar`}
-          src={post.author.avatar}
-          width="36px"
-          height="36px"
-        />
-        <div>
-          <p className="author-name">{post.author.fullName}</p>
-          <p className="post-date">{new Date(post.date).toLocaleString('en-US')}</p>
+      <Link to={`/user/${post.author._id}`}>
+        <div className="post-info">
+          <Avatar
+            alt={`${post.author.firstName}'s avatar`}
+            src={post.author.avatar}
+            width="36px"
+            height="36px"
+          />
+          <div>
+            <p className="author-name">{post.author.fullName}</p>
+            <p className="post-date">{new Date(post.date).toLocaleString('en-US')}</p>
+          </div>
         </div>
-      </div>
+      </Link>
       <p>
         {post.text}
       </p>
