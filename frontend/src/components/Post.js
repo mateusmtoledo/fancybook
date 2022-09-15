@@ -20,6 +20,7 @@ const StyledPost = styled(Card)`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  word-break: break-word;
 
   .buttons {
     display: flex;
