@@ -34,7 +34,7 @@ const StyledSearchResultsList = styled.div`
   }
 `;
 
-function SearchResultsList({ searchResults, searchLoading }) {
+function SearchResultsList({ searchResults, searchLoading, setResultsVisible }) {
   return (
     <StyledSearchResultsList>
       {
@@ -52,6 +52,7 @@ function SearchResultsList({ searchResults, searchLoading }) {
                   <SearchResult
                     key={user._id}
                     user={user}
+                    setResultsVisible={setResultsVisible}
                   />
                 )
               }

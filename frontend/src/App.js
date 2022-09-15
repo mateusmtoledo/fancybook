@@ -10,6 +10,7 @@ import Loading from "./components/Loading";
 import SignUp from "./pages/SignUp";
 import GoogleAuth from "./components/GoogleAuth";
 import UserProfile from "./pages/UserProfile";
+import Header from "./components/Header";
 
 async function getFriends() {
   const response = await api.get('/users/me/friends');
@@ -70,6 +71,7 @@ function App() {
       }
       <Container>
         <BrowserRouter>
+          {user && <Header />}
           <Routes>
             {
               user

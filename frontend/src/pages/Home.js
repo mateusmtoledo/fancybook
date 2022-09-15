@@ -1,5 +1,4 @@
 import api from "../adapters/api";
-import Header from "../components/Header";
 import Main from "../styles/Main";
 import PostList from "../components/PostList";
 import FriendRequestList from "../components/FriendRequestList";
@@ -60,7 +59,6 @@ function Home() {
 
   return (
     <>
-      <Header />
       <Main>
         <PostList
           posts={posts}

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
@@ -42,9 +43,7 @@ const StyledSearchBar = styled.div`
 function SearchBar() {
   const [input, setInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [resultsVisible, setResultsVisible] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
-
   useEffect(() => {
     setSearchLoading(true);
     setSearchResults([]);
@@ -58,19 +57,23 @@ function SearchBar() {
       return (() => clearTimeout(timer));
     }
   }, [input]);
+  
+  const searchBar = useRef(null);
+  const [resultsVisible, setResultsVisible] = useState(false);
+  function handleClick(event) {
+    if(resultsVisible && !event.path.includes(searchBar.current)) {
+      setResultsVisible(false);
+    }
+  }
+  useEffect(() => {
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  });
 
   return (
     <StyledSearchBar
-      tabindex="100"
       onFocus={() => setResultsVisible(true)}
-      onBlur={(e) => {
-        const currentTarget = e.currentTarget;
-        requestAnimationFrame(() => {
-          if (!currentTarget.contains(document.activeElement)) {
-            setResultsVisible(false);
-          }
-        });
-      }}
+      ref={searchBar}
     >
       <label htmlFor="search">
         <img alt="Search" src={SEARCH_ICON} width="20px" height="20px" />
@@ -88,6 +91,7 @@ function SearchBar() {
         ? <SearchResultsList
             searchResults={searchResults}
             searchLoading={searchLoading}
+            setResultsVisible={setResultsVisible}
           />
         : null
       }

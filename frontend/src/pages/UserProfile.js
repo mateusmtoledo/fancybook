@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import api from "../adapters/api";
 import FriendList from "../components/FriendList";
-import Header from "../components/Header";
 import PostList from "../components/PostList";
 import UserInfo from "../components/UserInfo";
 import Main from "../styles/Main";
@@ -72,7 +71,6 @@ function UserProfile() {
       {  
         user
         ? <>
-          <Header />
           <Main column>
             <UserInfo user={user} />
             <UserContent>
