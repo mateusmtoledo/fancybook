@@ -81,6 +81,7 @@ function SearchBar() {
         id="search"
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        autoComplete="off"
       />
       {
         resultsVisible && input
