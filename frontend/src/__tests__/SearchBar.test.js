@@ -3,6 +3,7 @@ import '@testing-library/jest-dom'
 import userEvent from "@testing-library/user-event";
 import api from "../adapters/api";
 import SearchBar from "../components/SearchBar";
+import { MemoryRouter } from "react-router-dom";
 
 jest.mock('../adapters/api', () => {
   return {
@@ -31,7 +32,9 @@ jest.useFakeTimers();
 describe('SearchBar', () => {
   it('accepts user\'s input', () => {
     render(
-      <SearchBar />
+      <MemoryRouter>
+        <SearchBar />
+      </MemoryRouter>
     );
     const searchInput = screen.getByRole('textbox');
     userEvent.type(searchInput, 'john');
@@ -40,7 +43,9 @@ describe('SearchBar', () => {
 
   it('calls api.get with correct arguments', async () => {
     render(
-      <SearchBar />
+      <MemoryRouter>
+        <SearchBar />
+      </MemoryRouter>
     );
     const searchInput = screen.getByRole('textbox');
     userEvent.type(searchInput, 'john');

@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import { UserContext } from "../contexts/UserContext";
 import userEvent from "@testing-library/user-event";
 import api from "../adapters/api";
+import { MemoryRouter } from "react-router-dom";
 
 jest.mock('../adapters/api', () => {
   return {
@@ -32,10 +33,12 @@ describe('FriendRequest', () => {
   it('renders requesting user\'s name and avatar', () => {
     render(
       <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
-        <FriendRequest
-          friendRequest={friendRequest}
-          refreshPosts={jest.fn()}
-        />
+        <MemoryRouter>
+          <FriendRequest
+            friendRequest={friendRequest}
+            refreshPosts={jest.fn()}
+          />
+        </MemoryRouter>
       </UserContext.Provider>
     );
     const requesterName = screen.getByText(/jane doe/i);
@@ -46,12 +49,14 @@ describe('FriendRequest', () => {
 
   it('renders accept and decline buttons', () => {
     render(
-      <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
-        <FriendRequest
-          friendRequest={friendRequest}
-          refreshPosts={jest.fn()}
-        />
-      </UserContext.Provider>
+      <MemoryRouter>
+        <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
+          <FriendRequest
+            friendRequest={friendRequest}
+            refreshPosts={jest.fn()}
+          />
+        </UserContext.Provider>
+      </MemoryRouter>
     );
     const acceptButton = screen.getByAltText(/accept/i);
     const declineButton = screen.getByAltText(/decline/i);
@@ -63,12 +68,14 @@ describe('FriendRequest', () => {
 describe('accept button', () => {
   it('calls api.put with correct arguments', () => {
     render(
-      <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
-        <FriendRequest
-          friendRequest={friendRequest}
-          refreshPosts={jest.fn()}
-        />
-      </UserContext.Provider>
+      <MemoryRouter>
+        <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
+          <FriendRequest
+            friendRequest={friendRequest}
+            refreshPosts={jest.fn()}
+          />
+        </UserContext.Provider>
+      </MemoryRouter>
     );
     const acceptButton = screen.getByAltText(/accept/i);
     userEvent.click(acceptButton);
@@ -79,12 +86,14 @@ describe('accept button', () => {
 describe('decline button', () => {
   it('calls api.delete with correct arguments', () => {
     render(
-      <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
-        <FriendRequest
-          friendRequest={friendRequest}
-          refreshPosts={jest.fn()}
-        />
-      </UserContext.Provider>
+      <MemoryRouter>
+        <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
+          <FriendRequest
+            friendRequest={friendRequest}
+            refreshPosts={jest.fn()}
+          />
+        </UserContext.Provider>
+      </MemoryRouter>
     );
     const declineButton = screen.getByAltText(/decline/i);
     userEvent.click(declineButton);
