@@ -38,11 +38,6 @@ const StyledFriendRequest = styled.li`
       cursor: pointer;
     }
   }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
 `;
 
 function FriendRequest({ friendRequest, refreshPosts }) {

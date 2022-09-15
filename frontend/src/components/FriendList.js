@@ -9,11 +9,6 @@ const StyledFriendList = styled(Card)`
     font-size: 1.4rem;
     margin-bottom: 8px;
   }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
 `;
 
 const Friends = styled.div`

@@ -27,6 +27,11 @@ const GlobalStyles = createGlobalStyle`
     overflow: visible;
   }
 
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
   .mobile {
     display: none;
   }

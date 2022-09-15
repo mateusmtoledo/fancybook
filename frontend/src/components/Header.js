@@ -15,10 +15,6 @@ const StyledHeader = styled.header`
   align-items: center;
   gap: 16px;
 
-  a {
-    text-decoration: none;
-  }
-
   > div {
     display: flex;
     gap: 16px;

@@ -44,10 +44,6 @@ const StyledPost = styled(Card)`
     font-size: 0.75rem;
     color: var(--color-gray-light);
   }
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
 `;
 
 function Post({ post }) {

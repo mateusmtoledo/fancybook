@@ -42,7 +42,6 @@ const LoginContainer = styled.div`
   a {
     color: var(--color-orange);
     font-weight: 700;
-    text-decoration: none;
   }
 `;
 
