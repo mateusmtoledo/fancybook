@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Avatar from "../styles/Avatar";
 import Card from "../styles/Card";
-import USER_PLUS_ICON from "../img/user-plus.svg";
+import FriendshipButtons from "./FriendshipButtons";
 
 const StyledUserInfo = styled(Card)`
   width: 100%;
@@ -35,6 +35,7 @@ const StyledUserInfo = styled(Card)`
     justify-content: flex-end;
     align-items: center;
     padding: 16px;
+    gap: 8px;
 
     button {
       display: flex;
@@ -68,6 +69,7 @@ const StyledUserInfo = styled(Card)`
 `;
 
 function UserInfo({user}) {
+  // TODO handle coverPhoto in api instead of client side
   const coverPhoto = user.coverPhoto
     || 'https://images.pexels.com/photos/706498/pexels-photo-706498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
@@ -83,10 +85,7 @@ function UserInfo({user}) {
         <h4>{user.fullName}</h4>
       </div>
       <div className="options">
-        <button>
-          <img src={USER_PLUS_ICON} alt="Add as a friend" />
-          Add
-        </button>
+        <FriendshipButtons targetUser={user} />
       </div>
     </StyledUserInfo>
   );
