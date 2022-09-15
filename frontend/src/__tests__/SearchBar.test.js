@@ -29,6 +29,8 @@ beforeEach(() => {
 
 jest.useFakeTimers();
 
+document.addEventListener = jest.fn();
+
 describe('SearchBar', () => {
   it('accepts user\'s input', () => {
     render(
