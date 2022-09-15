@@ -16,7 +16,8 @@ const StyledUserInfo = styled(Card)`
     background-position: center;
     height: 220px;
     padding: 8px 32px;
-    border-radius: inherit;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
 
     img {
       position: relative;
@@ -47,6 +48,21 @@ const StyledUserInfo = styled(Card)`
       border-radius: 6px;
       border: none;
       cursor: pointer;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .user-info {
+      padding: 8px 16px;
+
+      img {
+        width: 104px;
+        height: 104px;
+      }
+
+      h4 {
+        font-size: 1.8rem;
+      }
     }
   }
 `;

@@ -6,7 +6,8 @@ import X_CIRCLE_ICON from "../img/x-circle.svg";
 const StyledFriendList = styled(Card)`
   h3 {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
   }
 
   a {
