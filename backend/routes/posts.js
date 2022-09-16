@@ -23,6 +23,7 @@ router.get('/', (req, res, next) => {
     .sort({ date: 'descending' })
     .limit(resultsPerPage)
     .skip(resultsPerPage * page)
+    .select('author text date')
     .populate('author', 'firstName lastName fullName avatar')
     .exec((err, posts) => {
       if (err) {
@@ -30,7 +31,7 @@ router.get('/', (req, res, next) => {
         return;
       }
       res.json({
-        posts: posts.map((post) => post.toObject()),
+        posts,
       });
     });
 });
