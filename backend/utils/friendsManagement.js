@@ -6,6 +6,9 @@ exports.sendFriendRequest = async ({ from, to }) => {
   }
   const requester = await User.findById(from);
   const recipient = await User.findById(to);
+  if (!requester || !recipient) {
+    throw new Error('User not found');
+  }
   if (requester
     .friendList
     .some((friendship) => friendship.user.equals(to._id))
@@ -25,8 +28,14 @@ exports.sendFriendRequest = async ({ from, to }) => {
 };
 
 exports.acceptFriendRequest = async ({ from, to }) => {
+  if (from === to || from.equals(to)) {
+    throw new Error('Users can\'t send friend requests to themselves');
+  }
   const requester = await User.findById(from);
   const recipient = await User.findById(to);
+  if (!requester || !recipient) {
+    throw new Error('User not found');
+  }
   const friendshipFrom = requester
     .friendList
     .find((friendship) => friendship.user.equals(recipient._id));
@@ -45,8 +54,14 @@ exports.acceptFriendRequest = async ({ from, to }) => {
 };
 
 exports.removeFriend = async ({ from, to }) => {
+  if (from === to || from.equals(to)) {
+    throw new Error('Users can\'t send friend requests to themselves');
+  }
   const requester = await User.findById(from);
   const recipient = await User.findById(to);
+  if (!requester || !recipient) {
+    throw new Error('User not found');
+  }
   const friendshipFromIndex = requester.friendList
     .findIndex((friendship) => friendship.user.equals(recipient._id));
   const friendshipToIndex = recipient.friendList
