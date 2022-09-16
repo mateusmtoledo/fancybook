@@ -42,65 +42,28 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { userId } = req.params;
-  User.findById(userId, (err, user) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    if (!user) {
-      next(new Error('User not found'));
-      return;
-    }
-    try {
-      sendFriendRequest({ from: req.user, to: user });
-      res.json('Success');
-    } catch (err) {
-      next(err);
-    }
+  sendFriendRequest({ from: req.user._id, to: userId }).then(() => {
+    res.json('Success');
+  }).catch((err) => {
+    next(err);
   });
 });
 
 router.put('/', (req, res, next) => {
   const { userId } = req.params;
-  const friendship = req.user.friendList
-    .find((friendship) => friendship.user.equals(userId));
-  if (!friendship || friendship.status !== 'pending') {
-    next(new Error('friendship request not found'));
-    return;
-  }
-  User.findById(userId, (err, user) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    if (!user) {
-      next(new Error('User not found'));
-      return;
-    }
-    acceptFriendRequest({ from: req.user, to: user });
+  acceptFriendRequest({ from: req.user, to: userId }).then(() => {
     res.json('Success');
+  }).catch((err) => {
+    next(err);
   });
 });
 
 router.delete('/', (req, res, next) => {
   const { userId } = req.params;
-  const thereIsFriendship = req.user.friendList
-    .some((friendship) => friendship.user.equals(userId));
-  if (!thereIsFriendship) {
-    next(new Error('friendship not found'));
-    return;
-  }
-  User.findById(userId, (err, user) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    if (!user) {
-      next(new Error('User not found'));
-      return;
-    }
-    removeFriend({ from: req.user, to: user });
+  removeFriend({ from: req.user, to: userId }).then(() => {
     res.json('Success');
+  }).catch((err) => {
+    next(err);
   });
 });
 

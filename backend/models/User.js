@@ -19,6 +19,7 @@ const UserSchema = new Schema({
       'friends' (users are friends)
     */
     status: String,
+    default: [],
   }],
   username: { type: String },
   email: { type: String },
