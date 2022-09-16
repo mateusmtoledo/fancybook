@@ -5,8 +5,10 @@ const Post = require('../models/Post');
 const router = express.Router();
 
 const commentsRouter = require('./comments');
+const likesRouter = require('./likes');
 
 router.use('/:postId/comments', commentsRouter);
+router.use('/:postId/likes', likesRouter);
 
 router.get('/', (req, res, next) => {
   const resultsPerPage = 8;
