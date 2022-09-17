@@ -76,3 +76,31 @@ describe('likes router POST method', () => {
       .expect(400);
   });
 });
+
+describe('likes router DELETE method', () => {
+  it('requires authentication', async () => {
+    await request(app)
+      .delete('/posts/6324d197ac8a1ce8ba3ae613/likes')
+      .expect(401);
+  });
+
+  it('removes like from post', async () => {
+    expect(await Like
+      .findOne({ post: '6324d197ac8a1ce8ba3ae614', author: fakeUsers[0]._id }))
+      .toBeTruthy();
+    await request(app)
+      .delete('/posts/6324d197ac8a1ce8ba3ae614/likes')
+      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .expect(200);
+    expect(await Like
+      .findOne({ post: '6324d197ac8a1ce8ba3ae614', author: fakeUsers[0]._id }))
+      .toBeFalsy();
+  });
+
+  it('responds with 400 if user has not liked the post', async () => {
+    await request(app)
+      .delete('/posts/6324d197ac8a1ce8ba3ae613/likes')
+      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .expect(400);
+  });
+});

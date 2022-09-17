@@ -98,4 +98,22 @@ router.post('/', (req, res, next) => {
   });
 });
 
+router.delete('/', (req, res, next) => {
+  const { postId } = req.params;
+  Like
+    .findOneAndDelete({ post: postId, author: req.user._id })
+    .exec((err, deleted) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      if (!deleted) {
+        res.status(400).json(new Error('User has not liked post'));
+        return;
+      }
+      console.log(deleted);
+      res.json(deleted);
+    });
+});
+
 module.exports = router;
