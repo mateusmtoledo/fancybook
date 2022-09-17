@@ -10,6 +10,10 @@ router.get('/', (req, res, next) => {
   const page = Number(req.query.page) >= 0 ? Number(req.query.page) : 0;
   const authorSelection = 'firstName lastName fullName avatar';
   Post.findById(postId).exec((err, post) => {
+    if (err) {
+      next(err);
+      return;
+    }
     if (!req
       .user
       .friendList
@@ -19,22 +23,29 @@ router.get('/', (req, res, next) => {
       res.status(401).json(new Error('Unauthorized'));
       return;
     }
-    Like
-      .find({ post: postId })
-      .sort({ date: 'descending' })
-      .limit(resultsPerPage)
-      .skip(resultsPerPage * page)
-      .select('author date')
-      .populate('author', authorSelection)
-      .exec((err, likes) => {
-        if (err) {
-          next(err);
-          return;
-        }
-        res.json({
-          likes,
+    Like.find({ post: postId }).count().exec((err, count) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      Like
+        .find({ post: postId })
+        .sort({ date: 'descending' })
+        .limit(resultsPerPage)
+        .skip(resultsPerPage * page)
+        .select('author date')
+        .populate('author', authorSelection)
+        .exec((err, likes) => {
+          if (err) {
+            next(err);
+            return;
+          }
+          res.json({
+            likes,
+            count,
+          });
         });
-      });
+    });
   });
 });
 

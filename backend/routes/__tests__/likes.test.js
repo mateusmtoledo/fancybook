@@ -34,6 +34,7 @@ describe('likes router GET method', () => {
       .expect(200)
       .expect((response) => {
         expect(response.body.likes.length).toBe(3);
+        expect(response.body.count).toBe(3);
       });
   });
 });
