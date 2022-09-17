@@ -29,21 +29,31 @@ router.get('/', (req, res, next) => {
         return;
       }
       Like
-        .find({ post: postId })
-        .sort({ date: 'descending' })
-        .limit(resultsPerPage)
-        .skip(resultsPerPage * page)
-        .select('author date')
-        .populate('author', authorSelection)
-        .exec((err, likes) => {
+        .findOne({ post: postId, author: req.user._id })
+        .exec((err, like) => {
           if (err) {
             next(err);
             return;
           }
-          res.json({
-            likes,
-            count,
-          });
+          const userHasLiked = !!like;
+          Like
+            .find({ post: postId })
+            .sort({ date: 'descending' })
+            .limit(resultsPerPage)
+            .skip(resultsPerPage * page)
+            .select('author date')
+            .populate('author', authorSelection)
+            .exec((err, likes) => {
+              if (err) {
+                next(err);
+                return;
+              }
+              res.json({
+                likes,
+                count,
+                userHasLiked,
+              });
+            });
         });
     });
   });
@@ -86,38 +96,6 @@ router.post('/', (req, res, next) => {
         });
       });
   });
-  // Post.findById(postId).exec((err, post) => {
-  //   if (err) {
-  //     next(err);
-  //     return;
-  //   }
-  //   if (!req
-  //     .user
-  //     .friendList
-  //     .some((friendship) => friendship.status === 'friends'
-  //     && friendship.user.equals(post.author))
-  //   ) {
-  //     res.status(401).json(new Error('Unauthorized'));
-  //     return;
-  //   }
-  //   if (post.likes.some((user) => user.equals(req.user._id))) {
-  //     res.status(400).json(new Error('User has already liked post'));
-  //     return;
-  //   }
-  //   post.likes.push(req.user._id);
-  //   post.save((err, savedPost) => {
-  //     if (err) {
-  //       next(err);
-  //       return;
-  //     }
-  //     const selection = 'firstName lastName fullName avatar';
-  //     savedPost.populate('likes', selection, (err, populatedPost) => {
-  //       res.json({
-  //         likes: populatedPost.likes,
-  //       });
-  //     });
-  //   });
-  // });
 });
 
 module.exports = router;
