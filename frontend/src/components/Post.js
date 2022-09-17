@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Avatar from "../styles/Avatar";
 import Card from "../styles/Card";
-import LIKE_ICON from "../img/thumbs-up.svg";
+import { ReactComponent as  LikeIcon } from "../img/thumbs-up.svg";
 import COMMENT_ICON from "../img/comment.svg";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "../adapters/api";
 import Likes from "./Likes";
 
@@ -17,6 +17,11 @@ const InteractionButton = styled.button`
   font-size: 1rem;
   gap: 8px;
   cursor: pointer;
+`;
+
+const LikeButton = styled(InteractionButton)`
+  color: ${(props) => props.userHasLiked ? 'var(--color-orange)' : 'var(--color-white)'};
+  stroke: ${(props) => props.userHasLiked ? 'var(--color-orange)' : 'var(--color-white)'};
 `;
 
 const StyledPost = styled(Card)`
@@ -64,15 +69,21 @@ function Post({ post }) {
     year: 'numeric',
   }
   const [likes, setLikes] = useState(null);
+  const [userHasLiked, setUserHasLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [likePage, setLikePage] = useState(0);
 
-  useEffect(() => {
+  const refreshLikes = useCallback(async () => {
     getLikes(post._id, likePage).then((data) => {
       setLikes(data.likes);
       setLikeCount(data.count);
+      setUserHasLiked(data.userHasLiked);
     });
-  }, [post, likePage]);
+  }, [post._id, likePage]);
+
+  useEffect(() => {
+    refreshLikes();
+  }, [refreshLikes]);
 
   return (
     <StyledPost>
@@ -98,15 +109,20 @@ function Post({ post }) {
         {likes && <Likes likes={likes} count={likeCount} />}
       </div>
       <div className="buttons">
-        <InteractionButton>
-          <img
-            alt="Like this post"
-            src={LIKE_ICON}
-            width="24px"
-            height="24px"
-          />
-          <p>Like</p>
-        </InteractionButton>
+        <LikeButton
+          onClick={async () => {
+            if (userHasLiked) {
+              await api.delete(`/posts/${post._id}/likes`);
+            } else {
+              await api.post(`/posts/${post._id}/likes`);
+            }
+            await refreshLikes();
+          }}
+          userHasLiked={userHasLiked}
+        >
+          <LikeIcon />
+          <p>{userHasLiked ? 'Liked' : 'Like'}</p>
+        </LikeButton>
         <InteractionButton>
           <img
             alt="Comment on this post"
