@@ -4,8 +4,11 @@ import Card from "../styles/Card";
 import LIKE_ICON from "../img/thumbs-up.svg";
 import COMMENT_ICON from "../img/comment.svg";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import api from "../adapters/api";
+import Likes from "./Likes";
 
-const InteractButton = styled.button`
+const InteractionButton = styled.button`
   background: none;
   border: none;
   display: flex;
@@ -47,6 +50,11 @@ const StyledPost = styled(Card)`
   }
 `;
 
+async function getLikes(postId, page) {
+  const response = await api.get(`/posts/${postId}/likes?page=${page}`);
+  return response.data;
+}
+
 function Post({ post }) {
   const dateOptions = {
     minute: '2-digit',
@@ -55,6 +63,16 @@ function Post({ post }) {
     month: 'short',
     year: 'numeric',
   }
+  const [likes, setLikes] = useState(null);
+  const [likeCount, setLikeCount] = useState(0);
+  const [likePage, setLikePage] = useState(0);
+
+  useEffect(() => {
+    getLikes(post._id, likePage).then((data) => {
+      setLikes(data.likes);
+      setLikeCount(data.count);
+    });
+  }, [post, likePage]);
 
   return (
     <StyledPost>
@@ -76,8 +94,11 @@ function Post({ post }) {
         {post.text}
       </p>
       <hr />
+      <div className="stats">
+        {likes && <Likes likes={likes} count={likeCount} />}
+      </div>
       <div className="buttons">
-        <InteractButton>
+        <InteractionButton>
           <img
             alt="Like this post"
             src={LIKE_ICON}
@@ -85,8 +106,8 @@ function Post({ post }) {
             height="24px"
           />
           <p>Like</p>
-        </InteractButton>
-        <InteractButton>
+        </InteractionButton>
+        <InteractionButton>
           <img
             alt="Comment on this post"
             src={COMMENT_ICON}
@@ -94,7 +115,7 @@ function Post({ post }) {
             height="24px"
           />
           <p>Comment</p>
-        </InteractButton>
+        </InteractionButton>
       </div>
     </StyledPost>
   );
