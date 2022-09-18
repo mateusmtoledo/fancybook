@@ -49,7 +49,7 @@ router.get('/', (req, res, next) => {
                 return;
               }
               res.json({
-                likes,
+                likes: likes.map((like) => like.author),
                 count,
                 userHasLiked,
               });
