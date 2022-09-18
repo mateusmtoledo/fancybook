@@ -12,7 +12,8 @@ const StyledUserInfo = styled(Card)`
     display: flex;
     align-items: flex-end;
     gap: 16px;
-    background: ${props => `url(${props.coverPhoto})`};
+    background: ${props => `url(${props.coverPhoto}),
+      url('https://images.pexels.com/photos/706498/pexels-photo-706498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')`};
     background-position: center;
     height: 220px;
     padding: 8px 32px;
@@ -70,12 +71,8 @@ const StyledUserInfo = styled(Card)`
 `;
 
 function UserInfo({user}) {
-  // TODO handle coverPhoto in api instead of client side
-  const coverPhoto = user.coverPhoto
-    || 'https://images.pexels.com/photos/706498/pexels-photo-706498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-
   return (
-    <StyledUserInfo coverPhoto={coverPhoto}>
+    <StyledUserInfo coverPhoto={user.coverPhoto}>
       <div className="user-info">
         <Avatar
           user={user}

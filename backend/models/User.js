@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   lastName: { type: String },
   gender: { type: String },
   avatar: { type: String, default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
+  coverPhoto: { type: String, default: 'https://images.pexels.com/photos/706498/pexels-photo-706498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
   friendList: [{
     user: {
       type: Schema.Types.ObjectId,
