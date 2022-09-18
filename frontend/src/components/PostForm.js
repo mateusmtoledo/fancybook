@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext";
-import Avatar from "../styles/Avatar";
+import Avatar from "./Avatar";
 import Card from "../styles/Card";
 import SEND_ICON from '../img/send.svg';
 import api from "../adapters/api";
@@ -10,8 +10,6 @@ import Loading from "./Loading";
 const Error = styled.p`
   color: red;
   font-size: 0.8rem;
-  /* position: absolute;
-  bottom: -12px; */
 `;
 
 const StyledPostForm = styled(Card)`
@@ -113,10 +111,8 @@ function PostForm({ refreshPosts }) {
       <form onSubmit={submitPost}>
         <div className="post-text">
           <Avatar
-            alt="User's avatar"
-            src={user.avatar}
-            width="36px"
-            height="36px"
+            user={user}
+            size="36px"
           />
           <div className="user-input">
             <textarea

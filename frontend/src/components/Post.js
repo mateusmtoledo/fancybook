@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Avatar from "../styles/Avatar";
+import Avatar from "./Avatar";
 import Card from "../styles/Card";
 import { ReactComponent as  LikeIcon } from "../img/thumbs-up.svg";
 import COMMENT_ICON from "../img/comment.svg";
@@ -90,10 +90,8 @@ function Post({ post }) {
       <Link to={`/user/${post.author._id}`}>
         <div className="post-info">
           <Avatar
-            alt={`${post.author.firstName}'s avatar`}
-            src={post.author.avatar}
-            width="36px"
-            height="36px"
+            user={post.author}
+            size="36px"
           />
           <div>
             <p className="author-name">{post.author.fullName}</p>

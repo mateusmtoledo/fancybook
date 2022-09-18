@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Avatar from "../styles/Avatar";
+import Avatar from "./Avatar";
 
 const StyledSearchResult = styled.div`
   border-bottom: 1px solid var(--color-gray-dark);
@@ -22,8 +22,7 @@ function SearchResult({ user, setResultsVisible }) {
     <StyledSearchResult>
       <Link to={`/user/${user._id}`} onClick={() => setResultsVisible(false)}>
         <Avatar
-          src={user.avatar}
-          alt={`${user.firstName}'s avatar`}
+          user={user}
         />
         <p>{user.fullName}</p>
       </Link>

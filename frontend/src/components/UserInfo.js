@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Avatar from "../styles/Avatar";
+import Avatar from "./Avatar";
 import Card from "../styles/Card";
 import FriendshipButtons from "./FriendshipButtons";
 
@@ -77,10 +77,8 @@ function UserInfo({user}) {
     <StyledUserInfo coverPhoto={coverPhoto}>
       <div className="user-info">
         <Avatar
-          src={user.avatar}
-          alt={`${user.firstName}'s avatar`}
-          width="128px"
-          height="128px"
+          user={user}
+          size="128px"
         />
         <h4>{user.fullName}</h4>
       </div>

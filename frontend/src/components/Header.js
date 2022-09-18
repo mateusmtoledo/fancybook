@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext";
-import Avatar from "../styles/Avatar";
+import Avatar from "./Avatar";
 import USERS_ICON from "../img/users.svg";
 import SearchBar from "./SearchBar";
 
@@ -69,7 +69,7 @@ function Header() {
             height="28px"
           />
         </button>
-        <Avatar alt="User avatar" src={user.avatar} width="36px" height="36px" />
+        <Avatar user={user} size="36px" />
       </div>
     </StyledHeader>
   );

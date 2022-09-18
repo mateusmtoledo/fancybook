@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import CHECK_ICON from "../img/check-square.svg";
 import X_ICON from "../img/x-square.svg";
-import Avatar from "../styles/Avatar";
+import Avatar from "./Avatar";
 import api from "../adapters/api";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
@@ -48,8 +48,7 @@ function FriendRequest({ friendRequest, refreshPosts }) {
       <Link to={`/user/${friendRequest._id}`}>
         <div className="requester">
           <Avatar
-            alt={`${friendRequest.firstName}'s avatar`}
-            src={friendRequest.avatar}
+            user={friendRequest}
           />
           <p>{friendRequest.fullName}</p>
         </div>

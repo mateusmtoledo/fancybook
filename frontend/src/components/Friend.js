@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Avatar from "../styles/Avatar";
+import Avatar from "./Avatar";
 
-const Picture = styled(Avatar)`
+const FriendAvatar = styled(Avatar)`
   border-radius: 8px;
   width: 100%;
   height: min-content;
@@ -25,9 +25,8 @@ function Friend({ friend }) {
   return (
     <Link to={`/user/${friend._id}`}>
       <StyledFriend>
-        <Picture
-          src={friend.avatar}
-          alt={`${friend.firstName}'s avatar`}
+        <FriendAvatar
+          user={friend}
         />
         <p>{friend.fullName}</p>
       </StyledFriend>

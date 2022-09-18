@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Avatar from "../styles/Avatar";
+import Avatar from "./Avatar";
 
 const StyledLike = styled.li`
   display: flex;
@@ -11,10 +11,8 @@ function Like({ like }) {
   return (
     <StyledLike>
       <Avatar
-        src={like.avatar}
-        alt={`${like.firstName}'s avatar`}
-        width="36px"
-        height="36px"
+        user={like}
+        size="36px"
       />
       <p>{like.fullName}</p>
     </StyledLike>
