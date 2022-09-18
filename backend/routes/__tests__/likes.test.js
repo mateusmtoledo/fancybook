@@ -20,13 +20,6 @@ describe('likes router GET method', () => {
       .expect(401);
   });
 
-  it('requires user to be friends with author', async () => {
-    await request(app)
-      .get('/posts/6324d197ac8a1ce8ba3ae619/likes')
-      .auth(fakeUsers[0].authToken, { type: 'bearer' })
-      .expect(401);
-  });
-
   it('sends list of users who liked the post as response', async () => {
     await request(app)
       .get('/posts/6324d197ac8a1ce8ba3ae614/likes')
@@ -43,13 +36,6 @@ describe('likes router POST method', () => {
   it('requires authentication', async () => {
     await request(app)
       .post('/posts/6324d197ac8a1ce8ba3ae613/likes')
-      .expect(401);
-  });
-
-  it('requires user to be friends with author', async () => {
-    await request(app)
-      .post('/posts/6324d197ac8a1ce8ba3ae619/likes')
-      .auth(fakeUsers[0].authToken, { type: 'bearer' })
       .expect(401);
   });
 
