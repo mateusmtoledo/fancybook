@@ -21,19 +21,44 @@ const Filler = styled.div`
 const StyledLikesList = styled(Card)`
   width: min(400px, 100%);
   height: clamp(300px, 100%, 500px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
+  h2 {
+    font-family: 'Outfit', sans-serif;
+  }
+  
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    
     img {
       display: block;
     }
   }
 
-  h2 {
-    font-family: 'Outfit', sans-serif;
+  .likes {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    list-style-type: none;
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: none;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--color-orange);
+      border-radius: 20px;
+    }
   }
 `;
 
@@ -55,13 +80,13 @@ function LikesList({ likes, setListVisible }) {
             />
           </button>
         </div>
-        <div className="Likes">
+        <ul className="likes">
           {
             likes.map((like) =>
               <Like key={like._id} like={like} />
             )
           }
-        </div>
+        </ul>
       </StyledLikesList>
     </Filler>
   );
