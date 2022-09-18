@@ -7,7 +7,8 @@ import USER_MINUS_ICON from "../img/user-minus.svg";
 import api from "../adapters/api";
 
 function FriendshipButtons({ targetUser }) {
-  const { friends, refreshFriends } = useContext(UserContext);
+  const { user, friends, refreshFriends } = useContext(UserContext);
+  if (targetUser._id === user._id) return null;
   const sent = friends.sent && friends.sent.some((friend) => friend._id === targetUser._id);
   const pending = friends.pending && friends.pending.some((friend) => friend._id === targetUser._id);
   const usersAreFriends = friends.friends && friends.friends.some((friend) => friend._id === targetUser._id);

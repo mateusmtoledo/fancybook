@@ -36,6 +36,7 @@ const StyledUserInfo = styled(Card)`
     align-items: center;
     padding: 16px;
     gap: 8px;
+    min-height: 64px;
 
     button {
       display: flex;
