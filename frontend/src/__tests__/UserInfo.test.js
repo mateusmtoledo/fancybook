@@ -3,13 +3,13 @@ import '@testing-library/jest-dom';
 import UserInfo from "../components/UserInfo";
 import { UserContext } from "../contexts/UserContext";
 
-// const currentUser = {
-//   _id: 'johnsid',
-//   firstName: 'John',
-//   lastName: 'Doe',
-//   fullName: 'John Doe',
-//   avatar: 'https://someurl/john.png',
-// }
+const currentUser = {
+  _id: 'johnsid',
+  firstName: 'John',
+  lastName: 'Doe',
+  fullName: 'John Doe',
+  avatar: 'https://someurl/john.png',
+}
 
 const user = {
   _id: 'janesid',
@@ -23,6 +23,7 @@ describe('UserInfo component', () => {
   it('renders user data', () => {
     render(
       <UserContext.Provider value={{
+        user: currentUser,
         friends: {
           sent: [],
           pending: [],
@@ -39,6 +40,7 @@ describe('UserInfo component', () => {
   it('renders add button when users are not friends', () => {
     render(
       <UserContext.Provider value={{
+        user: currentUser,
         friends: {
           sent: [],
           pending: [],
@@ -55,6 +57,7 @@ describe('UserInfo component', () => {
   it('renders accept and decline buttons if there is a pending request from user', () => {
     render(
       <UserContext.Provider value={{
+        user: currentUser,
         friends: {
           sent: [],
           pending: [user],
@@ -73,6 +76,7 @@ describe('UserInfo component', () => {
   it('renders cancel button if there is a sent request to user', () => {
     render(
       <UserContext.Provider value={{
+        user: currentUser,
         friends: {
           sent: [user],
           pending: [],
@@ -89,6 +93,7 @@ describe('UserInfo component', () => {
   it('renders remove button if users are friends', () => {
     render(
       <UserContext.Provider value={{
+        user: currentUser,
         friends: {
           sent: [],
           pending: [],
