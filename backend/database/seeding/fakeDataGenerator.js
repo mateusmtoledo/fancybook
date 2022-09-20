@@ -33,3 +33,9 @@ exports.generateRandomComment = (authorId, postId) => ({
   post: postId,
   text: faker.lorem.lines(),
 });
+
+exports.generateLike = (userId, postId) => ({
+  author: userId,
+  post: postId,
+  date: Date.now() - Math.floor(Math.random() * 20000000000),
+});

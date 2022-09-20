@@ -1,16 +1,18 @@
 const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Comment = require('../../models/Comment');
-const { generateRandomUser, generateRandomPost, generateRandomComment } = require('./fakeDataGenerator');
+const Like = require('../../models/Like');
+const {
+  generateRandomUser, generateRandomPost, generateRandomComment, generateLike,
+} = require('./fakeDataGenerator');
 require('../config/mongoSetup');
 
-async function saveUsers(numberOfUsers) {
-  const users = await User
+function saveUsers(numberOfUsers) {
+  return User
     .insertMany(new Array(numberOfUsers).fill(null).map(() => generateRandomUser()));
-  return users;
 }
 
-async function savePosts(users) {
+function savePosts(users) {
   const promises = [];
   users.forEach((user) => {
     const numberOfPosts = Math.floor(Math.random() * 4);
@@ -21,7 +23,7 @@ async function savePosts(users) {
   return Promise.all(promises);
 }
 
-async function saveComments(users, posts) {
+function saveComments(users, posts) {
   const promises = [];
   users.forEach((user) => {
     const numberOfComments = Math.floor(Math.random() * 4);
@@ -52,7 +54,7 @@ async function saveComments(users, posts) {
 //   }
 // }
 
-async function makeRandomFriends(users) {
+function makeRandomFriends(users) {
   for (let i = 0; i < users.length; i += 1) {
     for (let j = i + 1; j < users.length; j += 1) {
       const randomNumber = Math.floor(Math.random() * 4);
@@ -95,11 +97,24 @@ async function makeRandomFriends(users) {
   return Promise.all(users.map((user) => user.save()));
 }
 
+function setRandomLikes(users, posts) {
+  const promises = [];
+  users.forEach((user) => {
+    posts.forEach((post) => {
+      if (Math.floor(Math.random() * 2)) {
+        promises.push(new Like(generateLike(user._id, post._id)).save());
+      }
+    });
+  });
+  return Promise.all(promises);
+}
+
 async function seedDatabase(numberOfUsers) {
   const users = await saveUsers(numberOfUsers);
   const posts = await savePosts(users);
   await saveComments(users, posts);
   await makeRandomFriends(users);
+  await setRandomLikes(users, posts);
   console.log('Done');
 }
 
