@@ -3,15 +3,14 @@ const Comment = require('../models/Comment');
 
 const router = express.Router({ mergeParams: true });
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   const { postId } = req.params;
-  Comment.find({ post: postId }, (err, comments) => {
-    if (err) {
-      next(err);
-      return;
-    }
+  try {
+    const comments = await Comment.find({ post: postId });
     res.json({ comments });
-  });
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

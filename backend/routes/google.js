@@ -7,14 +7,13 @@ const router = express.Router();
 router.get(
   '/redirect',
   passport.authenticate('google', { failureRedirect: '/login/google', failureMessage: true }),
-  (req, res, next) => {
-    jwt.sign(req.user.toJSON(), process.env.JWT_SECRET, (err, token) => {
-      if (err) {
-        next(err);
-        return;
-      }
+  async (req, res, next) => {
+    try {
+      const token = await jwt.sign(req.user.toJSON(), process.env.JWT_SECRET);
       res.redirect(`${process.env.ORIGIN}/googleauth?token=${token}`);
-    });
+    } catch (err) {
+      next(err);
+    }
   },
 );
 

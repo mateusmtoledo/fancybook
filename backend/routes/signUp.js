@@ -11,9 +11,10 @@ router.post('/', [
   body('email', 'Email is invalid').isEmail().normalizeEmail(),
   body('password', 'Password must have at least 6 characters').trim().isLength({ min: 6 }).escape(),
 
-  (req, res, next) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      // TODO handle validation errors properly
       next(errors.array());
       return;
     }
@@ -23,38 +24,27 @@ router.post('/', [
       email,
       password,
     } = req.body;
-
-    User.findOne({ email }, (err, result) => {
-      if (err) {
-        next(err);
-        return;
+    try {
+      const emailInUse = await User.exists({ email });
+      if (emailInUse) {
+        const err = new Error('Email already in use');
+        err.statusCode = 409;
+        throw err;
       }
-      if (result) {
-        next(new Error('Email already in use'));
-        return;
-      }
-      bcrypt.hash(password, 10, (err, hashedPassword) => {
-        if (err) {
-          next(err);
-          return;
-        }
-        new User({
-          firstName,
-          lastName,
-          email,
-          password: hashedPassword,
-        }).save((err, user) => {
-          if (err) {
-            next(err);
-            return;
-          }
-          const userResponse = { ...user.toJSON() };
-          delete userResponse.password;
-          delete userResponse.__v;
-          res.json(userResponse);
-        });
-      });
-    });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await new User({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      }).save();
+      const userResponse = { ...user.toJSON() };
+      delete userResponse.password;
+      delete userResponse.__v;
+      res.json(userResponse);
+    } catch (err) {
+      next(err);
+    }
   },
 ]);
 
