@@ -1,29 +1,9 @@
 import styled from "styled-components";
 import Card from "../styles/Card";
-import Loading from "./Loading";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import NO_DATA_IMG from "../img/no-data.svg";
-
-const NextPageDiv = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  min-height: 48px;
-  button {
-    font-size: 1rem;
-    padding: 8px 32px;
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--color-brown-dark);
-    color: var(--color-white);
-    border: none;
-    box-shadow: var(--shadow-card);
-    border-radius: 8px;
-    cursor: pointer;
-  }
-`
+import NextPageButton from "./NextPageButton";
 
 const NoPosts = styled(Card)`
   display: flex;
@@ -77,17 +57,11 @@ function PostList({
             <p>No posts found</p>
           </NoPosts>
       }
-      {
-        postsLoading
-        ? <NextPageDiv>
-            <Loading transparent />
-          </NextPageDiv>
-        : hasNextPage
-        ? <NextPageDiv>
-            <button onClick={nextPage}>Load more</button>
-          </NextPageDiv>
-        : null
-      }
+      <NextPageButton
+        hasNextPage={hasNextPage}
+        nextPage={nextPage}
+        postsLoading={postsLoading}
+      />
     </StyledPostList>
   );
 }
