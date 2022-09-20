@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const { Schema } = mongoose;
 
@@ -54,5 +55,7 @@ const UserSchema = new Schema({
 UserSchema.virtual('fullName').get(function getFullName() {
   return `${this.firstName} ${this.lastName}`;
 });
+
+UserSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('User', UserSchema);

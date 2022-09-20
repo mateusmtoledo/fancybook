@@ -11,21 +11,28 @@ router.use('/:postId/comments', commentsRouter);
 router.use('/:postId/likes', likesRouter);
 
 router.get('/', async (req, res, next) => {
-  const resultsPerPage = 8;
-  const page = Number(req.query.page) >= 0 ? Number(req.query.page) : 0;
+  const paginateOptions = {
+    limit: 8,
+    page: Number(req.query.page) >= 0 ? Number(req.query.page) : 0,
+    sort: { date: 'descending' },
+    select: 'author text date',
+    populate: {
+      path: 'author',
+      select: 'firstName lastName fullName avatar',
+    },
+  };
   const friendsIds = req.user.friendList
     .filter((friendship) => friendship.status === 'friends')
     .map((friendship) => friendship.user);
   try {
     const posts = await Post
-      .find({ author: { $in: [...friendsIds, req.user._id] } })
-      .sort({ date: 'descending' })
-      .limit(resultsPerPage)
-      .skip(resultsPerPage * page)
-      .select('author text date')
-      .populate('author', 'firstName lastName fullName avatar');
+      .paginate({
+        author: { $in: [...friendsIds, req.user._id] },
+      }, paginateOptions);
+    console.log(posts.docs);
     res.json({
-      posts,
+      posts: posts.docs,
+      hasNextPage: posts.hasNextPage,
     });
   } catch (err) {
     next(err);

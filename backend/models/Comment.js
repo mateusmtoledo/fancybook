@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const { Schema } = mongoose;
 
@@ -11,5 +12,7 @@ const CommentSchema = new Schema({
   post: { type: Schema.Types.ObjectId, ref: 'Post', required: true },
   likes: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
 });
+
+CommentSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Comment', CommentSchema);

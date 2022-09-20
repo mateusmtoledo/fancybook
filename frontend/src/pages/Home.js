@@ -9,27 +9,23 @@ import Aside from "../styles/Aside";
 async function getPosts(page) {
   page = page || 0;
   const response = await api.get(`/posts?page=${page}`);
-  return response.data.posts;
+  return response.data;
 }
 
 function Home() {
   const [posts, setPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
-  const [noMorePosts, setNoMorePosts] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const [page, setPage] = useState(0);
 
   async function refreshPosts() {
     setPostsLoading(true);
     setPosts([]);
     try {
-      const returnedPosts = await getPosts(0);
-      setPosts(returnedPosts);
+      const posts = await getPosts(0);
+      setPosts(posts.posts);
+      setHasNextPage(posts.hasNextPage);
       setPage(0);
-      if(returnedPosts.length < 8) {
-        setNoMorePosts(true);
-      } else {
-        setNoMorePosts(false);
-      }
     } catch (err) {
       // TODO implement error handling
       console.log(err);
@@ -45,11 +41,9 @@ function Home() {
     try {
       setPostsLoading(true);
       const newPosts = await getPosts(page + 1);
-      setPosts([...posts, ...newPosts]);
+      setPosts([...posts, ...newPosts.posts]);
+      setHasNextPage(newPosts.hasNextPage);
       setPage(page + 1);
-      if(newPosts.length < 8) {
-        setNoMorePosts(true);
-      }
     } catch (err) {
       // TODO implement error handling
       console.log(err);
@@ -65,7 +59,7 @@ function Home() {
           refreshPosts={refreshPosts}
           nextPage={nextPage}
           postsLoading={postsLoading}
-          noMorePosts={noMorePosts}
+          hasNextPage={hasNextPage}
           renderForm
         />
         <Aside>

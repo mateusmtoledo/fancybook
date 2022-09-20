@@ -20,7 +20,7 @@ async function getUser(userId) {
 
 async function getPosts(userId, page) {
   const pageNumber = page || 0
-  return api.get(`/users/${userId}/posts?page=${pageNumber}`).then((response) => response.data.posts);
+  return api.get(`/users/${userId}/posts?page=${pageNumber}`).then((response) => response.data);
 }
 
 function getFriends(userId) {
@@ -33,7 +33,7 @@ function UserProfile() {
   const [posts, setPosts] = useState([]);
   const [friends, setFriends] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
-  const [noMorePosts, setNoMorePosts] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(false);
   const [page, setPage] = useState(0);
   
   useEffect(() => {
@@ -43,9 +43,9 @@ function UserProfile() {
       getFriends(userId),
     ]).then((data) => {
       const [user, posts, friends] = data;
-      if(posts.length < 8) setNoMorePosts(true);
       setUser(user);
-      setPosts(posts);
+      setPosts(posts.posts);
+      setHasNextPage(posts.hasNextPage);
       setFriends(friends);
     });
   }, [userId]);
@@ -54,11 +54,9 @@ function UserProfile() {
     try {
       setPostsLoading(true);
       const newPosts = await getPosts(userId, page + 1);
-      setPosts([...posts, ...newPosts]);
+      setPosts([...posts, ...newPosts.posts]);
       setPage(page + 1);
-      if(newPosts.length < 8) {
-        setNoMorePosts(true);
-      }
+      setHasNextPage(newPosts.hasNextPage);
     } catch (err) {
       // TODO implement error handling
       console.log(err);
@@ -81,7 +79,7 @@ function UserProfile() {
                 posts={posts.map((post) => ({ ...post, author: user }))}
                 nextPage={nextPage}
                 postsLoading={postsLoading}
-                noMorePosts={noMorePosts}
+                hasNextPage={hasNextPage}
               />
             </UserContent>
           </Main>

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const { Schema } = mongoose;
 
@@ -9,5 +10,7 @@ const PostSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   date: { type: Date, default: Date.now },
 });
+
+PostSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Post', PostSchema);

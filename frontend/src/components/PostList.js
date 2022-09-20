@@ -50,7 +50,7 @@ function PostList({
   refreshPosts,
   nextPage,
   postsLoading,
-  noMorePosts,
+  hasNextPage,
   renderForm
 }) {
   return (
@@ -82,11 +82,11 @@ function PostList({
         ? <NextPageDiv>
             <Loading transparent />
           </NextPageDiv>
-        : noMorePosts
-        ? null
-        : <NextPageDiv>
+        : hasNextPage
+        ? <NextPageDiv>
             <button onClick={nextPage}>Load more</button>
           </NextPageDiv>
+        : null
       }
     </StyledPostList>
   );
