@@ -29,7 +29,6 @@ router.get('/', async (req, res, next) => {
       .paginate({
         author: { $in: [...friendsIds, req.user._id] },
       }, paginateOptions);
-    console.log(posts.docs);
     res.json({
       posts: posts.docs,
       hasNextPage: posts.hasNextPage,

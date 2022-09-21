@@ -5,30 +5,31 @@ const router = express.Router({ mergeParams: true });
 
 router.get('/', async (req, res, next) => {
   const { postId } = req.params;
-  const resultsPerPage = 8;
-  const page = Number(req.query.page) >= 0 ? Number(req.query.page) : 0;
-  const authorSelection = 'firstName lastName fullName avatar';
+  const paginateOptions = {
+    limit: 10,
+    page: Number(req.query.page) >= 1 ? Number(req.query.page) : 1,
+    sort: { date: 'descending' },
+    select: 'author',
+    populate: {
+      path: 'author',
+      select: 'firstName lastName fullName avatar',
+    },
+  };
   try {
     const [
-      likeCount,
       userHasLiked,
       likes,
     ] = await Promise.all([
-      await Like.countDocuments({ post: postId }),
       await Like
         .exists({ post: postId, author: req.user._id }),
       await Like
-        .find({ post: postId })
-        .sort({ date: 'descending' })
-        .limit(resultsPerPage)
-        .skip(resultsPerPage * page)
-        .select('author date')
-        .populate('author', authorSelection),
+        .paginate({ post: postId }, paginateOptions),
     ]);
     res.json({
-      likes: likes.map((like) => like.author),
-      count: likeCount,
       userHasLiked,
+      likes: likes.docs,
+      count: likes.totalDocs,
+      hasNextPage: likes.hasNextPage,
     });
   } catch (err) {
     next(err);

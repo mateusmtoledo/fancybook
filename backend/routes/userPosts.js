@@ -4,19 +4,23 @@ const Post = require('../models/Post');
 const router = express.Router({ mergeParams: true });
 
 router.get('/', async (req, res, next) => {
-  const resultsPerPage = 8;
-  const page = Number(req.query.page) >= 0 ? Number(req.query.page) : 0;
+  const paginateOptions = {
+    limit: 8,
+    page: Number(req.query.page) >= 1 ? Number(req.query.page) : 1,
+    sort: { date: 'descending' },
+    select: 'author text date',
+    populate: {
+      path: 'author',
+      select: 'firstName lastName fullName avatar',
+    },
+  };
   const { userId } = req.params;
   try {
     const posts = await Post
-      .find({ author: userId })
-      .sort({ date: 'descending' })
-      .limit(resultsPerPage)
-      .skip(resultsPerPage * page)
-      .select('author text date')
-      .populate('author', 'firstName lastName fullName avatar');
+      .paginate({ author: userId }, paginateOptions);
     res.json({
-      posts,
+      posts: posts.docs,
+      hasNextPage: posts.hasNextPage,
     });
   } catch (err) {
     next(err);

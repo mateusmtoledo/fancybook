@@ -12,10 +12,14 @@ router.use('/:userId/posts', userPostsRouter);
 router.get('/', async (req, res, next) => {
   const search = req.query.search || '';
   const regex = new RegExp(search, 'gi');
-  const projection = 'firstName lastName fullName avatar';
+  const paginateOptions = {
+    limit: 8,
+    page: Number(req.query.page) >= 1 ? Number(req.query.page) : 1,
+    select: 'firstName lastName fullName avatar',
+  };
   try {
     const users = await User
-      .find(
+      .paginate(
         {
           $expr: {
             $regexMatch: {
@@ -24,11 +28,11 @@ router.get('/', async (req, res, next) => {
             },
           },
         },
-        projection,
-      )
-      .limit(8);
+        paginateOptions,
+      );
     res.json({
-      users,
+      users: users.docs,
+      hasNextPage: users.hasNextPage,
     });
   } catch (err) {
     next(err);
