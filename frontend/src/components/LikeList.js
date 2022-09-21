@@ -63,6 +63,7 @@ const StyledLikesList = styled(Card)`
 `;
 
 function LikeList({ likes, setListVisible }) {
+  if (!likes) return null;
   return (
     <Filler>
       <StyledLikesList>

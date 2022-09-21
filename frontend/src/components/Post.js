@@ -2,10 +2,11 @@ import styled from "styled-components";
 import Card from "../styles/Card";
 import { ReactComponent as  LikeIcon } from "../img/thumbs-up.svg";
 import COMMENT_ICON from "../img/comment.svg";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import api from "../adapters/api";
 import LikeCounter from "./LikeCounter";
 import UserDisplayInfo from "./UserDisplayInfo";
+import useLikes from "../hooks/useLikes";
 
 const InteractionButton = styled.button`
   background: none;
@@ -41,28 +42,15 @@ const StyledPost = styled(Card)`
   }
 `;
 
-async function getLikes(postId, page) {
-  const response = await api.get(`/posts/${postId}/likes?page=${page}`);
-  return response.data;
-}
-
 function Post({ post }) {
-  const [likes, setLikes] = useState(null);
-  const [userHasLiked, setUserHasLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [likePage, setLikePage] = useState(0);
-
-  const refreshLikes = useCallback(async () => {
-    getLikes(post._id, likePage).then((data) => {
-      setLikes(data.likes);
-      setLikeCount(data.count);
-      setUserHasLiked(data.userHasLiked);
-    });
-  }, [post._id, likePage]);
-
-  useEffect(() => {
-    refreshLikes();
-  }, [refreshLikes]);
+  const [likePageNumber, setLikePageNumber] = useState(1);
+  const {
+    likes,
+    hasNextPage,
+    likeCount,
+    userHasLiked,
+    likesLoading,
+  } = useLikes(likePageNumber, post._id);
 
   return (
     <StyledPost>
@@ -76,7 +64,13 @@ function Post({ post }) {
       </p>
       <hr />
       <div className="stats">
-        {likes && <LikeCounter likes={likes} count={likeCount} />}
+        <LikeCounter
+          likes={likes}
+          count={likeCount}
+          goToNextPage={
+            () => setLikePageNumber((previousPage) => previousPage + 1)
+          }
+        />
       </div>
       <div className="buttons">
         <LikeButton
@@ -86,7 +80,7 @@ function Post({ post }) {
             } else {
               await api.post(`/posts/${post._id}/likes`);
             }
-            await refreshLikes();
+            setLikePageNumber(1);
           }}
           userHasLiked={userHasLiked}
         >
