@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Card from "../styles/Card";
 import Like from "./Like";
 import X_ICON from "../img/x.svg";
+import { useCallback, useRef } from "react";
 
 const Filler = styled.div`
   width: 100vw;
@@ -62,8 +63,21 @@ const StyledLikesList = styled(Card)`
   }
 `;
 
-function LikeList({ likes, setListVisible }) {
+function LikeList({ likes, setListVisible, hasNextPage, goToNextPage, likesLoading }) {
+  const observer = useRef();
+
+  const lastLikeRef = useCallback((node) => {
+    if (likesLoading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasNextPage)
+        goToNextPage();
+    });
+    if (node) observer.current.observe(node);
+  }, [goToNextPage, hasNextPage, likesLoading]);
+
   if (!likes) return null;
+
   return (
     <Filler>
       <StyledLikesList>
@@ -83,8 +97,12 @@ function LikeList({ likes, setListVisible }) {
         </div>
         <ul className="likes">
           {
-            likes.map((like) =>
-              <Like key={like._id} author={like.author} />
+            likes.map((like, index) => {
+              if (index + 1 === likes.length) {
+                return <Like ref={lastLikeRef} key={like._id} author={like.author} />
+              }
+              return <Like key={like._id} author={like.author} />
+            }
             )
           }
         </ul>

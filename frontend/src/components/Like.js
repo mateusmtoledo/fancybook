@@ -1,9 +1,12 @@
+import React from "react";
 import UserDisplayInfo from "./UserDisplayInfo";
 
-function Like({ author }) {
+const Like = React.forwardRef(function ({ author }, ref) {
   return (
-    <UserDisplayInfo user={author} />
+    <li ref={ref}>
+      <UserDisplayInfo user={author} />
+    </li>
   );
-}
+});
 
 export default Like;

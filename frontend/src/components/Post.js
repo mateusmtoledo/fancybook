@@ -70,6 +70,8 @@ function Post({ post }) {
           goToNextPage={
             () => setLikePageNumber((previousPage) => previousPage + 1)
           }
+          hasNextPage={hasNextPage}
+          likesLoading={likesLoading}
         />
       </div>
       <div className="buttons">
