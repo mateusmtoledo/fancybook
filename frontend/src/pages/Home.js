@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import Aside from "../styles/Aside";
 
 async function getPosts(page) {
-  page = page || 0;
+  page = page || 1;
   const response = await api.get(`/posts?page=${page}`);
   return response.data;
 }
@@ -16,16 +16,16 @@ function Home() {
   const [posts, setPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(true);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   async function refreshPosts() {
     setPostsLoading(true);
     setPosts([]);
     try {
-      const posts = await getPosts(0);
+      const posts = await getPosts(1);
       setPosts(posts.posts);
       setHasNextPage(posts.hasNextPage);
-      setPage(0);
+      setPage(1);
     } catch (err) {
       // TODO implement error handling
       console.log(err);

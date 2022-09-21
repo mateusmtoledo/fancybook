@@ -34,7 +34,7 @@ function UserProfile() {
   const [friends, setFriends] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(false);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   
   useEffect(() => {
     Promise.all([

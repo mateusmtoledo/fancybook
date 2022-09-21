@@ -83,7 +83,7 @@ function LikesList({ likes, setListVisible }) {
         <ul className="likes">
           {
             likes.map((like) =>
-              <Like key={like._id} like={like} />
+              <Like key={like._id} author={like.author} />
             )
           }
         </ul>

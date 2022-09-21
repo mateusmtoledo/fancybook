@@ -7,14 +7,14 @@ const StyledLike = styled.li`
   gap: 8px;
 `;
 
-function Like({ like }) {
+function Like({ author }) {
   return (
     <StyledLike>
       <Avatar
-        user={like}
+        user={author}
         size="36px"
       />
-      <p>{like.fullName}</p>
+      <p>{author.fullName}</p>
     </StyledLike>
   );
 }
