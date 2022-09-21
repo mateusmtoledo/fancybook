@@ -28,7 +28,7 @@ const StyledPostList = styled.div`
 function PostList({
   posts,
   refreshPosts,
-  nextPage,
+  goToNextPage,
   postsLoading,
   hasNextPage,
   renderForm
@@ -59,7 +59,7 @@ function PostList({
       }
       <NextPageButton
         hasNextPage={hasNextPage}
-        nextPage={nextPage}
+        goToNextPage={goToNextPage}
         postsLoading={postsLoading}
       />
     </StyledPostList>
