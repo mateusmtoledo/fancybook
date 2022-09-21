@@ -13,7 +13,7 @@ router.use('/:postId/likes', likesRouter);
 router.get('/', async (req, res, next) => {
   const paginateOptions = {
     limit: 8,
-    page: Number(req.query.page) >= 0 ? Number(req.query.page) : 0,
+    page: Number(req.query.page) >= 1 ? Number(req.query.page) : 1,
     sort: { date: 'descending' },
     select: 'author text date',
     populate: {
