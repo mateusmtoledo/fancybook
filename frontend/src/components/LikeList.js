@@ -62,7 +62,7 @@ const StyledLikesList = styled(Card)`
   }
 `;
 
-function LikesList({ likes, setListVisible }) {
+function LikeList({ likes, setListVisible }) {
   return (
     <Filler>
       <StyledLikesList>
@@ -92,4 +92,4 @@ function LikesList({ likes, setListVisible }) {
   );
 }
 
-export default LikesList
+export default LikeList;

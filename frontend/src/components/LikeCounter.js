@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import LikesList from "./LikesList";
+import LikeList from "./LikeList";
 
-const StyledLikes = styled.div`
+const StyledLikeCounter = styled.div`
   button {
     background: none;
     border: none;
@@ -16,11 +16,11 @@ const StyledLikes = styled.div`
   }
 `;
 
-function Likes({ likes, count }) {
+function LikeCounter({ likes, count }) {
   const [listVisible, setListVisible] = useState(false);
 
   return (
-    <StyledLikes>
+    <StyledLikeCounter>
       <button onClick={() => {
         setListVisible(true);
         document.body.style = 'overflow: hidden;';
@@ -30,11 +30,11 @@ function Likes({ likes, count }) {
         </p>
       </button>
       { listVisible
-        && <LikesList
+        && <LikeList
           likes={likes}
           setListVisible={setListVisible} />}
-    </StyledLikes>
+    </StyledLikeCounter>
   );
 }
 
-export default Likes;
+export default LikeCounter;

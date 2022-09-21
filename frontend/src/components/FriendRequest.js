@@ -1,31 +1,15 @@
 import styled from "styled-components";
 import CHECK_ICON from "../img/check-square.svg";
 import X_ICON from "../img/x-square.svg";
-import Avatar from "./Avatar";
 import api from "../adapters/api";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { Link } from "react-router-dom";
+import UserDisplayInfo from "./UserDisplayInfo";
 
 const StyledFriendRequest = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .requester {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    p {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      display: -webkit-box;
-      line-clamp: 1;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      word-break: break-all;
-    }
-  }
 
   .buttons {
     display: flex;
@@ -45,14 +29,7 @@ function FriendRequest({ friendRequest, refreshPosts }) {
 
   return (
     <StyledFriendRequest>
-      <Link to={`/user/${friendRequest._id}`}>
-        <div className="requester">
-          <Avatar
-            user={friendRequest}
-          />
-          <p>{friendRequest.fullName}</p>
-        </div>
-      </Link>
+      <UserDisplayInfo user={friendRequest} />
       <div className="buttons">
         <button onClick={async () => {
           try {

@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import Avatar from "./Avatar";
 import Card from "../styles/Card";
 import { ReactComponent as  LikeIcon } from "../img/thumbs-up.svg";
 import COMMENT_ICON from "../img/comment.svg";
-import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import api from "../adapters/api";
-import Likes from "./Likes";
+import LikeCounter from "./LikeCounter";
+import UserDisplayInfo from "./UserDisplayInfo";
 
 const InteractionButton = styled.button`
   background: none;
@@ -40,19 +39,6 @@ const StyledPost = styled(Card)`
     border: none;
     border-top: 1px solid var(--color-gray-dark);
   }
-  .post-info {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .author-name {
-    font-size: 1rem;
-    font-weight: 700;
-  }
-  .post-date {
-    font-size: 0.75rem;
-    color: var(--color-gray-light);
-  }
 `;
 
 async function getLikes(postId, page) {
@@ -61,13 +47,6 @@ async function getLikes(postId, page) {
 }
 
 function Post({ post }) {
-  const dateOptions = {
-    minute: '2-digit',
-    hour: '2-digit',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  }
   const [likes, setLikes] = useState(null);
   const [userHasLiked, setUserHasLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -87,24 +66,17 @@ function Post({ post }) {
 
   return (
     <StyledPost>
-      <Link to={`/user/${post.author._id}`}>
-        <div className="post-info">
-          <Avatar
-            user={post.author}
-            size="36px"
-          />
-          <div>
-            <p className="author-name">{post.author.fullName}</p>
-            <p className="post-date">{new Date(post.date).toLocaleString('en-US', dateOptions)}</p>
-          </div>
-        </div>
-      </Link>
+      <UserDisplayInfo
+        user={post.author}
+        postDate={post.date}
+        bold
+      />
       <p>
         {post.text}
       </p>
       <hr />
       <div className="stats">
-        {likes && <Likes likes={likes} count={likeCount} />}
+        {likes && <LikeCounter likes={likes} count={likeCount} />}
       </div>
       <div className="buttons">
         <LikeButton
