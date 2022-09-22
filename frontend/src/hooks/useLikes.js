@@ -2,16 +2,35 @@ import { useEffect } from "react";
 import { useState } from "react";
 import api from "../adapters/api";
 
-function useLikes(pageNumber, postId) {
+function useLikes(postId) {
+  const [pageNumber, setPageNumber] = useState(1);
   const [likes, setLikes] = useState([]);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [userHasLiked, setUserHasLiked] = useState(false);
   const [likesLoading, setLikesLoading] = useState(false);
+
+  const uri = `/posts/${postId}/likes`;
+
+  function loadNextLikePage() {
+    setPageNumber((previous) => previous + 1);
+  }
+
+  function refreshLikes() {
+    setLikesLoading(true);
+    api.get(uri, { params: { page: 1 } }).then((response) => {
+      const { data } = response;
+      setLikes(data.likes);
+      setHasNextPage(data.hasNextPage);
+      setLikeCount(data.count);
+      setUserHasLiked(data.userHasLiked);
+      setPageNumber(1);
+      setLikesLoading(false);
+    });
+  }
   
   useEffect(() => {
     setLikesLoading(true);
-    const uri = `/posts/${postId}/likes`;
     api.get(uri, { params: { page: pageNumber } }).then((response) => {
       const { data } = response;
       if (pageNumber === 1) setLikes(data.likes);
@@ -21,9 +40,17 @@ function useLikes(pageNumber, postId) {
       setLikesLoading(false);
       setUserHasLiked(data.userHasLiked);
     });
-  }, [pageNumber, postId]);
+  }, [pageNumber, uri]);
 
-  return { likes, hasNextPage, likeCount, userHasLiked, likesLoading };
+  return {
+    likes,
+    hasNextPage,
+    likeCount,
+    userHasLiked,
+    likesLoading,
+    refreshLikes,
+    loadNextLikePage,
+  };
 }
 
 export default useLikes;

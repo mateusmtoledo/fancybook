@@ -16,7 +16,7 @@ const StyledLikeCounter = styled.div`
   }
 `;
 
-function LikeCounter({ likes, count, goToNextPage, hasNextPage, likesLoading }) {
+function LikeCounter({ likes, count, loadNextLikePage, hasNextPage, likesLoading }) {
   const [listVisible, setListVisible] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ function LikeCounter({ likes, count, goToNextPage, hasNextPage, likesLoading }) 
         && <LikeList
           likes={likes}
           setListVisible={setListVisible}
-          goToNextPage={goToNextPage}
+          loadNextLikePage={loadNextLikePage}
           hasNextPage={hasNextPage}
           likesLoading={likesLoading}/>}
     </StyledLikeCounter>

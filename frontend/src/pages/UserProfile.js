@@ -25,8 +25,12 @@ function getFriends(userId) {
 
 function UserProfile() {
   const { userId } = useParams();
-  const [pageNumber, setPageNumber] = useState(1);
-  const { posts, hasNextPage, postsLoading } = usePosts(pageNumber, userId);
+  const {
+    posts,
+    hasNextPage,
+    postsLoading,
+    loadNextPostPage,
+  } = usePosts(userId);
 
   const [user, setUser] = useState(null);
   const [friends, setFriends] = useState([]);
@@ -55,7 +59,7 @@ function UserProfile() {
               </Aside>
               <PostList
                 posts={posts}
-                goToNextPage={() => setPageNumber(pageNumber + 1)}
+                loadNextPostPage={loadNextPostPage}
                 postsLoading={postsLoading}
                 hasNextPage={hasNextPage}
               />

@@ -21,7 +21,7 @@ const Filler = styled.div`
 
 const StyledLikesList = styled(Card)`
   width: min(400px, 100%);
-  height: clamp(300px, 100%, 500px);
+  height: clamp(300px, 100%, 400px);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -63,7 +63,7 @@ const StyledLikesList = styled(Card)`
   }
 `;
 
-function LikeList({ likes, setListVisible, hasNextPage, goToNextPage, likesLoading }) {
+function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesLoading }) {
   const observer = useRef();
 
   const lastLikeRef = useCallback((node) => {
@@ -71,10 +71,10 @@ function LikeList({ likes, setListVisible, hasNextPage, goToNextPage, likesLoadi
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && hasNextPage)
-        goToNextPage();
+        loadNextLikePage();
     });
     if (node) observer.current.observe(node);
-  }, [goToNextPage, hasNextPage, likesLoading]);
+  }, [loadNextLikePage, hasNextPage, likesLoading]);
 
   if (!likes) return null;
 

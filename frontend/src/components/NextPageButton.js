@@ -21,14 +21,14 @@ const NextPageDiv = styled.div`
   }
 `
 
-function NextPageButton({ hasNextPage, goToNextPage, postsLoading }) {
+function NextPageButton({ hasNextPage, loadNextPostPage, postsLoading }) {
   if (!hasNextPage) return null;
   return (
     <NextPageDiv>
       {
         postsLoading
         ? <Loading transparent />
-        : <button onClick={goToNextPage}>Load more</button>
+        : <button onClick={loadNextPostPage}>Load more</button>
       }
     </NextPageDiv>
   );

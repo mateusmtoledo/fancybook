@@ -89,6 +89,7 @@ function PostForm({ refreshPosts }) {
       setError(null);
       refreshPosts();
     } catch (err) {
+      console.log(err);
       setError('Something went wrong');
     }
     setLoading(false);

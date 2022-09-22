@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Card from "../styles/Card";
 import { ReactComponent as  LikeIcon } from "../img/thumbs-up.svg";
 import COMMENT_ICON from "../img/comment.svg";
-import { useState } from "react";
 import api from "../adapters/api";
 import LikeCounter from "./LikeCounter";
 import UserDisplayInfo from "./UserDisplayInfo";
@@ -43,14 +42,15 @@ const StyledPost = styled(Card)`
 `;
 
 function Post({ post }) {
-  const [likePageNumber, setLikePageNumber] = useState(1);
   const {
     likes,
     hasNextPage,
     likeCount,
     userHasLiked,
     likesLoading,
-  } = useLikes(likePageNumber, post._id);
+    loadNextLikePage,
+    refreshLikes,
+  } = useLikes(post._id);
 
   return (
     <StyledPost>
@@ -67,9 +67,7 @@ function Post({ post }) {
         <LikeCounter
           likes={likes}
           count={likeCount}
-          goToNextPage={
-            () => setLikePageNumber((previousPage) => previousPage + 1)
-          }
+          loadNextLikePage={loadNextLikePage}
           hasNextPage={hasNextPage}
           likesLoading={likesLoading}
         />
@@ -82,7 +80,7 @@ function Post({ post }) {
             } else {
               await api.post(`/posts/${post._id}/likes`);
             }
-            setLikePageNumber(1);
+            refreshLikes();
           }}
           userHasLiked={userHasLiked}
         >
