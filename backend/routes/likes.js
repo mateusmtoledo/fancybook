@@ -50,6 +50,7 @@ router.post('/', async (req, res, next) => {
       author: req.user._id,
       post: postId,
     }).save();
+    like.populate('author', 'firstName lastName fullName avatar');
     res.json({
       like,
     });

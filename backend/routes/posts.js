@@ -52,6 +52,7 @@ router.post('/', [
         author: req.user._id,
         text: req.body.text,
       }).save();
+      await post.populate('author', 'firstName lastName fullName avatar');
       res.json({
         post,
       });
