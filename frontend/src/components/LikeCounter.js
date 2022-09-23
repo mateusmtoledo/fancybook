@@ -21,10 +21,7 @@ function LikeCounter({ likes, count, loadNextLikePage, hasNextPage, likesLoading
 
   return (
     <StyledLikeCounter>
-      <button onClick={() => {
-        setListVisible(true);
-        document.body.style = 'overflow: hidden;';
-      }}>
+      <button onClick={() => setListVisible(true)}>
         <p>
           {`${count} Likes`}
         </p>

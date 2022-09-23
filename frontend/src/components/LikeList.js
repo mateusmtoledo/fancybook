@@ -2,24 +2,11 @@ import styled from "styled-components";
 import Card from "../styles/Card";
 import Like from "./Like";
 import X_ICON from "../img/x.svg";
-import { useCallback, useRef } from "react";
+import React, { useCallback, useRef } from "react";
+import Modal from "./Modal";
+import ReactDOM from "react-dom";
 
-const Filler = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #3E3939AA;
-  z-index: 2;
-  overflow: hidden;
-  padding: 8px;
-`;
-
-const StyledLikesList = styled(Card)`
+const LikeListContainer = styled(Card)`
   width: min(400px, 100%);
   height: clamp(300px, 100%, 400px);
   display: flex;
@@ -63,6 +50,12 @@ const StyledLikesList = styled(Card)`
   }
 `;
 
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
+
 function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesLoading }) {
   const observer = useRef();
 
@@ -78,22 +71,21 @@ function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesL
 
   if (!likes) return null;
 
-  return (
-    <Filler>
-      <StyledLikesList>
+  return ReactDOM.createPortal(
+    <Modal onClick={() => setListVisible(false)}>
+      <LikeListContainer onClick={(event) => {
+        event.stopPropagation();
+      }}>
         <div className="header">
           <h2>Likes</h2>
-          <button onClick={() => {
-            setListVisible(false);
-            document.body.style = '';
-          }}>
+          <CloseButton onClick={() => setListVisible(false)}>
             <img
               src={X_ICON}
               alt="Close like list"
               width="32px"
               height="32px"
             />
-          </button>
+          </CloseButton>
         </div>
         <ul className="likes">
           {
@@ -106,9 +98,9 @@ function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesL
             )
           }
         </ul>
-      </StyledLikesList>
-    </Filler>
-  );
+      </LikeListContainer>
+    </Modal>
+  , document.getElementById('portal'));
 }
 
 export default LikeList;
