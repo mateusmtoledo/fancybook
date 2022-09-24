@@ -13,16 +13,14 @@ const ModalOverlay = styled.div`
   background-color: #000000b3;
 `;
 
-function Modal({ children }) {
+function Modal(props) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => document.body.style.overflow = 'auto';
   }, []);
 
   return (
-    <ModalOverlay>
-      {children}
-    </ModalOverlay>
+    <ModalOverlay {...props} />
   );
 }
 
