@@ -19,6 +19,8 @@ const StyledLikeCounter = styled.div`
 function LikeCounter({ likes, count, loadNextLikePage, hasNextPage, likesLoading }) {
   const [listVisible, setListVisible] = useState(false);
 
+  // if (!likes) return null;
+
   return (
     <StyledLikeCounter>
       <button onClick={() => setListVisible(true)}>
