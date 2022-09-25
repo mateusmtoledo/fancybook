@@ -33,14 +33,16 @@ describe('comments route', () => {
       .expect(401);
   });
 
-  it('sends comments and count', async () => {
+  it('sends comments and count as response', async () => {
     await request(app)
       .get(`/posts/${postWithComments._id}/comments`)
       .auth(fakeUsers[0].authToken, { type: 'bearer' })
       .expect(200)
       .expect((response) => {
-        expect(response.body.comments.length).toBe(2);
-        expect(response.body.count).toBe(2);
+        const data = response.body;
+        expect(data.comments.length).toBe(2);
+        expect(data.count).toBe(2);
+        expect(data.hasNextPage).toBe(false);
       });
   });
 });

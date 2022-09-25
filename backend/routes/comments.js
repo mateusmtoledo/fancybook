@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
     limit: 8,
     page: Number(req.query.page) >= 1 ? Number(req.query.page) : 1,
     sort: { date: 'descending' },
-    select: 'author',
+    select: 'author text date',
     populate: {
       path: 'author',
       select: 'firstName lastName fullName avatar',
@@ -20,6 +20,7 @@ router.get('/', async (req, res, next) => {
     res.json({
       comments: comments.docs,
       count: comments.totalDocs,
+      hasNextPage: comments.hasNextPage,
     });
   } catch (err) {
     next(err);
