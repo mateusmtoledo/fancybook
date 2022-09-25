@@ -1,14 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getDateString } from "../adapters/dateFormatter";
 import Avatar from "./Avatar";
-
-const dateOptions = {
-  minute: '2-digit',
-  hour: '2-digit',
-  day: 'numeric',
-  month: 'short',
-  year: 'numeric',
-}
 
 const AuthorName = styled.p`
   font-size: 1rem;
@@ -48,7 +41,7 @@ function UserDisplayInfo({ user, avatarSize, postDate, bold }) {
         <div>
           <AuthorName bold={bold}>{user.fullName}</AuthorName>
           {postDate
-            && <PostDate className="post-date">{new Date(postDate).toLocaleString('en-US', dateOptions)}</PostDate>}
+            && <PostDate className="post-date">{getDateString(postDate)}</PostDate>}
         </div>
       </StyledUserDisplayInfo>
     </div>
