@@ -36,6 +36,10 @@ const GlobalStyles = createGlobalStyle`
     display: none;
   }
 
+  ul {
+    list-style-type: none;
+  }
+
   @media (max-width: 650px) {
     .desktop {
         display: none;

@@ -6,6 +6,9 @@ import api from "../adapters/api";
 import LikeCounter from "./LikeCounter";
 import UserDisplayInfo from "./UserDisplayInfo";
 import useLikes from "../hooks/useLikes";
+import useComments from "../hooks/useComments";
+import CommentList from "./CommentList";
+import { useState } from "react";
 
 const InteractionButton = styled.button`
   background: none;
@@ -52,6 +55,18 @@ function Post({ post }) {
     refreshLikes,
   } = useLikes(post._id);
 
+  const {
+    comments,
+    pageNumber,
+    hasNextPage: hasNextCommentPage,
+    commentCount,
+    commentsLoading,
+    loadNextCommentPage,
+    refreshComments,
+  } = useComments(post._id);
+
+  const [commentsVisible, setCommentsVisible] = useState(false);
+
   return (
     <StyledPost>
       <UserDisplayInfo
@@ -87,7 +102,7 @@ function Post({ post }) {
           <LikeIcon />
           <p>{userHasLiked ? 'Liked' : 'Like'}</p>
         </LikeButton>
-        <InteractionButton>
+        <InteractionButton onClick={() => setCommentsVisible((prev) => !prev)}>
           <img
             alt="Comment on this post"
             src={COMMENT_ICON}
@@ -97,6 +112,7 @@ function Post({ post }) {
           <p>Comment</p>
         </InteractionButton>
       </div>
+      {commentsVisible && comments && <CommentList comments={comments} />}
     </StyledPost>
   );
 }

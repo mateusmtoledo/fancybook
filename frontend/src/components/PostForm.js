@@ -6,6 +6,7 @@ import Card from "../styles/Card";
 import SEND_ICON from '../img/send.svg';
 import api from "../adapters/api";
 import Loading from "./Loading";
+import VariableHeightTextInput from "./VariableHeightTextInput";
 
 const Error = styled.p`
   color: red;
@@ -32,26 +33,6 @@ const StyledPostForm = styled(Card)`
     flex-direction: column;
     gap: 16px;
   }
-  textarea {
-    font-family: 'Roboto', sans-serif;
-    padding: 8px;
-    font-size: 1rem;
-    border-radius: 16px;
-    background-color: var(--color-white);
-    border: none;
-    width: 100%;
-    color: var(--color-gray-dark);
-    resize: none;
-    &:focus {
-      outline: none;
-    }
-    &.invalid {
-      outline: 2px solid red;
-    }
-    &&::placeholder {
-      color: var(--color-gray-light);
-    }
-  }
   button {
     background: none;
     border: none;
@@ -68,12 +49,6 @@ function PostForm({ refreshPosts }) {
   const [loading, setLoading] = useState(false);
   
   const [text, setText] = useState('');
-  function handleChange(event) {
-    const element = event.target;
-    setText(element.value);
-    element.style.height = "auto";
-    element.style.height = element.scrollHeight + 'px';
-  }
 
   const [error, setError] = useState(null);
   async function submitPost(event) {
@@ -108,7 +83,6 @@ function PostForm({ refreshPosts }) {
         ? <Loading />
         : null
       }
-
       <form onSubmit={submitPost}>
         <div className="post-text">
           <Avatar
@@ -116,12 +90,11 @@ function PostForm({ refreshPosts }) {
             size="36px"
           />
           <div className="user-input">
-            <textarea
-              value={text}
-              onChange={handleChange}
+            <VariableHeightTextInput
+              text={text}
+              setText={setText}
               placeholder="Share your thoughts"
               aria-label="Post text"
-              rows="1"
               className={error ? 'invalid' : null}
             />
             {error
