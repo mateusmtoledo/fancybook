@@ -8,7 +8,25 @@ const CommentListContainer = styled.ul`
   gap: 32px;
 `;
 
-function CommentList({ comments, postId, refreshComments }) {
+const LoadMoreCommentsButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-orange);
+  width: max-content;
+  align-self: center;
+`;
+
+function CommentList({
+  postId,
+  comments,
+  pageNumber,
+  hasNextPage,
+  commentCount,
+  commentsLoading,
+  loadNextCommentPage,
+  refreshComments,
+}) {
   return (
     <CommentListContainer>
       <CommentForm postId={postId} refreshComments={refreshComments} />
@@ -17,6 +35,10 @@ function CommentList({ comments, postId, refreshComments }) {
           <Comment key={comment._id} comment={comment} />
         )
       }
+      {hasNextPage &&
+        <LoadMoreCommentsButton onClick={loadNextCommentPage}>
+          Load more
+        </LoadMoreCommentsButton>}
     </CommentListContainer>
   );
 }
