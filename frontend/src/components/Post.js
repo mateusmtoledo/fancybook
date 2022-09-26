@@ -112,7 +112,17 @@ function Post({ post }) {
           <p>Comment</p>
         </InteractionButton>
       </div>
-      {commentsVisible && comments && <CommentList comments={comments} />}
+      {commentsVisible && comments
+        && <CommentList
+          comments={comments}
+          postId={post._id}
+          hasNextPage={hasNextCommentPage}
+          pageNumber={pageNumber}
+          commentCount={commentCount}
+          commentsLoading={commentsLoading}
+          refreshComments={refreshComments}
+          loadNextCommentPage={loadNextCommentPage}
+        />}
     </StyledPost>
   );
 }

@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
+import api from "../adapters/api";
 import { UserContext } from "../contexts/UserContext";
 import Form from "../styles/Form";
 import Avatar from "./Avatar";
@@ -30,13 +31,18 @@ const SubmitCommentButton = styled.button`
   font-size: 0.9rem;
 `;
 
-function CommentForm() {
+function CommentForm({ postId, refreshComments }) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState('');
   
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    
+    try {
+      await api.post(`/posts/${postId}/comments`, { text });
+      refreshComments();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (

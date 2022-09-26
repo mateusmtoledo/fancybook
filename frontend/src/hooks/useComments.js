@@ -35,7 +35,6 @@ function useComments(postId) {
       setHasNextPage(data.hasNextPage);
       setCommentCount(data.count);
       setCommentsLoading(false);
-      console.log(data);
     });
   }, [pageNumber, uri]);
 

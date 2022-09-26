@@ -8,10 +8,10 @@ const CommentListContainer = styled.ul`
   gap: 32px;
 `;
 
-function CommentList({ comments }) {
+function CommentList({ comments, postId, refreshComments }) {
   return (
     <CommentListContainer>
-      <CommentForm />
+      <CommentForm postId={postId} refreshComments={refreshComments} />
       {
         comments.map((comment) => 
           <Comment key={comment._id} comment={comment} />
