@@ -1,4 +1,5 @@
 const express = require('express');
+const { body, validationResult } = require('express-validator');
 const Comment = require('../models/Comment');
 
 const router = express.Router({ mergeParams: true });
@@ -26,5 +27,30 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/', [
+  body('text', 'Text is required').trim().isLength({ min: 3 }).escape(),
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // TODO handle validation errors properly
+      next(errors.array());
+      return;
+    }
+    try {
+      const { postId } = req.params;
+      const savedComment = await new Comment({
+        post: postId,
+        author: req.user._id,
+        text: req.body.text,
+      }).save();
+      res.json({
+        comment: savedComment,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+]);
 
 module.exports = router;
