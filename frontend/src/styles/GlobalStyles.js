@@ -40,6 +40,13 @@ const GlobalStyles = createGlobalStyle`
     list-style-type: none;
   }
 
+  button {
+    border: none;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
   @media (max-width: 650px) {
     .desktop {
         display: none;

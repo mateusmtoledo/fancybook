@@ -13,11 +13,8 @@ const NextPageDiv = styled.div`
     padding: 8px 32px;
     font-family: 'Roboto', sans-serif;
     background-color: var(--color-brown-dark);
-    color: var(--color-white);
-    border: none;
     box-shadow: var(--shadow-card);
     border-radius: 8px;
-    cursor: pointer;
   }
 `
 

@@ -50,12 +50,6 @@ const LikeListContainer = styled(Card)`
   }
 `;
 
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
-
 function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesLoading }) {
   const observer = useRef();
 
@@ -78,14 +72,14 @@ function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesL
       }}>
         <div className="header">
           <h2>Likes</h2>
-          <CloseButton onClick={() => setListVisible(false)}>
+          <button onClick={() => setListVisible(false)}>
             <img
               src={X_ICON}
               alt="Close like list"
               width="32px"
               height="32px"
             />
-          </CloseButton>
+          </button>
         </div>
         <ul className="likes">
           {

@@ -33,11 +33,6 @@ const StyledPostForm = styled(Card)`
     flex-direction: column;
     gap: 16px;
   }
-  button {
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
   hr {
     border: none;
     border-top: 1px solid var(--color-gray-dark);

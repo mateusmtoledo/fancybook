@@ -9,9 +9,6 @@ const CommentListContainer = styled.ul`
 `;
 
 const LoadMoreCommentsButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
   color: var(--color-orange);
   width: max-content;
   align-self: center;

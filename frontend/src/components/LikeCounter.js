@@ -4,12 +4,7 @@ import LikeList from "./LikeList";
 
 const StyledLikeCounter = styled.div`
   button {
-    background: none;
-    border: none;
-    color: var(--color-white);
     font-size: 0.9rem;
-    cursor: pointer;
-    
     :hover {
       color: var(--color-orange);
     }
@@ -18,8 +13,6 @@ const StyledLikeCounter = styled.div`
 
 function LikeCounter({ likes, count, loadNextLikePage, hasNextPage, likesLoading }) {
   const [listVisible, setListVisible] = useState(false);
-
-  // if (!likes) return null;
 
   return (
     <StyledLikeCounter>

@@ -24,15 +24,11 @@ const UserMenuContainer = styled(Card)`
 `;
 
 const LogoutButton = styled.button`
-  border: none;
-  background: none;
   display: flex;
   gap: 8px;
   align-items: center;
   font-size: 0.9rem;
   font-weight: 700;
-  cursor: pointer;
-  color: var(--color-white);
 `;
 
 const UserFullName = styled.p`
@@ -46,11 +42,9 @@ const ManageAccountButton = styled.button`
   padding: 8px 16px;
   border-radius: 32px;
   width: max-content;
-  color: var(--color-white);
   font-weight: 700;
   font-family: 'Outfit', sans-serif;
   font-size: 0.9rem;
-  cursor: pointer;
 `;
 
 const UserEmail = styled.p`

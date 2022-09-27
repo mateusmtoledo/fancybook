@@ -11,14 +11,10 @@ import CommentList from "./CommentList";
 import { useState } from "react";
 
 const InteractionButton = styled.button`
-  background: none;
-  border: none;
   display: flex;
-  color: var(--color-white);
   align-items: center;
   font-size: 1rem;
   gap: 8px;
-  cursor: pointer;
 `;
 
 const LikeButton = styled(InteractionButton)`

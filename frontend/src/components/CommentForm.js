@@ -20,13 +20,10 @@ const CommentInputs = styled.div`
 
 const SubmitCommentButton = styled.button`
   width: max-content;
-  cursor: pointer;
   padding: 8px 16px;
   border-radius: 2px;
   background-color: var(--color-orange);
-  color: var(--color-white);
   font-weight: 700;
-  border: none;
   align-self: flex-end;
   font-size: 0.9rem;
 `;

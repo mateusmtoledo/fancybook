@@ -47,10 +47,7 @@ const StyledUserInfo = styled(Card)`
       font-size: 1.2rem;
       font-family: 'Outfit', sans-serif;
       background-color: var(--color-orange);
-      color: var(--color-white);
       border-radius: 6px;
-      border: none;
-      cursor: pointer;
     }
   }
 

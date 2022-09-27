@@ -41,10 +41,6 @@ const StyledHeader = styled.header`
   }
 
   button.mobile {
-    background: none;
-    border: none;
-    cursor: pointer;
-
     img {
       display: block;
     }
@@ -53,11 +49,6 @@ const StyledHeader = styled.header`
 
 const UserMenuContainer = styled.div`
   position: relative;
-`;
-
-const UserMenuButton = styled.button`
-  background: none;
-  border: none;
 `;
 
 function Header() {
@@ -75,6 +66,7 @@ function Header() {
       </div>
       <div className="right-side">
         <button className="mobile">
+          {/* TODO friend requests responsiveness */}
           <img
             alt="Friend requests"
             src={USERS_ICON}
@@ -83,9 +75,9 @@ function Header() {
           />
         </button>
         <UserMenuContainer>
-          <UserMenuButton onClick={() => setUserMenuVisible((prev) => !prev)}>
+          <button onClick={() => setUserMenuVisible((prev) => !prev)}>
             <Avatar user={user} size="36px" />
-          </UserMenuButton>
+          </button>
           <UserMenu userMenuVisible={userMenuVisible} />
         </UserMenuContainer>
       </div>

@@ -8,14 +8,8 @@ import api from "../adapters/api";
 
 const GoogleSignIn = styled.button`
   margin: 0 auto;
-  height: 42px;
-
-  background: none;
-  border: none;
-
   img {
-    height: 100%;
-    cursor: pointer;
+    height: 42px;
   }
 `;
 

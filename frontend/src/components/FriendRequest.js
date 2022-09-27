@@ -15,12 +15,6 @@ const StyledFriendRequest = styled.li`
     display: flex;
     gap: 4px;
     align-items: center;
-    
-    button {
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
   }
 `;
 
