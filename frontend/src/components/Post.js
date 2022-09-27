@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Card from "../styles/Card";
 import { ReactComponent as  LikeIcon } from "../img/thumbs-up.svg";
-import COMMENT_ICON from "../img/comment.svg";
+import { ReactComponent as CommentIcon} from "../img/comment.svg";
 import api from "../adapters/api";
 import LikeCounter from "./LikeCounter";
 import UserDisplayInfo from "./UserDisplayInfo";
@@ -22,6 +22,11 @@ const LikeButton = styled(InteractionButton)`
   stroke: ${(props) => props.userHasLiked ? 'var(--color-orange)' : 'var(--color-white)'};
 `;
 
+const CommentButton = styled(InteractionButton)`
+  color: ${(props) => props.commentsVisible ? 'var(--color-orange)' : 'var(--color-white)'};
+  stroke: ${(props) => props.commentsVisible ? 'var(--color-orange)' : 'var(--color-white)'};
+`;
+
 const StyledPost = styled(Card)`
   display: flex;
   flex-direction: column;
@@ -37,6 +42,20 @@ const StyledPost = styled(Card)`
   hr {
     border: none;
     border-top: 1px solid var(--color-gray-dark);
+  }
+`;
+
+const PostStats = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const CommentCounter = styled.button`
+  font-size: 0.9rem;
+
+  &:hover {
+    color: var(--color-orange);
   }
 `;
 
@@ -74,7 +93,7 @@ function Post({ post }) {
         {post.text}
       </p>
       <hr />
-      <div className="stats">
+      <PostStats>
         <LikeCounter
           likes={likes}
           count={likeCount}
@@ -82,7 +101,10 @@ function Post({ post }) {
           hasNextPage={hasNextPage}
           likesLoading={likesLoading}
         />
-      </div>
+        <CommentCounter onClick={() => setCommentsVisible((prev) => !prev)}>
+          {commentCount} Comments
+        </CommentCounter>
+      </PostStats>
       <div className="buttons">
         <LikeButton
           onClick={async () => {
@@ -98,15 +120,13 @@ function Post({ post }) {
           <LikeIcon />
           <p>{userHasLiked ? 'Liked' : 'Like'}</p>
         </LikeButton>
-        <InteractionButton onClick={() => setCommentsVisible((prev) => !prev)}>
-          <img
-            alt="Comment on this post"
-            src={COMMENT_ICON}
-            width="24px"
-            height="24px"
-          />
+        <CommentButton
+          onClick={() => setCommentsVisible((prev) => !prev)}
+          commentsVisible={commentsVisible}
+        >
+          <CommentIcon />
           <p>Comment</p>
-        </InteractionButton>
+        </CommentButton>
       </div>
       {commentsVisible && comments
         && <CommentList

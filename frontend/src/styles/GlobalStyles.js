@@ -45,6 +45,7 @@ const GlobalStyles = createGlobalStyle`
     background: none;
     color: inherit;
     cursor: pointer;
+    font-family: 'Roboto', sans-serif;
   }
 
   @media (max-width: 650px) {
