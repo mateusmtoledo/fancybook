@@ -8,7 +8,7 @@ import VariableHeightTextInput from "./VariableHeightTextInput";
 
 const CommentFormContainer = styled(Form)`
   flex-direction: row;
-  gap: 8px;
+  gap: 16px;
 `;
 
 const CommentInputs = styled.div`
@@ -18,19 +18,32 @@ const CommentInputs = styled.div`
   gap: 8px;
 `;
 
-const SubmitCommentButton = styled.button`
-  width: max-content;
-  padding: 8px 16px;
-  border-radius: 2px;
-  background-color: var(--color-orange);
+const CommentButtons = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+`;
+
+const CommentButton = styled.button`
+  width: 80px;
+  padding: 6px 12px;
+  border-radius: 4px;
   font-weight: 700;
-  align-self: flex-end;
   font-size: 0.9rem;
+`;
+
+const SubmitCommentButton = styled(CommentButton)`
+  background-color: var(--color-orange);
+`;
+
+const CancelCommentButton = styled(CommentButton)`
+  background-color: var(--color-gray-dark);
 `;
 
 function CommentForm({ postId, refreshComments }) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState('');
+  const [submitButtonVisible, setSubmitButtonVisible] = useState(false);
   
   async function handleSubmit(event) {
     event.preventDefault();
@@ -51,10 +64,22 @@ function CommentForm({ postId, refreshComments }) {
           setText={setText}
           placeholder="Comment on this post"
           aria-label="Comment on this post"
+          onFocus={() => setSubmitButtonVisible(true)}
+          onBlur={() => setSubmitButtonVisible(false)}
         />
-        <SubmitCommentButton>
-          SEND
-        </SubmitCommentButton>
+        { (submitButtonVisible || !!text.length) &&
+          <CommentButtons>
+            <CancelCommentButton
+              type="button"
+              onClick={() => setText('')}
+            >
+              CANCEL
+            </CancelCommentButton>
+            <SubmitCommentButton>
+              SUBMIT
+            </SubmitCommentButton>
+          </CommentButtons>
+        }
       </CommentInputs>
     </CommentFormContainer>
   );
