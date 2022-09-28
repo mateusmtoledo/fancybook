@@ -74,19 +74,21 @@ function UserMenu() {
 
   const menuContainerRef = useRef();
 
-  function handleClickOutside(event) {
-    if (!event.path.includes(menuContainerRef.current))
-      setUserMenuVisible(false);
-  }
-
   useEffect(() => {
+    function handleClickOutside(event) {
+      if (!event.path.includes(menuContainerRef.current))
+        setUserMenuVisible(false);
+    }
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
   return (
     <UserMenuContainer ref={menuContainerRef}>
-      <button onClick={() => setUserMenuVisible((prev) => !prev)}>
+      <button
+        onClick={() => setUserMenuVisible((prev) => !prev)}
+        title="Open user menu"
+      >
         <Avatar user={user} size="36px" />
       </button>
       {

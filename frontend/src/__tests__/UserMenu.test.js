@@ -12,32 +12,52 @@ const user = {
   avatar: 'https://someurl/john.png',
 }
 
+document.addEventListener = jest.fn();
+
 describe('UserMenu component', () => {
-  it('renders current user\'s name and avatar', () => {
+  it('renders button to open menu', () => {
     render(
       <UserContext.Provider value={{
         user
       }}>
-        <UserMenu userMenuVisible={true} />
+        <UserMenu />
       </UserContext.Provider>
     );
-    const usersFullName = screen.getByText('John Doe');
-    const usersAvatar = screen.getByAltText(/john's avatar/i);
-    expect(usersFullName).toBeInTheDocument();
-    expect(usersAvatar).toBeInTheDocument();
+    const openMenuButton = screen.getByTitle(/open user menu/i);
+    expect(openMenuButton).toBeInTheDocument();
   });
 
-  it('renders log out button', () => {
-    render(
-      <UserContext.Provider value={{
-        user
-      }}>
-        <UserMenu userMenuVisible={true} />
-      </UserContext.Provider>
-    );
-    const logoutButton = screen.getByText(/sign out/i);
-    expect(logoutButton).toBeInTheDocument();
-  });
+  describe('when menu is open', () => {
+    it('renders current user\'s name and avatar', () => {
+      render(
+        <UserContext.Provider value={{
+          user
+        }}>
+          <UserMenu />
+        </UserContext.Provider>
+      );
+      const openMenuButton = screen.getByTitle(/open user menu/i);
+      userEvent.click(openMenuButton);
+      const usersFullName = screen.getByText('John Doe');
+      const usersAvatar = screen.getAllByAltText(/john's avatar/i);
+      expect(usersFullName).toBeInTheDocument();
+      expect(usersAvatar.length).toBe(2);
+    });
+  
+    it('renders log out button', () => {
+      render(
+        <UserContext.Provider value={{
+          user
+        }}>
+          <UserMenu />
+        </UserContext.Provider>
+      );
+      const openMenuButton = screen.getByTitle(/open user menu/i);
+      userEvent.click(openMenuButton);
+      const logoutButton = screen.getByText(/sign out/i);
+      expect(logoutButton).toBeInTheDocument();
+    });
+  })
 });
 
 describe('log out button', () => {
@@ -48,9 +68,11 @@ describe('log out button', () => {
         user,
         logout,
       }}>
-        <UserMenu userMenuVisible={true} />
+        <UserMenu />
       </UserContext.Provider>
     );
+    const openMenuButton = screen.getByTitle(/open user menu/i);
+    userEvent.click(openMenuButton);
     const logoutButton = screen.getByText(/sign out/i);
     userEvent.click(logoutButton);
     expect(logout).toBeCalled();
