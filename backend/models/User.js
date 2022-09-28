@@ -43,7 +43,7 @@ const UserSchema = new Schema({
     type: String, required: true, minLength: 7, maxLength: 254,
   },
   password: {
-    type: String, required: true, select: false, minLength: 6,
+    type: String, select: false, minLength: 6,
   },
   sample: { type: Boolean, default: false },
   googleId: { type: String },
