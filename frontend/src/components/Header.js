@@ -1,12 +1,8 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { UserContext } from "../contexts/UserContext";
-import Avatar from "./Avatar";
 import USERS_ICON from "../img/users.svg";
 import SearchBar from "./SearchBar";
 import UserMenu from "./UserMenu";
-import { useState } from "react";
 
 const StyledHeader = styled.header`
   background-color: var(--color-brown-dark);
@@ -47,14 +43,7 @@ const StyledHeader = styled.header`
   }
 `;
 
-const UserMenuContainer = styled.div`
-  position: relative;
-`;
-
 function Header() {
-  const { user } = useContext(UserContext);
-  const [userMenuVisible, setUserMenuVisible] = useState(false);
-
   return (
     <StyledHeader>
       <div>
@@ -74,12 +63,7 @@ function Header() {
             height="28px"
           />
         </button>
-        <UserMenuContainer>
-          <button onClick={() => setUserMenuVisible((prev) => !prev)}>
-            <Avatar user={user} size="36px" />
-          </button>
-          <UserMenu userMenuVisible={userMenuVisible} />
-        </UserMenuContainer>
+        <UserMenu />
       </div>
     </StyledHeader>
   );

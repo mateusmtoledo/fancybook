@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext";
 import Card from "../styles/Card";
 import Avatar from "./Avatar";
 import LOGOUT_ICON from "../img/log-out.svg";
 
-const UserMenuContainer = styled(Card)`
+const UserMenuDropdown = styled(Card)`
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -64,26 +64,49 @@ const RightSideContent = styled.div`
   gap: 8px;
 `
 
-function UserMenu({ userMenuVisible }) {
-  const { user, logout } = useContext(UserContext);
+const UserMenuContainer = styled.div`
+  position: relative;
+`;
 
-  if (!userMenuVisible) return null;
+function UserMenu() {
+  const { user, logout } = useContext(UserContext);
+  const [userMenuVisible, setUserMenuVisible] = useState(false);
+
+  const menuContainerRef = useRef();
+
+  function handleClickOutside(event) {
+    if (!event.path.includes(menuContainerRef.current))
+      setUserMenuVisible(false);
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   return (
-    <UserMenuContainer>
-      <CurrentUser>
-        <Avatar user={user} size="96px" />
-        <RightSideContent>
-          <UserFullName>{user.fullName}</UserFullName>
-          <UserEmail>{user.email}</UserEmail>
-        </RightSideContent>
-      </CurrentUser>
-      <ManageAccountButton>Manage your account</ManageAccountButton>
-      <hr />
-      <LogoutButton onClick={() => logout()}>
-        <img src={LOGOUT_ICON} alt="Log out" />
-        <p>Sign out</p>
-      </LogoutButton>
+    <UserMenuContainer ref={menuContainerRef}>
+      <button onClick={() => setUserMenuVisible((prev) => !prev)}>
+        <Avatar user={user} size="36px" />
+      </button>
+      {
+        userMenuVisible &&
+        <UserMenuDropdown>
+          <CurrentUser>
+            <Avatar user={user} size="96px" />
+            <RightSideContent>
+              <UserFullName>{user.fullName}</UserFullName>
+              <UserEmail>{user.email}</UserEmail>
+            </RightSideContent>
+          </CurrentUser>
+          <ManageAccountButton>Manage your account</ManageAccountButton>
+          <hr />
+          <LogoutButton onClick={() => logout()}>
+            <img src={LOGOUT_ICON} alt="Log out" />
+            <p>Sign out</p>
+          </LogoutButton>
+        </UserMenuDropdown>
+      }
     </UserMenuContainer>
   );
 }
