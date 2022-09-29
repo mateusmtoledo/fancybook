@@ -4,6 +4,7 @@ import { UserContext } from "../contexts/UserContext";
 import Card from "../styles/Card";
 import Avatar from "./Avatar";
 import LOGOUT_ICON from "../img/log-out.svg";
+import { Link } from "react-router-dom";
 
 const UserMenuDropdown = styled(Card)`
   display: flex;
@@ -101,7 +102,11 @@ function UserMenu() {
               <UserEmail>{user.email}</UserEmail>
             </RightSideContent>
           </CurrentUser>
-          <ManageAccountButton>Manage your account</ManageAccountButton>
+          <ManageAccountButton>
+            <Link to="/manage-account">
+              Manage your account
+            </Link>
+          </ManageAccountButton>
           <hr />
           <LogoutButton onClick={() => logout()}>
             <img src={LOGOUT_ICON} alt="Log out" />

@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { UserContext } from "../contexts/UserContext";
 import userEvent from "@testing-library/user-event";
 import UserMenu from "../components/UserMenu";
+import { MemoryRouter } from "react-router-dom";
 
 const user = {
   _id: 'johnsid',
@@ -30,11 +31,13 @@ describe('UserMenu component', () => {
   describe('when menu is open', () => {
     it('renders current user\'s name and avatar', () => {
       render(
-        <UserContext.Provider value={{
-          user
-        }}>
-          <UserMenu />
-        </UserContext.Provider>
+        <MemoryRouter>
+          <UserContext.Provider value={{
+            user
+          }}>
+            <UserMenu />
+          </UserContext.Provider>
+        </MemoryRouter>
       );
       const openMenuButton = screen.getByTitle(/open user menu/i);
       userEvent.click(openMenuButton);
@@ -46,11 +49,13 @@ describe('UserMenu component', () => {
   
     it('renders log out button', () => {
       render(
-        <UserContext.Provider value={{
-          user
-        }}>
-          <UserMenu />
-        </UserContext.Provider>
+        <MemoryRouter>
+          <UserContext.Provider value={{
+            user
+          }}>
+            <UserMenu />
+          </UserContext.Provider>
+        </MemoryRouter>
       );
       const openMenuButton = screen.getByTitle(/open user menu/i);
       userEvent.click(openMenuButton);
@@ -64,12 +69,14 @@ describe('log out button', () => {
   it('calls logout fn when clicked', () => {
     const logout = jest.fn();
     render(
-      <UserContext.Provider value={{
-        user,
-        logout,
-      }}>
-        <UserMenu />
-      </UserContext.Provider>
+      <MemoryRouter>
+        <UserContext.Provider value={{
+          user,
+          logout,
+        }}>
+          <UserMenu />
+        </UserContext.Provider>
+      </MemoryRouter>
     );
     const openMenuButton = screen.getByTitle(/open user menu/i);
     userEvent.click(openMenuButton);
