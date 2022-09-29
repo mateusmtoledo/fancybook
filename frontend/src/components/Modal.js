@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
+import ReactDOM from "react-dom";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -19,8 +20,9 @@ function Modal(props) {
     return () => document.body.style.overflow = 'auto';
   }, []);
 
-  return (
-    <ModalOverlay {...props} />
+  return ReactDOM.createPortal(
+    <ModalOverlay {...props} />,
+    document.getElementById('portal'),
   );
 }
 

@@ -4,7 +4,6 @@ import Like from "./Like";
 import X_ICON from "../img/x.svg";
 import React, { useCallback, useRef } from "react";
 import Modal from "./Modal";
-import ReactDOM from "react-dom";
 
 const LikeListContainer = styled(Card)`
   width: min(400px, 100%);
@@ -65,7 +64,7 @@ function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesL
 
   if (!likes) return null;
 
-  return ReactDOM.createPortal(
+  return (
     <Modal onClick={() => setListVisible(false)}>
       <LikeListContainer onClick={(event) => {
         event.stopPropagation();
@@ -94,7 +93,7 @@ function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesL
         </ul>
       </LikeListContainer>
     </Modal>
-  , document.getElementById('portal'));
+  );
 }
 
 export default LikeList;
