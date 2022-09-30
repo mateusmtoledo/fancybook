@@ -12,16 +12,26 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #000000b3;
+  z-index: 100;
 `;
 
-function Modal(props) {
+const ModalContainer = styled.div`
+  max-width: 100vw;
+  padding: 8px;
+`
+
+function Modal({ setModalVisible, children, ...props}) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => document.body.style.overflow = 'auto';
   }, []);
 
   return ReactDOM.createPortal(
-    <ModalOverlay {...props} />,
+    <ModalOverlay {...props} onClick={() => setModalVisible(false)}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        {children}
+      </ModalContainer>
+    </ModalOverlay>,
     document.getElementById('portal'),
   );
 }

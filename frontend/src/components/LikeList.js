@@ -6,8 +6,9 @@ import React, { useCallback, useRef } from "react";
 import Modal from "./Modal";
 
 const LikeListContainer = styled(Card)`
-  width: min(400px, 100%);
-  height: clamp(300px, 100%, 400px);
+  width: 400px;
+  max-width: 100%;
+  height: 400px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -65,10 +66,8 @@ function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesL
   if (!likes) return null;
 
   return (
-    <Modal onClick={() => setListVisible(false)}>
-      <LikeListContainer onClick={(event) => {
-        event.stopPropagation();
-      }}>
+    <Modal setModalVisible={setListVisible}>
+      <LikeListContainer>
         <div className="header">
           <h2>Likes</h2>
           <button onClick={() => setListVisible(false)}>

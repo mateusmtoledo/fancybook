@@ -50,7 +50,7 @@ function AvatarForm({ setAvatarFormVisible }) {
   }
 
   return (
-    <Modal>
+    <Modal setModalVisible={() => setAvatarFormVisible(false)}>
       <Card padding="32px">
         <AvatarFormContainer onSubmit={handleSubmit}>
           <h2>Upload your picture</h2>
