@@ -6,6 +6,7 @@ import { UserContext } from "../contexts/UserContext";
 import Avatar from "../components/Avatar";
 import ADD_PHOTO_ICON from "../img/add-photo.svg";
 import TextArea from "../styles/TextArea";
+import AvatarForm from "../components/AvatarForm";
 
 const Section = styled.section`
   display: flex;
@@ -105,6 +106,7 @@ function ManageAccount() {
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [avatarFormVisible, setAvatarFormVisible] = useState(false);
 
   useEffect(() => {
     setFirstName(user.firstName);
@@ -113,6 +115,12 @@ function ManageAccount() {
 
   return (
     <Main>
+      {
+        avatarFormVisible &&
+        <AvatarForm
+          setAvatarFormVisible={setAvatarFormVisible}
+        />
+      }
       <ManageAccountContainer>
         <ManageAccountForm>
           <Section>
@@ -120,7 +128,11 @@ function ManageAccount() {
             <DisplayInfo>
               <PictureInput>
                 <Avatar user={user} size="128px" />
-                <AddPhoto aria-label="Avatar" type="button">
+                <AddPhoto
+                  aria-label="Avatar"
+                  type="button"
+                  onClick={() => setAvatarFormVisible(true)}
+                >
                   <img
                     src={ADD_PHOTO_ICON}
                     alt="Add"
