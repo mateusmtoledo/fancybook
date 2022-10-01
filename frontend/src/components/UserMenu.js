@@ -102,11 +102,11 @@ function UserMenu() {
               <UserEmail>{user.email}</UserEmail>
             </RightSideContent>
           </CurrentUser>
-          <ManageAccountButton>
-            <Link to="/manage-account">
+          <Link to="/manage-account">
+            <ManageAccountButton>
               Manage your account
-            </Link>
-          </ManageAccountButton>
+            </ManageAccountButton>
+          </Link>
           <hr />
           <LogoutButton onClick={() => logout()}>
             <img src={LOGOUT_ICON} alt="Log out" />
