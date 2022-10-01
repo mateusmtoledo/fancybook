@@ -64,7 +64,7 @@ function App() {
   }, [login]);
 
   return (
-    <UserContext.Provider value={{ user, login, logout, friends, refreshFriends }}>
+    <UserContext.Provider value={{ user, setUser, login, logout, friends, refreshFriends }}>
       {
         loading
         ? <Loading window />

@@ -34,15 +34,33 @@ const Buttons = styled.div`
   gap: 8px;
 `;
 
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 1rem;
+`;
+
 function AvatarForm({ setAvatarFormVisible }) {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (error) return;
     const formData = new FormData();
     formData.append('avatar', file);
-    await api.post('/users/me', formData);
+    try {
+      const response = await api.post('/users/me/avatar', formData);
+      setUser(response.data.user);
+      setAvatarFormVisible(false);
+    } catch (err) {
+      if (err.response) {
+        if (err.response.status === 400) setError('Invalid image file');
+      } else {
+        setError('Server error');
+      }
+      console.log(err);
+    }
   }
 
   function handleCancel() {
@@ -56,6 +74,12 @@ function AvatarForm({ setAvatarFormVisible }) {
           <h2>Upload your picture</h2>
           <Avatar
             src={file ? URL.createObjectURL(file) : user.avatar}
+            onError={(event) => {
+              setError('Invalid image file');
+              if(event.target.src !== user.avatar) {
+                event.target.src = user.avatar;
+              }
+            }}
             alt="Avatar preview"
             size="128px"
           />
@@ -63,8 +87,12 @@ function AvatarForm({ setAvatarFormVisible }) {
             id="avatar"
             aria-label="Avatar"
             type="file"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e) => {
+              setFile(e.target.files[0]);
+              setError(null);
+            }}
           />
+          <ErrorMessage>{error}</ErrorMessage>
           <Buttons>
             <AvatarFormButton submit>Save</AvatarFormButton>
             <AvatarFormButton onClick={handleCancel} type="button">Cancel</AvatarFormButton>
