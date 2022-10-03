@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).send('404 asd');
+  res.status(404).send('404 Not Found');
 });
 
 // eslint-disable-next-line no-unused-vars

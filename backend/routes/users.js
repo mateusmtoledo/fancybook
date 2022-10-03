@@ -1,14 +1,13 @@
 const express = require('express');
-const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const fs = require('fs/promises');
 const User = require('../models/User');
 
 const router = express.Router();
 
+const meRouter = require('./me');
 const friendsRouter = require('./friends');
 const userPostsRouter = require('./userPosts');
 
+router.use('/me', meRouter);
 router.use('/:userId/friends', friendsRouter);
 router.use('/:userId/posts', userPostsRouter);
 
@@ -57,34 +56,6 @@ router.get('/:userId', async (req, res, next) => {
       user: requestedUser,
     });
   } catch (err) {
-    next(err);
-  }
-});
-
-const upload = multer({ dest: './uploads/' });
-
-router.post('/me/avatar', upload.single('avatar'), async (req, res, next) => {
-  if (!req.file) {
-    const err = new Error('Invalid image file');
-    err.statusCode = 400;
-    next(err);
-  }
-  const filePath = `./${req.file.path}`;
-  try {
-    const image = await cloudinary.uploader.upload(filePath);
-    const urlArr = image.secure_url.split('/');
-    urlArr
-      .splice(urlArr.length - 2, 0, 'w_256,h_256,c_fill');
-    const avatarUrl = urlArr.join('/');
-    const [user] = await Promise.all([
-      User.findByIdAndUpdate(req.user._id, { avatar: avatarUrl }, { new: true }),
-      fs.unlink(filePath),
-    ]);
-    res.json({
-      user,
-    });
-  } catch (err) {
-    await fs.unlink(filePath);
     next(err);
   }
 });

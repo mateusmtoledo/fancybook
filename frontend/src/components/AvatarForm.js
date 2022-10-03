@@ -50,7 +50,7 @@ function AvatarForm({ setAvatarFormVisible }) {
     const formData = new FormData();
     formData.append('avatar', file);
     try {
-      const response = await api.post('/users/me/avatar', formData);
+      const response = await api.put('/users/me/avatar', formData);
       setUser(response.data.user);
       setAvatarFormVisible(false);
     } catch (err) {
