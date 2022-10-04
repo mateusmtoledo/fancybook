@@ -12,6 +12,8 @@ import GoogleAuth from "./components/GoogleAuth";
 import UserProfile from "./pages/UserProfile";
 import Header from "./components/Header";
 import ManageAccount from "./pages/ManageAccount";
+import Security from "./components/Security";
+import Profile from "./components/Profile";
 
 async function getFriends() {
   const response = await api.get('/users/me/friends');
@@ -79,7 +81,10 @@ function App() {
               ? <>
                   <Route index element={<Home friends={friends} />} />
                   <Route path="/user/:userId" element={<UserProfile />} />
-                  <Route path="/manage-account" element={<ManageAccount />} />
+                  <Route path="/manage-account" element={<ManageAccount />}>
+                    <Route index element={<Profile />} />
+                    <Route path="security" element={<Security />} />
+                  </Route>
                 </>
               : <>
                   <Route path="/sign-up" element={<SignUp />} />
