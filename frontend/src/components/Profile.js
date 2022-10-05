@@ -7,6 +7,8 @@ import TextArea from "../styles/TextArea";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import AvatarForm from "./AvatarForm";
+import api from "../adapters/api";
+import { useNavigate } from "react-router-dom";
 
 const DisplayInfo = styled.div`
   display: flex;
@@ -52,10 +54,28 @@ const AddPhoto = styled.button`
 `;
 
 function Profile() {
+  const { user, setUser } = useContext(UserContext);
   const [avatarFormVisible, setAvatarFormVisible] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const { user } = useContext(UserContext);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [bio, setBio] = useState(user.bio);
+  const navigate = useNavigate();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      const newUser = (await api.put('users/me/profile', {
+        firstName,
+        lastName,
+        bio,
+      })).data.user;
+      setUser(newUser);
+      navigate(`/user/${newUser._id}`);
+    } catch (err) {
+      // TODO error handling
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -65,7 +85,7 @@ function Profile() {
             setAvatarFormVisible={setAvatarFormVisible}
           />
         }
-        <ManageAccountForm>
+        <ManageAccountForm onSubmit={handleSubmit}>
           <h3>Profile</h3>
           <DisplayInfo>
             <PictureInput>
@@ -115,6 +135,8 @@ function Profile() {
               name="bio"
               rows="7"
               columns="7"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
             />
           </FlexColumn>
           <Buttons>
