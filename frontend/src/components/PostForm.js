@@ -7,6 +7,7 @@ import SEND_ICON from '../img/send.svg';
 import api from "../adapters/api";
 import Loading from "./Loading";
 import VariableHeightTextInput from "./VariableHeightTextInput";
+import { Link } from "react-router-dom";
 
 const Error = styled.p`
   color: red;
@@ -80,10 +81,12 @@ function PostForm({ refreshPosts }) {
       }
       <form onSubmit={submitPost}>
         <div className="post-text">
-          <Avatar
-            user={user}
-            size="36px"
-          />
+          <Link to={`/user/${user._id}`}>
+            <Avatar
+              user={user}
+              size="36px"
+            />
+          </Link>
           <div className="user-input">
             <VariableHeightTextInput
               text={text}

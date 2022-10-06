@@ -95,13 +95,15 @@ function UserMenu() {
       {
         userMenuVisible &&
         <UserMenuDropdown>
-          <CurrentUser>
-            <Avatar user={user} size="96px" />
-            <RightSideContent>
-              <UserFullName>{user.fullName}</UserFullName>
-              <UserEmail>{user.email}</UserEmail>
-            </RightSideContent>
-          </CurrentUser>
+          <Link to={`/user/${user._id}`}>
+            <CurrentUser>
+              <Avatar user={user} size="96px" />
+              <RightSideContent>
+                <UserFullName>{user.fullName}</UserFullName>
+                <UserEmail>{user.email}</UserEmail>
+              </RightSideContent>
+            </CurrentUser>
+          </Link>
           <Link to="/manage-account">
             <ManageAccountButton>
               Manage your account

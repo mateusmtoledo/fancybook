@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import api from "../adapters/api";
 import { UserContext } from "../contexts/UserContext";
@@ -57,7 +58,9 @@ function CommentForm({ postId, refreshComments }) {
 
   return (
     <CommentFormContainer onSubmit={handleSubmit}>
-      <Avatar size="36px" user={user} />
+      <Link to={`/user/${user._id}`}>
+        <Avatar size="36px" user={user} />
+      </Link>
       <CommentInputs>
         <VariableHeightTextInput
           text={text}
