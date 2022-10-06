@@ -28,10 +28,11 @@ exports.generateRandomPost = (authorId) => ({
   date: Date.now() - Math.floor(Math.random() * 20000000000),
 });
 
-exports.generateRandomComment = (authorId, postId) => ({
+exports.generateRandomComment = (authorId, postId, postDate) => ({
   author: authorId,
   post: postId,
   text: faker.lorem.lines(),
+  date: Math.floor(Math.random() * (Date.now() - postDate.getTime()) + postDate.getTime()),
 });
 
 exports.generateLike = (userId, postId) => ({

@@ -26,33 +26,14 @@ function savePosts(users) {
 function saveComments(users, posts) {
   const promises = [];
   users.forEach((user) => {
-    const numberOfComments = Math.floor(Math.random() * 4);
+    const numberOfComments = Math.floor(Math.random() * 20);
     for (let i = 0; i < numberOfComments; i += 1) {
-      const postId = posts[Math.floor(Math.random() * posts.length)]._id;
-      promises.push(new Comment(generateRandomComment(user._id, postId)).save());
+      const post = posts[Math.floor(Math.random() * posts.length)];
+      promises.push(new Comment(generateRandomComment(user._id, post._id, post.date)).save());
     }
   });
   return Promise.all(promises);
 }
-
-// TODO fix friend requests
-
-// async function sendFriendRequests(requesterId, users) {
-//   const potentialFriends = users.filter((user) => !requesterId.equals(user._id));
-//   for (let i = 0; i < potentialFriends.length; i += 1) {
-//     if (Math.floor(Math.random() * 2)) {
-//       // eslint-disable-next-line no-await-in-loop
-//       await addFriend(requesterId, potentialFriends[i]._id);
-//     }
-//   }
-// }
-
-// async function sendAllRequests(users) {
-//   for (let i = 0; i < users.length; i += 1) {
-//     // eslint-disable-next-line no-await-in-loop
-//     await sendFriendRequests(users[i]._id, users);
-//   }
-// }
 
 function makeRandomFriends(users) {
   for (let i = 0; i < users.length; i += 1) {
@@ -111,11 +92,15 @@ function setRandomLikes(users, posts) {
 
 async function seedDatabase(numberOfUsers) {
   const users = await saveUsers(numberOfUsers);
-  const posts = await savePosts(users);
-  await saveComments(users, posts);
-  await makeRandomFriends(users);
-  await setRandomLikes(users, posts);
+  const [posts] = await Promise.all([
+    savePosts(users),
+    makeRandomFriends(users),
+  ]);
+  await Promise.all([
+    saveComments(users, posts),
+    setRandomLikes(users, posts),
+  ]);
   console.log('Done');
 }
 
-seedDatabase(30);
+seedDatabase(50);
