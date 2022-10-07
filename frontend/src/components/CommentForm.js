@@ -4,10 +4,13 @@ import styled from "styled-components";
 import api from "../adapters/api";
 import { UserContext } from "../contexts/UserContext";
 import Form from "../styles/Form";
+import { ErrorMessage } from "../styles/PostForm";
 import Avatar from "./Avatar";
+import Loading from "./Loading";
 import VariableHeightTextInput from "./VariableHeightTextInput";
 
 const CommentFormContainer = styled(Form)`
+  position: relative;
   flex-direction: row;
   gap: 16px;
 `;
@@ -44,37 +47,53 @@ const CancelCommentButton = styled(CommentButton)`
 function CommentForm({ postId, refreshComments }) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState('');
-  const [submitButtonVisible, setSubmitButtonVisible] = useState(false);
+  const [buttonsVisible, setButtonsVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState(null);
   
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
+    setErrors(null);
     try {
       await api.post(`/posts/${postId}/comments`, { text });
+      setText('');
       refreshComments();
+      setButtonsVisible(false);
     } catch (err) {
-      console.log(err);
+      const { invalidFields } = err.response.data;
+      invalidFields && setErrors(invalidFields);
     }
+    setLoading(false);
   }
 
   return (
     <CommentFormContainer onSubmit={handleSubmit}>
+      {loading && <Loading />}
       <Link to={`/user/${user._id}`}>
         <Avatar size="36px" user={user} />
       </Link>
       <CommentInputs>
-        <VariableHeightTextInput
-          text={text}
-          setText={setText}
-          placeholder="Comment on this post"
-          aria-label="Comment on this post"
-          onFocus={() => setSubmitButtonVisible(true)}
-          onBlur={() => setSubmitButtonVisible(false)}
-        />
-        { (submitButtonVisible || !!text.length) &&
+        <div>
+          <VariableHeightTextInput
+            text={text}
+            setText={setText}
+            placeholder="Comment on this post"
+            aria-label="Comment on this post"
+            onFocus={() => setButtonsVisible(true)}
+            className={errors?.text && 'invalid'}
+          />
+          {errors?.text && <ErrorMessage>{errors.text.msg}</ErrorMessage>}
+        </div>
+        { buttonsVisible &&
           <CommentButtons>
             <CancelCommentButton
               type="button"
-              onClick={() => setText('')}
+              onClick={() => {
+                setText('');
+                setButtonsVisible(false);
+                setErrors(null);
+              }}
             >
               CANCEL
             </CancelCommentButton>
