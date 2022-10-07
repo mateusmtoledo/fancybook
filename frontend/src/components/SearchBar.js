@@ -60,21 +60,19 @@ function SearchBar() {
   
   const searchBar = useRef(null);
   const [resultsVisible, setResultsVisible] = useState(false);
-  function handleClick(event) {
-    if(resultsVisible && !event.path.includes(searchBar.current)) {
-      setResultsVisible(false);
-    }
-  }
   useEffect(() => {
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
-  });
+    function handleClickOut(event) {
+      const path = event.composedPath();
+      if(!path.includes(searchBar.current)) {
+        setResultsVisible(false);
+      }
+    }
+    document.addEventListener('click', handleClickOut);
+    return () => document.removeEventListener('click', handleClickOut);
+  }, []);
 
   return (
-    <StyledSearchBar
-      onFocus={() => setResultsVisible(true)}
-      ref={searchBar}
-    >
+    <StyledSearchBar ref={searchBar}>
       <label htmlFor="search">
         <img alt="Search" src={SEARCH_ICON} width="20px" height="20px" />
       </label>
@@ -85,6 +83,7 @@ function SearchBar() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         autoComplete="off"
+        onFocus={() => setResultsVisible(true)}
       />
       {
         resultsVisible && input

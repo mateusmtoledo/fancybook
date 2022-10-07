@@ -77,12 +77,14 @@ function UserMenu() {
   const menuContainerRef = useRef();
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (!event.path.includes(menuContainerRef.current))
+    function handleClickOut(event) {
+      const path = event.composedPath();
+      if (!path.includes(menuContainerRef.current)) {
         setUserMenuVisible(false);
+      }
     }
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener('click', handleClickOut);
+    return () => document.removeEventListener('click', handleClickOut);
   }, []);
 
   return (
