@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext";
 import Avatar from "./Avatar";
@@ -39,34 +39,24 @@ const StyledPostForm = styled(Card)`
 
 function PostForm({ refreshPosts }) {
   const { user } = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
   
   const [text, setText] = useState('');
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState(null);
   async function submitPost(event) {
     event.preventDefault();
-    if (text.length < 3) {
-      setError('Post must have at least 3 characters');
-      return;
-    }
     setLoading(true);
+    setErrors(null);
     try {
       await api.post('/posts', { text });
       setText('');
-      setError(null);
       refreshPosts();
     } catch (err) {
-      console.log(err);
-      setError('Something went wrong');
+      const { invalidFields } = err.response.data;
+      invalidFields && setErrors(invalidFields);
     }
     setLoading(false);
   }
-  
-  useEffect(() => {
-    if(error === 'Post must have at least 3 characters' && text.length >= 3) {
-      setError(null);
-    }
-  }, [text, error]);
 
   return (
     <StyledPostForm>
@@ -89,9 +79,9 @@ function PostForm({ refreshPosts }) {
               setText={setText}
               placeholder="Share your thoughts"
               aria-label="Post text"
-              className={error && 'invalid'}
+              className={errors?.text && 'invalid'}
             />
-            {error && <ErrorMessage>{error}</ErrorMessage>}
+            {errors?.text && <ErrorMessage>{errors.text.msg}</ErrorMessage>}
           </div>
         </div>
         <hr />

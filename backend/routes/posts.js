@@ -39,12 +39,14 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', [
-  body('text', 'Text is required').trim().isLength({ min: 3 }).escape(),
+  body('text', 'Post must have at least 3 characters').trim().isLength({ min: 3 }).escape(),
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // TODO handle validation errors properly
-      next(errors.array());
+      const err = new Error();
+      err.statusCode = 400;
+      err.invalidFields = errors.mapped();
+      next(err);
       return;
     }
     try {
