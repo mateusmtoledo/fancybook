@@ -6,7 +6,7 @@ exports.fakeUsers = [
     firstName: 'John',
     lastName: 'Doe',
     email: 'johndoe@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('63114a15ee51f867417b3d8a'),
@@ -33,7 +33,7 @@ exports.fakeUsers = [
     firstName: 'Jane',
     lastName: 'Doe',
     email: 'janedoe@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('6311384d39fcee4794f5678c'),
@@ -66,7 +66,7 @@ exports.fakeUsers = [
     avatar: 'https://picsum.photos/id/676/480/480',
     username: 'reynoldspinka',
     email: 'reynoldspinka@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('6311384d39fcee4794f5678c'),
@@ -103,7 +103,7 @@ exports.fakeUsers = [
     avatar: 'https://picsum.photos/id/146/480/480',
     username: 'elnorasteuber',
     email: 'elnorasteuber@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('6311384d39fcee4794f5678c'),
@@ -136,7 +136,7 @@ exports.fakeUsers = [
     avatar: 'https://picsum.photos/id/382/480/480',
     username: 'tiffanysimonis',
     email: 'tiffanysimonis@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa722'),
@@ -173,7 +173,7 @@ exports.fakeUsers = [
     avatar: 'https://picsum.photos/id/271/480/480',
     username: 'madalyndickinson',
     email: 'madalyndickinson@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('6311384d39fcee4794f5678c'),
@@ -210,7 +210,7 @@ exports.fakeUsers = [
     avatar: 'https://picsum.photos/id/578/480/480',
     username: 'christopcasper',
     email: 'christopcasper@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('63114a15ee51f867417b3d8a'),
@@ -243,7 +243,7 @@ exports.fakeUsers = [
     avatar: 'https://picsum.photos/id/188/480/480',
     username: 'alvisvolkman',
     email: 'alvisvolkman@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa722'),
@@ -272,7 +272,7 @@ exports.fakeUsers = [
     avatar: 'https://picsum.photos/id/799/480/480',
     username: 'kaciehilll',
     email: 'kaciehilll@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('63114a15ee51f867417b3d8a'),
@@ -313,7 +313,7 @@ exports.fakeUsers = [
     avatar: 'https://picsum.photos/id/306/480/480',
     username: 'autumnjast',
     email: 'autumnjast@fancybook.com',
-    password: '$2a$10$BuRk3gm7dhNDRHPQq5VRkO.M5x9Lx2g/u6Md4FL1FISS.G/FRGK4u',
+    password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [
       {
         user: new mongoose.Types.ObjectId('6306d7ae5a4d17eafd1fa723'),

@@ -68,6 +68,7 @@ router.put('/profile', [
 router.put('/password', [
   body('password')
     .trim()
+    .escape()
     .custom(async (password, { req }) => {
       const user = await User.findById(req.user._id, 'password');
       const res = await bcrypt.compare(password, user.password);
@@ -76,9 +77,7 @@ router.put('/password', [
         error.statusCode = 401;
         throw error;
       }
-    })
-    .escape(),
-
+    }),
   body('newPassword', 'Password must have at least 6 characters').trim().isLength({ min: 6 }).escape(),
 
   async (req, res, next) => {
