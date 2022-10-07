@@ -34,7 +34,7 @@ const StyledSearchResultsList = styled.div`
   }
 `;
 
-function SearchResultsList({ searchResults, searchLoading, setResultsVisible }) {
+function SearchResultsList({ searchResults, searchLoading }) {
   return (
     <StyledSearchResultsList>
       {
@@ -49,11 +49,7 @@ function SearchResultsList({ searchResults, searchLoading, setResultsVisible }) 
             <div className="results-list">
               {
                 searchResults.map((user) =>
-                  <SearchResult
-                    key={user._id}
-                    user={user}
-                    setResultsVisible={setResultsVisible}
-                  />
+                  <SearchResult key={user._id} user={user} />
                 )
               }
             </div>

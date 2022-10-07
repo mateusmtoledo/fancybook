@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import api from "../adapters/api";
 import SEARCH_ICON from "../img/search.svg";
@@ -71,6 +72,11 @@ function SearchBar() {
     return () => document.removeEventListener('click', handleClickOut);
   }, []);
 
+  const { pathname } = useLocation();
+  useEffect(() => {
+    setResultsVisible(false);
+  }, [pathname]);
+
   return (
     <StyledSearchBar ref={searchBar}>
       <label htmlFor="search">
@@ -90,7 +96,6 @@ function SearchBar() {
         ? <SearchResultsList
             searchResults={searchResults}
             searchLoading={searchLoading}
-            setResultsVisible={setResultsVisible}
           />
         : null
       }

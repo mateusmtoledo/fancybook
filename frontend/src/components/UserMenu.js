@@ -4,7 +4,7 @@ import { UserContext } from "../contexts/UserContext";
 import Card from "../styles/Card";
 import Avatar from "./Avatar";
 import LOGOUT_ICON from "../img/log-out.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const UserMenuDropdown = styled(Card)`
   display: flex;
@@ -86,6 +86,11 @@ function UserMenu() {
     document.addEventListener('click', handleClickOut);
     return () => document.removeEventListener('click', handleClickOut);
   }, []);
+
+  const { pathname } = useLocation();
+  useEffect(() => {
+    setUserMenuVisible(false);
+  }, [pathname]);
 
   return (
     <UserMenuContainer ref={menuContainerRef}>

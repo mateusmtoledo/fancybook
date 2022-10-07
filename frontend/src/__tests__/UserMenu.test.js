@@ -18,11 +18,13 @@ document.addEventListener = jest.fn();
 describe('UserMenu component', () => {
   it('renders button to open menu', () => {
     render(
-      <UserContext.Provider value={{
-        user
-      }}>
-        <UserMenu />
-      </UserContext.Provider>
+      <MemoryRouter>
+        <UserContext.Provider value={{
+          user
+        }}>
+          <UserMenu />
+        </UserContext.Provider>
+      </MemoryRouter>
     );
     const openMenuButton = screen.getByTitle(/open user menu/i);
     expect(openMenuButton).toBeInTheDocument();

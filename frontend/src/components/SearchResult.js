@@ -17,10 +17,10 @@ const StyledSearchResult = styled.div`
   }
 `;
 
-function SearchResult({ user, setResultsVisible }) {
+function SearchResult({ user }) {
   return (
     <StyledSearchResult>
-      <Link to={`/user/${user._id}`} onClick={() => setResultsVisible(false)}>
+      <Link to={`/user/${user._id}`}>
         <Avatar
           user={user}
         />
