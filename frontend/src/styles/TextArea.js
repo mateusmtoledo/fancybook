@@ -14,7 +14,8 @@ const TextArea = styled.textarea`
     outline: none;
   }
   &.invalid {
-    outline: 2px solid red;
+    box-shadow: 0 0 0 3px red;
+    outline: 1px solid black;
   }
   &::placeholder {
     color: var(--color-gray);

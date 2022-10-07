@@ -19,7 +19,16 @@ passport.use(new LocalStrategy(
         return;
       }
       if (!user) {
-        cb(null, false, { message: 'Wrong credentials' });
+        const error = new Error();
+        error.statusCode = 401;
+        error.invalidFields = {
+          email: {
+            param: 'email',
+            msg: 'User not found',
+            location: 'body',
+          },
+        };
+        cb(error);
         return;
       }
       bcrypt.compare(password, user.password, (err, res) => {
@@ -31,7 +40,16 @@ passport.use(new LocalStrategy(
           cb(null, user.toJSON());
           return;
         }
-        cb(null, false, { message: 'Wrong credentials' });
+        const error = new Error();
+        error.statusCode = 401;
+        error.invalidFields = {
+          password: {
+            param: 'password',
+            msg: 'Wrong password',
+            location: 'body',
+          },
+        };
+        cb(error);
       });
     });
   },

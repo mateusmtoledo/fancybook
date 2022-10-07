@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import api from "../adapters/api";
+import { ErrorMessage } from "../styles/PostForm";
 
 const GoogleSignIn = styled.button`
   margin: 0 auto;
@@ -22,7 +23,7 @@ const LoginContainer = styled.div`
 
   width: 100%;
   max-width: 345px;
-  height: 345px;
+  min-height: 345px;
   padding: 16px;
 
   background-color: var(--color-brown-dark);
@@ -39,9 +40,22 @@ const LoginContainer = styled.div`
   }
 `;
 
+function Input({ error, className, ...props }) {
+  return (
+    <div>
+      <input
+        {...props}
+        className={error && 'invalid'}
+      />
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+    </div>
+  );
+}
+
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState(null);
   const { login } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -53,25 +67,29 @@ function LoginForm() {
       await login();
       navigate('/');
     } catch(err) {
-      // TODO implement error handling
-      console.log(err);
+      const { invalidFields } = err.response.data;
+      invalidFields && setErrors(invalidFields);
     }
   }
 
   return (
     <LoginContainer>
       <Form onSubmit={submitLogin}>
-        <input
-          type="text"
+        <Input
+          type="email"
+          name="email"
           placeholder="Email"
           aria-label="Email"
           onChange={(e) => setEmail(e.target.value)}
+          error={errors?.email?.msg}
         />
-        <input
+        <Input
           type="password"
+          name="password"
           placeholder="Password"
           aria-label="Password"
           onChange={(e) => setPassword(e.target.value)}
+          error={errors?.password?.msg}
         />
         <input
           type="submit"

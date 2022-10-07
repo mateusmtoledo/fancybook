@@ -5,21 +5,28 @@ require('dotenv').config();
 
 const router = express.Router();
 
+const { body, validationResult } = require('express-validator');
 const googleRouter = require('./google');
 
 router.use('/google', googleRouter);
 
-router.post('/', (req, res, next) => {
-  passport.authenticate('local', { session: false }, (err, user) => {
-    if (err) {
-      next(err);
-      return;
+router.post(
+  '/',
+  [
+    body('email', 'Email is required').trim().isLength({ min: 1 }).escape(),
+    body('password', 'Password is required').trim().isLength({ min: 1 }).escape(),
+  ],
+  (req, res, next) => {
+    const errors = validationResult.withDefaults({
+      formatter: (error) => ({ msg: error.msg, location: error.location }),
+    })(req);
+    if (!errors.isEmpty()) {
+      const error = new Error();
+      error.statusCode = 400;
+      error.invalidFields = errors.mapped();
+      next(error);
     }
-    if (!user) {
-      next(new Error('Invalid credentials'));
-      return;
-    }
-    req.login(user, { session: false }, (err) => {
+    passport.authenticate('local', { session: false }, (err, user) => {
       if (err) {
         next(err);
         return;
@@ -33,9 +40,9 @@ router.post('/', (req, res, next) => {
           token,
         });
       });
-    });
-  })(req, res);
-});
+    })(req, res);
+  },
+);
 
 router.get('/', [
   passport.authenticate('jwt', { session: false }),

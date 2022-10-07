@@ -48,11 +48,11 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.log(err);
   if (err.statusCode) {
-    res.status(err.statusCode).send(err.message);
+    res.status(err.statusCode).json((err.invalidFields && err) || err.message);
   } else if (err.http_code) {
-    res.status(err.http_code).send(err.message);
+    res.status(err.http_code).json(err.message);
   } else {
-    res.status(500).send('Something went wrong');
+    res.status(500).json('Something went wrong');
   }
 });
 

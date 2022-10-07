@@ -8,11 +8,8 @@ import api from "../adapters/api";
 import Loading from "./Loading";
 import VariableHeightTextInput from "./VariableHeightTextInput";
 import { Link } from "react-router-dom";
-
-const Error = styled.p`
-  color: red;
-  font-size: 0.8rem;
-`;
+import { ErrorMessage } from "../styles/PostForm";
+import Form from "../styles/Form";
 
 const StyledPostForm = styled(Card)`
   position: relative;
@@ -45,7 +42,6 @@ function PostForm({ refreshPosts }) {
   const [loading, setLoading] = useState(false);
   
   const [text, setText] = useState('');
-
   const [error, setError] = useState(null);
   async function submitPost(event) {
     event.preventDefault();
@@ -79,7 +75,7 @@ function PostForm({ refreshPosts }) {
         ? <Loading />
         : null
       }
-      <form onSubmit={submitPost}>
+      <Form onSubmit={submitPost}>
         <div className="post-text">
           <Link to={`/user/${user._id}`}>
             <Avatar
@@ -93,11 +89,9 @@ function PostForm({ refreshPosts }) {
               setText={setText}
               placeholder="Share your thoughts"
               aria-label="Post text"
-              className={error ? 'invalid' : null}
+              className={error && 'invalid'}
             />
-            {error
-            ? <Error>{error}</Error>
-            : null}
+            {error && <ErrorMessage>{error}</ErrorMessage>}
           </div>
         </div>
         <hr />
@@ -111,7 +105,7 @@ function PostForm({ refreshPosts }) {
             />
           </button>
         </div>
-      </form>
+      </Form>
     </StyledPostForm>
   );
 }

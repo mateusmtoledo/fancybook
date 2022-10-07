@@ -25,10 +25,16 @@ const Form = styled.form`
     border-radius: 4px;
     border: none;
     width: 100%;
-  }
-
-  input::placeholder {
-    color: var(--color-gray-dark);
+    outline: none;
+    &&::placeholder {
+      color: var(--color-gray-dark);
+    }
+    &.invalid {
+      margin: -1px;
+      background-clip: padding-box;
+      border: 1px solid transparent;
+      outline: 2px solid red;
+    }
   }
 
   input[type="submit"] {
