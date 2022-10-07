@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import api from "../adapters/api";
 import Card from "../styles/Card";
@@ -7,27 +8,24 @@ import Form from "../styles/Form";
 const StyledSignUpForm = styled.div`
   max-width: 435px;
   width: 100%;
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: stretch;
-  h2 {
-    color: var(--color-white);
-    margin-bottom: 8px;
-    font-family: 'Outfit', sans-serif;
-  }
+  align-items: center;
+  text-align: center;
   hr {
-    margin-bottom: 16px;
     border: none;
     border-top: 1px solid var(--color-gray-dark);
+  }
+  a {
+    color: var(--color-orange);
+    font-weight: 700;
   }
 `;
 
 function SignUp() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -38,7 +36,6 @@ function SignUp() {
       await api.post('/sign-up', {
         firstName,
         lastName,
-        gender,
         email,
         password,
       });
@@ -51,8 +48,6 @@ function SignUp() {
   return (
     <StyledSignUpForm>
       <Card>
-        <h2>Sign up</h2>
-        <hr />
         <Form onSubmit={submitSignUp}>
           <div className="same-line">
             <input
@@ -70,23 +65,7 @@ function SignUp() {
               onChange={(e) => setLastName(e.target.value)}
             />
           </div>
-          <fieldset onChange={(e) => setGender(e.target.value)}>
-            <legend>Gender</legend>
-            <input
-              type="radio"
-              id="male"
-              value="Male"
-              name="gender"
-            />
-            <label htmlFor="male">Male</label>
-            <input
-              type="radio"
-              id="female"
-              value="Female"
-              name="gender"
-            />
-            <label htmlFor="female">Female</label>
-          </fieldset>
+          <hr />
           <input
             type="email"
             placeholder="Email"
@@ -114,6 +93,7 @@ function SignUp() {
             type="submit"
             value="Sign up"
           />
+          <p>Already registered? <Link to="/">Sign in</Link></p>
         </Form>
       </Card>
     </StyledSignUpForm>

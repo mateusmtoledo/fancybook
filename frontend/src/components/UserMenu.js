@@ -35,6 +35,7 @@ const LogoutButton = styled.button`
 const UserFullName = styled.p`
   font-size: 1.6rem;
   font-weight: 700;
+  width: fit-content;
 `;
 
 const ManageAccountButton = styled.button`
