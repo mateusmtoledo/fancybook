@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { UserContext } from "../contexts/UserContext";
 import api from '../adapters/api';
 import PostForm from "../components/PostForm";
+import { MemoryRouter } from "react-router-dom";
 
 const userContextValue = {
   user: {
@@ -22,9 +23,11 @@ jest.mock('../adapters/api', () => {
 describe('Post form', () => {
   it('renders text input', () => {
     render(
-      <UserContext.Provider value={userContextValue}>
-        <PostForm refreshPosts={jest.fn()} />
-      </UserContext.Provider>
+      <MemoryRouter>
+        <UserContext.Provider value={userContextValue}>
+          <PostForm refreshPosts={jest.fn()} />
+        </UserContext.Provider>
+      </MemoryRouter>
     );
     const textInput = screen.getByPlaceholderText(/share your thoughts/i);
     expect(textInput).toBeInTheDocument();
@@ -32,9 +35,11 @@ describe('Post form', () => {
 
   it('calls api.post with correct arguments', async () => {
     render(
-      <UserContext.Provider value={userContextValue}>
-        <PostForm refreshPosts={jest.fn()} />
-      </UserContext.Provider>
+      <MemoryRouter>
+        <UserContext.Provider value={userContextValue}>
+          <PostForm refreshPosts={jest.fn()} />
+        </UserContext.Provider>
+      </MemoryRouter>
     );
     const textInput = screen.getByPlaceholderText(/share your thoughts/i);
     userEvent.type(textInput, 'I love fancybook!');

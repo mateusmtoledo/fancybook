@@ -3,6 +3,12 @@ import '@testing-library/jest-dom'
 import userEvent from "@testing-library/user-event";
 import api from '../adapters/api';
 import SignUpForm from '../components/SignUpForm';
+import { MemoryRouter } from "react-router-dom";
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => jest.fn(),
+}));
 
 jest.mock('../adapters/api', () => {
   return {
@@ -13,14 +19,14 @@ jest.mock('../adapters/api', () => {
 describe('SignUp', () => {
   it('renders inputs', () => {
     render(
-      <SignUpForm />
+      <MemoryRouter>
+        <SignUpForm />
+      </MemoryRouter>
     );
     const firstName = screen.getByPlaceholderText(/first name/i);
     expect(firstName).toBeInTheDocument();
     const lastName = screen.getByPlaceholderText(/last name/i);
     expect(lastName).toBeInTheDocument();
-    const genders = screen.getByRole('group');
-    expect(genders).toHaveFormValues(/male/i, /female/i);
     const email = screen.getByPlaceholderText(/email/i);
     expect(email).toBeInTheDocument();
     const password = screen.getByPlaceholderText(/^password/i);
@@ -33,14 +39,14 @@ describe('SignUp', () => {
 
   it('calls api.post with correct arguments', () => {
     render(
-      <SignUpForm />
+      <MemoryRouter>
+        <SignUpForm />
+      </MemoryRouter>
     );
     const firstName = screen.getByPlaceholderText(/first name/i);
     userEvent.type(firstName, 'John');
     const lastName = screen.getByPlaceholderText(/last name/i);
     userEvent.type(lastName, 'Doe');
-    const maleRadio = screen.getByLabelText(/^male/i);
-    userEvent.click(maleRadio);
     const email = screen.getByPlaceholderText(/email/i);
     userEvent.type(email, 'johndoe@fancybook.com');
     const password = screen.getByPlaceholderText('Password');
@@ -52,7 +58,6 @@ describe('SignUp', () => {
     expect(api.post).toBeCalledWith('/sign-up', {
       firstName: 'John',
       lastName: 'Doe',
-      gender: 'Male',
       email: 'johndoe@fancybook.com',
       password: 'johndoe123',
     });
