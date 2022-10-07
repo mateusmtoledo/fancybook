@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import api from "../adapters/api";
 import Card from "../styles/Card";
 import Form from "../styles/Form";
+import Input from "./Input";
 
 const StyledSignUpForm = styled.div`
   max-width: 435px;
@@ -29,9 +30,19 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState(null);
+  const navigate = useNavigate();
 
-  async function submitSignUp(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      setErrors({
+        confirmPassword: {
+          msg: 'Passwords don\'t match',
+        },
+      });
+      return;
+    }
     try {
       await api.post('/sign-up', {
         firstName,
@@ -39,55 +50,63 @@ function SignUp() {
         email,
         password,
       });
+      navigate('/');
     } catch (err) {
-      // TODO implement error handling
-      console.log(err);
+      const { invalidFields } = err.response.data;
+      invalidFields && setErrors(invalidFields);
     }
   }
 
   return (
     <StyledSignUpForm>
       <Card>
-        <Form onSubmit={submitSignUp}>
+        <Form onSubmit={handleSubmit}>
           <div className="same-line">
-            <input
+            <Input
               type="text"
+              name="first-name"
               placeholder="First name"
               aria-label="First name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              error={errors?.firstName?.msg}
             />
-            <input
+            <Input
               type="text"
+              name="lastName"
               placeholder="Last name"
               aria-label="Last name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              error={errors?.lastName?.msg}
             />
           </div>
           <hr />
-          <input
+          <Input
             type="email"
             placeholder="Email"
             aria-label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={errors?.email?.msg}
           />
-          <input
+          <Input
             type="password"
             placeholder="Password"
             aria-label="Password"
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            error={errors?.password?.msg}
           />
-          <input
+          <Input
             type="password"
             placeholder="Confirm password"
             aria-label="Confirm password"
             name="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            error={errors?.confirmPassword?.msg}
           />
           <input
             type="submit"

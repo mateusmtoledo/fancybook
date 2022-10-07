@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import api from "../adapters/api";
-import { ErrorMessage } from "../styles/PostForm";
+import Input from "./Input";
 
 const GoogleSignIn = styled.button`
   margin: 0 auto;
@@ -40,18 +40,6 @@ const LoginContainer = styled.div`
   }
 `;
 
-function Input({ error, className, ...props }) {
-  return (
-    <div>
-      <input
-        {...props}
-        className={error && 'invalid'}
-      />
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-    </div>
-  );
-}
-
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -80,6 +68,7 @@ function LoginForm() {
           name="email"
           placeholder="Email"
           aria-label="Email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
           error={errors?.email?.msg}
         />
@@ -88,6 +77,7 @@ function LoginForm() {
           name="password"
           placeholder="Password"
           aria-label="Password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           error={errors?.password?.msg}
         />

@@ -12,11 +12,14 @@ router.post('/', [
   body('password', 'Password must have at least 6 characters').trim().isLength({ min: 6 }).escape(),
 
   async (req, res, next) => {
-    const errors = validationResult(req);
+    const errors = validationResult.withDefaults({
+      formatter: (error) => ({ msg: error.msg, location: error.location }),
+    })(req);
     if (!errors.isEmpty()) {
-      // TODO handle validation errors properly
-      next(errors.array());
-      return;
+      const error = new Error();
+      error.statusCode = 400;
+      error.invalidFields = errors.mapped();
+      next(error);
     }
     const {
       firstName,
