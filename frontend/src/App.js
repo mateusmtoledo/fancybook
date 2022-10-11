@@ -14,6 +14,9 @@ import Header from "./components/Header";
 import ManageAccount from "./pages/ManageAccount";
 import Security from "./components/Security";
 import Profile from "./components/Profile";
+import ToastNotificationList from "./components/ToastNotificationList";
+import { ToastContext } from "./contexts/ToastContext";
+import { v4 as uuidv4 } from 'uuid';
 
 async function getFriends() {
   const response = await api.get('/users/me/friends');
@@ -65,37 +68,54 @@ function App() {
     login();
   }, [login]);
 
+  const [notifications, setNotifications] = useState([]);
+  function sendNotification({ type, text, duration = 5000 }) {
+    const newNotification = {
+      key: uuidv4(),
+      type,
+      text,
+      duration: (duration / 1000).toString() + 's',
+    };
+    setTimeout(() => {
+      setNotifications((prev) => (prev.filter((item) => item !== newNotification)));
+    }, duration);
+    setNotifications([...notifications, newNotification]);
+  }
+
   return (
     <UserContext.Provider value={{ user, setUser, login, logout, friends, refreshFriends }}>
-      {
-        loading
-        ? <Loading window />
-        : null
-      }
-      <Container>
-        <BrowserRouter>
-          {user && <Header />}
-          <Routes>
-            {
-              user
-              ? <>
-                  <Route index element={<Home friends={friends} />} />
-                  <Route path="/user/:userId" element={<UserProfile />} />
-                  <Route path="/manage-account" element={<ManageAccount />}>
-                    <Route index element={<Profile />} />
-                    <Route path="security" element={<Security />} />
-                  </Route>
-                </>
-              : <>
-                  <Route path="/sign-up" element={<SignUp />} />
-                  <Route path="/googleauth" element={<GoogleAuth />} />
-                  <Route path="*" element={<Login />} />
-                </>
-            }
-          </Routes>
-        </BrowserRouter>
-        <Footer />
-      </Container>
+      <ToastContext.Provider value={{ notifications, sendNotification }}>
+        {
+          loading
+          ? <Loading window />
+          : null
+        }
+        <ToastNotificationList />
+        <Container>
+          <BrowserRouter>
+            {user && <Header />}
+            <Routes>
+              {
+                user
+                ? <>
+                    <Route index element={<Home friends={friends} />} />
+                    <Route path="/user/:userId" element={<UserProfile />} />
+                    <Route path="/manage-account" element={<ManageAccount />}>
+                      <Route index element={<Profile />} />
+                      <Route path="security" element={<Security />} />
+                    </Route>
+                  </>
+                : <>
+                    <Route path="/sign-up" element={<SignUp />} />
+                    <Route path="/googleauth" element={<GoogleAuth />} />
+                    <Route path="*" element={<Login />} />
+                  </>
+              }
+            </Routes>
+          </BrowserRouter>
+          <Footer />
+        </Container>
+      </ToastContext.Provider>
     </UserContext.Provider>
   );
 }

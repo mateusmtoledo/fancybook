@@ -15,7 +15,7 @@ const UserMenuDropdown = styled(Card)`
   top: 100%;
   right: 0;
   min-width: 300px;
-  z-index: 1;
+  z-index: 2;
 
   hr {
     border: none;
