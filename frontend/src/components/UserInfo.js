@@ -2,6 +2,9 @@ import styled from "styled-components";
 import Avatar from "./Avatar";
 import Card from "../styles/Card";
 import FriendshipButtons from "./FriendshipButtons";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import AvatarInput from "./AvatarInput";
 
 const StyledUserInfo = styled(Card)`
   width: 100%;
@@ -20,7 +23,7 @@ const StyledUserInfo = styled(Card)`
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
 
-    img {
+    & > *:first-child {
       position: relative;
       top: 32px;
     }
@@ -68,13 +71,21 @@ const StyledUserInfo = styled(Card)`
 `;
 
 function UserInfo({user}) {
+  const { user: currentUser } = useContext(UserContext);
+
   return (
     <StyledUserInfo coverPhoto={user.coverPhoto}>
       <div className="user-info">
-        <Avatar
-          user={user}
-          size="128px"
-        />
+        {
+          user._id === currentUser._id
+            ? <AvatarInput
+                size="128px"
+              />
+            : <Avatar
+                size="128px"
+                user={user}
+              />
+        }
         <h4>{user.fullName}</h4>
       </div>
       <div className="options">

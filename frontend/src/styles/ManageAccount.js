@@ -23,6 +23,7 @@ export const ManageAccountForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: center;
   label {
     font-size: 0.8rem;
     font-family: 'Outfit', sans-serif;
@@ -45,13 +46,15 @@ export const ManageAccountForm = styled.form`
 `;
 
 export const FlexColumn = styled.div`
-display: flex;
-flex-direction: column;
-gap: 2px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2px;
 `;
 
 export const Buttons = styled.div`
   display: flex;
+  width: 100%;
   gap: 8px;
   justify-content: flex-end;
 `;

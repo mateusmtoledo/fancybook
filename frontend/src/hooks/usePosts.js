@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import api from "../adapters/api";
 
@@ -14,7 +14,7 @@ function usePosts(userId) {
     setPageNumber((previous) => previous + 1);
   }
 
-  function refreshPosts() {
+  const refreshPosts = useCallback(() => {
     setPostsLoading(true);
     api.get(uri, { params: { page: pageNumber } }).then((response) => {
       const { data } = response;
@@ -22,7 +22,7 @@ function usePosts(userId) {
       setHasNextPage(data.hasNextPage);
       setPostsLoading(false);
     });
-  }
+  }, [pageNumber, uri]);
   
   useEffect(() => {
     setPostsLoading(true);
