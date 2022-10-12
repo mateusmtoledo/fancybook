@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom';
 import UserInfo from "../components/UserInfo";
 import { UserContext } from "../contexts/UserContext";
+import { ToastContext } from "../contexts/ToastContext";
 
 const currentUser = {
   _id: 'johnsid',
@@ -30,7 +31,9 @@ describe('UserInfo component', () => {
           friends: [],
         },
       }}>
-        <UserInfo user={user} />
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserInfo user={user} />
+        </ToastContext.Provider>
       </UserContext.Provider>
     );
     expect(screen.getByText('Jane Doe')).toBeInTheDocument();
@@ -47,7 +50,9 @@ describe('UserInfo component', () => {
           friends: [],
         },
       }}>
-        <UserInfo user={user} />
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserInfo user={user} />
+        </ToastContext.Provider>
       </UserContext.Provider>
     );
     const addButton = screen.getByText(/add/i);
@@ -64,7 +69,9 @@ describe('UserInfo component', () => {
           friends: [],
         }
       }}>
-        <UserInfo user={user} />
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserInfo user={user} />
+        </ToastContext.Provider>
       </UserContext.Provider>
     );
     const acceptButton = screen.getByText(/accept/i);
@@ -83,7 +90,9 @@ describe('UserInfo component', () => {
           friends: [],
         }
       }}>
-        <UserInfo user={user} />
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserInfo user={user} />
+        </ToastContext.Provider>
       </UserContext.Provider>
     );
     const cancelButton = screen.getByText(/cancel/i);
@@ -100,7 +109,9 @@ describe('UserInfo component', () => {
           friends: [user],
         }
       }}>
-        <UserInfo user={user} />
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserInfo user={user} />
+        </ToastContext.Provider>
       </UserContext.Provider>
     );
     const removeButton = screen.getByText(/remove/i);

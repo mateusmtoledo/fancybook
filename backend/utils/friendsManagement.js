@@ -1,19 +1,26 @@
 const User = require('../models/User');
 
+class BadRequestError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = 400;
+  }
+}
+
 exports.sendFriendRequest = async ({ from, to }) => {
   if (from === to || from.equals(to)) {
-    throw new Error('Users can\'t send friend requests to themselves');
+    throw new BadRequestError('Users can\'t send friend requests to themselves');
   }
   const requester = await User.findById(from);
   const recipient = await User.findById(to);
   if (!requester || !recipient) {
-    throw new Error('User not found');
+    throw new BadRequestError('User not found');
   }
   if (requester
     .friendList
     .some((friendship) => friendship.user.equals(to._id))
   ) {
-    throw new Error('Users are already friends or there is a pending request');
+    throw new BadRequestError('Users are already friends or there is a pending request');
   }
 
   requester.friendList.push({
@@ -29,12 +36,12 @@ exports.sendFriendRequest = async ({ from, to }) => {
 
 exports.acceptFriendRequest = async ({ from, to }) => {
   if (from === to || from.equals(to)) {
-    throw new Error('Users can\'t send friend requests to themselves');
+    throw new BadRequestError('Users can\'t send friend requests to themselves');
   }
   const requester = await User.findById(from);
   const recipient = await User.findById(to);
   if (!requester || !recipient) {
-    throw new Error('User not found');
+    throw new BadRequestError('User not found');
   }
   const friendshipFrom = requester
     .friendList
@@ -43,31 +50,31 @@ exports.acceptFriendRequest = async ({ from, to }) => {
     .friendList
     .find((friendship) => friendship.user.equals(requester._id));
   if (!friendshipFrom || friendshipFrom.status === 'sent') {
-    throw new Error('There is no pending request');
+    throw new BadRequestError('There is no pending request');
   }
   if (friendshipFrom.status === 'pending') {
     friendshipFrom.status = 'friends';
     friendshipTo.status = 'friends';
     return Promise.all([requester.save(), recipient.save()]);
   }
-  throw new Error('Users are friends already');
+  throw new BadRequestError('Users are friends already');
 };
 
 exports.removeFriend = async ({ from, to }) => {
   if (from === to || from.equals(to)) {
-    throw new Error('Users can\'t send friend requests to themselves');
+    throw new BadRequestError('Users can\'t send friend requests to themselves');
   }
   const requester = await User.findById(from);
   const recipient = await User.findById(to);
   if (!requester || !recipient) {
-    throw new Error('User not found');
+    throw new BadRequestError('User not found');
   }
   const friendshipFromIndex = requester.friendList
     .findIndex((friendship) => friendship.user.equals(recipient._id));
   const friendshipToIndex = recipient.friendList
     .findIndex((friendship) => friendship.user.equals(requester._id));
   if (friendshipFromIndex === -1) {
-    throw new Error('There\'s no friendship between the users');
+    throw new BadRequestError('There\'s no friendship between the users');
   }
   requester.friendList.splice(friendshipFromIndex, 1);
   recipient.friendList.splice(friendshipToIndex, 1);
