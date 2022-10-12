@@ -1,12 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Card from "../styles/Card";
 import BADGE_ICON from "../img/badge.svg";
 import LOCK_ICON from "../img/lock.svg";
 
-const ManageAccountNavContainer = styled(Card)`
-  padding: 32px;
-  flex: 1 0 256px;
+const ManageAccountNavContainer = styled.nav`
   height: max-content;
   display: flex;
   flex-direction: column;
@@ -31,33 +28,48 @@ const StyledLink = styled(Link)`
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+  margin: 16px 0;
 `;
 
-const NavItem = styled.li`
+const NavItemContainer = styled.li`
   font-size: 1rem;
+  border-radius: 32px;
+  padding: 8px 16px;
+  background-color: ${(props) => props.isActive ? 'var(--color-brown-dark)' : null};
   img {
     width: 32px;
   }
 `;
 
+function NavItem({ uri, icon, itemName }) {
+  const { pathname } = useLocation();
+  const isActive = pathname === uri;
+
+  return (
+    <NavItemContainer isActive={isActive}>
+      <StyledLink to={uri}>
+        <img src={icon} alt={itemName} />
+        <p>{itemName}</p>
+      </StyledLink>
+    </NavItemContainer>
+  )
+}
+
 function ManageAccountNav() {
   return (
-    <ManageAccountNavContainer as="nav">
-      <h2>Manage Account</h2>
+    <ManageAccountNavContainer>
       <NavList>
-        <NavItem>
-          <StyledLink to="/manage-account">
-            <img src={BADGE_ICON} alt="Profile" />
-            <p>Profile</p>
-          </StyledLink>
-        </NavItem>
-        <NavItem>
-          <StyledLink to="/manage-account/security">
-            <img src={LOCK_ICON} alt="Security" />
-            <p>Security</p>
-          </StyledLink>
-        </NavItem>
+        <NavItem
+          uri="/manage-account"
+          icon={BADGE_ICON}
+          itemName="Personal info"
+        />
+        <NavItem
+          uri="/manage-account/security"
+          icon={LOCK_ICON}
+          itemName="Security"
+        />
       </NavList>
     </ManageAccountNavContainer>
   );
