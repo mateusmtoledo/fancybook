@@ -13,7 +13,7 @@ import UserProfile from "./pages/UserProfile";
 import Header from "./components/Header";
 import ManageAccount from "./pages/ManageAccount";
 import Security from "./components/Security";
-import Profile from "./components/Profile";
+import PersonalInfo from "./components/PersonalInfo";
 import ToastNotificationList from "./components/ToastNotificationList";
 import { ToastContext } from "./contexts/ToastContext";
 import { v4 as uuidv4 } from 'uuid';
@@ -101,7 +101,7 @@ function App() {
                     <Route index element={<Home friends={friends} />} />
                     <Route path="/user/:userId" element={<UserProfile />} />
                     <Route path="/manage-account" element={<ManageAccount />}>
-                      <Route index element={<Profile />} />
+                      <Route index element={<PersonalInfo />} />
                       <Route path="security" element={<Security />} />
                     </Route>
                   </>

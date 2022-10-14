@@ -31,7 +31,7 @@ const AddPhotoButton = styled.button`
 `;
 
 function AvatarInput({ size }) {
-  const [avatarFormVisible, setAvatarFormVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
   const { user } = useContext(UserContext);
 
   return (
@@ -40,7 +40,7 @@ function AvatarInput({ size }) {
       <AddPhotoButton
         aria-label="Avatar"
         type="button"
-        onClick={() => setAvatarFormVisible(true)}
+        onClick={() => setFormVisible(true)}
       >
         <img
           src={ADD_PHOTO_ICON}
@@ -50,9 +50,9 @@ function AvatarInput({ size }) {
         />
       </AddPhotoButton>
       {
-        avatarFormVisible &&
+        formVisible &&
         <AvatarForm
-          setAvatarFormVisible={setAvatarFormVisible}
+          setFormVisible={setFormVisible}
         />
       }
     </AvatarInputContainer>

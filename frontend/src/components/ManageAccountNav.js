@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import BADGE_ICON from "../img/badge.svg";
-import LOCK_ICON from "../img/lock.svg";
+import { ReactComponent as BADGE_ICON } from "../img/badge.svg";
+import { ReactComponent as LOCK_ICON } from "../img/lock.svg";
 
 const ManageAccountNavContainer = styled.nav`
   height: max-content;
@@ -29,27 +29,29 @@ const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 16px 0;
 `;
 
 const NavItemContainer = styled.li`
   font-size: 1rem;
-  border-radius: 32px;
+  border-radius: 8px;
   padding: 8px 16px;
   background-color: ${(props) => props.isActive ? 'var(--color-brown-dark)' : null};
-  img {
-    width: 32px;
+  color: ${(props) => props.isActive ? 'var(--color-orange)' : 'var(--color-white)'};
+  svg {
+    fill: ${(props) => props.isActive ? 'var(--color-orange)' : 'var(--color-white)'};
+    width: 30px;
+    height: auto;
   }
 `;
 
-function NavItem({ uri, icon, itemName }) {
+function NavItem({ uri, IconComponent, itemName }) {
   const { pathname } = useLocation();
   const isActive = pathname === uri;
 
   return (
     <NavItemContainer isActive={isActive}>
       <StyledLink to={uri}>
-        <img src={icon} alt={itemName} />
+        <IconComponent viewBox="0 0 48 48" />
         <p>{itemName}</p>
       </StyledLink>
     </NavItemContainer>
@@ -62,12 +64,12 @@ function ManageAccountNav() {
       <NavList>
         <NavItem
           uri="/manage-account"
-          icon={BADGE_ICON}
+          IconComponent={BADGE_ICON}
           itemName="Personal info"
         />
         <NavItem
           uri="/manage-account/security"
-          icon={LOCK_ICON}
+          IconComponent={LOCK_ICON}
           itemName="Security"
         />
       </NavList>

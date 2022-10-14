@@ -27,7 +27,10 @@ function Modal({ setModalVisible, children, ...props}) {
   }, []);
 
   return ReactDOM.createPortal(
-    <ModalOverlay {...props} onClick={() => setModalVisible(false)}>
+    <ModalOverlay {...props} onClick={(e) => {
+      e.stopPropagation();
+      setModalVisible(false);
+    }}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         {children}
       </ModalContainer>

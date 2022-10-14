@@ -39,7 +39,7 @@ const ErrorMessage = styled.p`
   font-size: 1rem;
 `;
 
-function AvatarForm({ setAvatarFormVisible }) {
+function AvatarForm({ setFormVisible }) {
   const { user, setUser } = useContext(UserContext);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
@@ -52,7 +52,7 @@ function AvatarForm({ setAvatarFormVisible }) {
     try {
       const response = await api.put('/users/me/avatar', formData);
       setUser(response.data.user);
-      setAvatarFormVisible(false);
+      setFormVisible(false);
     } catch (err) {
       if (err.response) {
         if (err.response.status === 400) setError('Invalid image file');
@@ -64,11 +64,11 @@ function AvatarForm({ setAvatarFormVisible }) {
   }
 
   function handleCancel() {
-    setAvatarFormVisible(false);
+    setFormVisible(false);
   }
 
   return (
-    <Modal setModalVisible={() => setAvatarFormVisible(false)}>
+    <Modal setModalVisible={() => setFormVisible(false)}>
       <Card padding="32px">
         <AvatarFormContainer onSubmit={handleSubmit}>
           <h2>Upload your picture</h2>

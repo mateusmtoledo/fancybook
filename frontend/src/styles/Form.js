@@ -18,8 +18,7 @@ const Form = styled.form`
   input[type="text"],
   input[type="email"],
   input[type="password"],
-  input[type="submit"],
-  label {
+  input[type="submit"] {
     font-size: 1rem;
     padding: 12px 8px;
     border-radius: 4px;
@@ -35,6 +34,11 @@ const Form = styled.form`
       border: 1px solid transparent;
       outline: 2px solid red;
     }
+  }
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 700;
   }
 
   input[type="submit"] {

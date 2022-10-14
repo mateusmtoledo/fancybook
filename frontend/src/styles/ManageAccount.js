@@ -1,55 +1,30 @@
 import styled from "styled-components";
 import Card from "./Card";
 
-export const ManageAccountContainer = styled(Card)`
-  padding: 32px;
+export const ManageAccountContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
   flex: 0 3 600px;
   h2, h3, h4, h5 {
     font-family: 'Outfit', sans-serif;
-  }
-  hr {
-    border: none;
-    border-top: 1px solid var(--color-gray-dark);
-    margin: 16px 0;
-  }
-  h2, h3 {
     font-weight: 700;
-    text-align: center;
+  }
+  h2 {
     font-size: 1.6rem;
+    text-align: center;
+  }
+  h3 {
+    font-size: 1.2rem;
   }
 `;
 
-export const ManageAccountForm = styled.form`
+export const ManageAccountSection = styled(Card.withComponent('section'))`
+  --padding-x: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  align-items: center;
-  label {
-    font-size: 0.8rem;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-  }
-  input[type="text"],
-  input[type="password"],
-  textarea {
-    font-size: 1rem;
-    padding: 8px;
-    border-radius: 4px;
-    border: none;
-    font-family: 'Roboto', sans-serif;
-    color: black;
-    outline: none;
-  }
-  input::placeholder {
-    color: var(--color-gray-dark);
-  }
-`;
-
-export const FlexColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 2px;
+  overflow: hidden;
 `;
 
 export const Buttons = styled.div`
@@ -59,12 +34,40 @@ export const Buttons = styled.div`
   justify-content: flex-end;
 `;
 
-export const SubmitButton = styled.button`
-  background-color: var(--color-orange);
+export const Button = styled.button`
   font-family: 'Outfit', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   width: max-content;
   padding: 8px 16px;
   border-radius: 4px;
+`;
+
+export const SubmitButton = styled(Button)`
+  background-color: var(--color-orange);
+`;
+
+export const CancelButton = styled(Button)`
+  background-color: var(--color-gray-dark);
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+export const FormContainer = styled(Card)`
+  width: 400px;
+  max-width: 98vw;
+`;
+
+export const InfoList = styled.ul`
+  margin: 0 calc(-1 * var(--padding-x)) calc(-1 * var(--padding-x));
+  li > button {
+    border-bottom: 1px solid var(--color-gray-dark);
+  }
+  li:last-child > button {
+    border-bottom: none;
+  }
 `;
