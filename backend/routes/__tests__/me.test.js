@@ -83,8 +83,10 @@ describe('PUT /email', () => {
       .send({
         email: 'janedoe@fancybook.com',
       })
+      .expect(400)
       .expect((response) => {
-        expect(response.status).not.toBe(200);
+        const { invalidFields } = response.body;
+        expect(invalidFields.email.msg).toMatch(/email is already in use/i);
       });
     const user = await User.findById(fakeUsers[0]._id);
     expect(user.email).toBe('johndoe@fancybook.com');
@@ -100,7 +102,7 @@ describe('PUT /password', () => {
         password: 'Wrongpassword123',
         newPassword: 'Attemptednewpassword123',
       })
-      .expect(500);
+      .expect(400);
     const user = await User.findById(fakeUsers[0]._id, 'password');
     expect(user.password).toBe(fakeUsers[0].password);
   });

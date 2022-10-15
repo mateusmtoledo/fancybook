@@ -20,6 +20,7 @@ router.post('/', [
       error.statusCode = 400;
       error.invalidFields = errors.mapped();
       next(error);
+      return;
     }
     const {
       firstName,
