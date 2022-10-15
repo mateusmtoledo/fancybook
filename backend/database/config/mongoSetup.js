@@ -5,7 +5,11 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 if (process.env.NODE_ENV === 'test') {
   const initializeMongoServer = async () => {
-    const mongoServer = await MongoMemoryServer.create();
+    const mongoServer = await MongoMemoryServer.create({
+      binary: {
+        version: '4.4.17',
+      },
+    });
     const mongoUri = mongoServer.getUri();
     await mongoose.connect(mongoUri);
 
