@@ -23,26 +23,71 @@ describe('PUT /avatar', () => {
   });
 });
 
-describe('PUT /profile', () => {
-  it('allows user to update their profile info', async () => {
+describe('PUT /name', () => {
+  it('allows user to update their name', async () => {
     await request(app)
-      .put('/users/me/profile')
+      .put('/users/me/name')
       .auth(fakeUsers[0].authToken, { type: 'bearer' })
       .send({
         firstName: 'Notjohn',
         lastName: 'Notdoe',
-        bio: 'I am not john doe',
       })
       .expect(200)
       .expect((response) => {
         expect(response.body.user.firstName).toBe('Notjohn');
         expect(response.body.user.lastName).toBe('Notdoe');
-        expect(response.body.user.bio).toBe('I am not john doe');
       });
     const user = await User.findById(fakeUsers[0]._id);
     expect(user.firstName).toBe('Notjohn');
     expect(user.lastName).toBe('Notdoe');
-    expect(user.bio).toBe('I am not john doe');
+  });
+});
+
+describe('PUT /bio', () => {
+  it('allows user to update their profile info', async () => {
+    await request(app)
+      .put('/users/me/bio')
+      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .send({
+        bio: 'I am john doe',
+      })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.user.bio).toBe('I am john doe');
+      });
+    const user = await User.findById(fakeUsers[0]._id);
+    expect(user.bio).toBe('I am john doe');
+  });
+});
+
+describe('PUT /email', () => {
+  it('allows user to update their email', async () => {
+    await request(app)
+      .put('/users/me/email')
+      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .send({
+        email: 'notjohndoe@fancybook.com',
+      })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.user.email).toBe('notjohndoe@fancybook.com');
+      });
+    const user = await User.findById(fakeUsers[0]._id);
+    expect(user.email).toBe('notjohndoe@fancybook.com');
+  });
+
+  it('checks if email is already in use', async () => {
+    await request(app)
+      .put('/users/me/email')
+      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .send({
+        email: 'janedoe@fancybook.com',
+      })
+      .expect((response) => {
+        expect(response.status).not.toBe(200);
+      });
+    const user = await User.findById(fakeUsers[0]._id);
+    expect(user.email).toBe('johndoe@fancybook.com');
   });
 });
 

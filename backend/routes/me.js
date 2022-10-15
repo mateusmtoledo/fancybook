@@ -38,10 +38,9 @@ router.put('/avatar', upload.single('avatar'), async (req, res, next) => {
   }
 });
 
-router.put('/profile', [
+router.put('/name', [
   body('firstName', 'First name must have 1 to 35 characters').trim().isLength({ min: 1, max: 35 }).escape(),
   body('lastName', 'Last name must have 1 to 35 characters').trim().isLength({ min: 1, max: 35 }).escape(),
-  body('bio', 'Bio should have a maximum of 155 characters').trim().isLength({ max: 155 }).escape(),
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -54,7 +53,63 @@ router.put('/profile', [
         .findByIdAndUpdate(req.user._id, {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
+        }, { new: true });
+      res.json({
+        user,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+]);
+
+router.put('/bio', [
+  body('bio', 'Bio should have a maximum of 155 characters').trim().isLength({ max: 155 }).escape(),
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // TODO handle validation errors properly
+      next(errors.array());
+      return;
+    }
+    try {
+      const user = await User
+        .findByIdAndUpdate(req.user._id, {
           bio: req.body.bio,
+        }, { new: true });
+      res.json({
+        user,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+]);
+
+router.put('/email', [
+  body('email').trim().normalizeEmail()
+    .isEmail()
+    .withMessage('Invalid email address')
+    .isLength({ min: 7, max: 254 })
+    .withMessage('Email must have 7 to 254 characters')
+    .escape()
+    .custom(async (value) => {
+      const user = await User.findOne({ email: value });
+      if (user) {
+        throw new Error('Email is already in use');
+      }
+    }),
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // TODO handle validation errors properly
+      next(errors.array());
+      return;
+    }
+    try {
+      const user = await User
+        .findByIdAndUpdate(req.user._id, {
+          email: req.body.email,
         }, { new: true });
       res.json({
         user,
