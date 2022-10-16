@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import api from "../adapters/api";
+import LikeCounter from "../components/LikeCounter";
+import LikeButton from "../components/LikeButton";
+import { useMemo } from "react";
+import { useCallback } from "react";
 
 function useLikes(postId) {
   const [pageNumber, setPageNumber] = useState(1);
@@ -16,7 +20,8 @@ function useLikes(postId) {
     setPageNumber((previous) => previous + 1);
   }
 
-  function refreshLikes() {
+  const refreshLikes = useCallback(() => {
+    console.log('ran');
     setLikesLoading(true);
     api.get(uri, { params: { page: 1 } }).then((response) => {
       const { data } = response;
@@ -27,8 +32,8 @@ function useLikes(postId) {
       setPageNumber(1);
       setLikesLoading(false);
     });
-  }
-  
+  }, [uri]);
+
   useEffect(() => {
     setLikesLoading(true);
     api.get(uri, { params: { page: pageNumber } }).then((response) => {
@@ -42,14 +47,27 @@ function useLikes(postId) {
     });
   }, [pageNumber, uri]);
 
+  const likeButton = useMemo(() =>
+    <LikeButton
+      userHasLiked={userHasLiked}
+      postId={postId}
+      refreshLikes={refreshLikes}
+    />
+  , [userHasLiked, postId, refreshLikes]);
+
+  const likeCounter = useMemo(() =>
+    <LikeCounter
+      likes={likes}
+      count={likeCount}
+      loadNextLikePage={loadNextLikePage}
+      hasNextPage={hasNextPage}
+      likesLoading={likesLoading}
+    />
+  , [hasNextPage, likeCount, likes, likesLoading]);
+
   return {
-    likes,
-    hasNextPage,
-    likeCount,
-    userHasLiked,
-    likesLoading,
-    refreshLikes,
-    loadNextLikePage,
+    likeButton,
+    likeCounter,
   };
 }
 
