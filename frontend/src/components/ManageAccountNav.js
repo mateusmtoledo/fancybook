@@ -6,6 +6,7 @@ import { ReactComponent as LOCK_ICON } from "../img/lock.svg";
 const ManageAccountNavContainer = styled.nav`
   height: max-content;
   display: flex;
+  flex: 0 0 max-content;
   flex-direction: column;
   gap: 32px;
   font-family: 'Outfit', sans-serif;

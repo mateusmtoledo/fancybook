@@ -9,6 +9,7 @@ const EditableInfoButton = styled.button`
   display: flex;
   width: 100%;
   padding: 16px;
+  gap: 8px;
   text-align: left;
   align-items: center;
   font-size: 0.9rem;
@@ -25,6 +26,9 @@ const FieldName = styled.p`
 
 const FieldValue = styled.p`
   flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 function EditableInfo({ fieldName, avatar, fieldValue, Form }) {

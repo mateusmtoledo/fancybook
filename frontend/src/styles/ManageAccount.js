@@ -5,7 +5,8 @@ export const ManageAccountContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  flex: 0 3 600px;
+  flex: 1;
+  min-width: 0;
   h2, h3, h4, h5 {
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
