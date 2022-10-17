@@ -112,7 +112,7 @@ function UserMenu() {
               </RightSideContent>
             </CurrentUser>
           </Link>
-          <Link to="/manage-account">
+          <Link to="/account-management">
             <ManageAccountButton>
               Manage your account
             </ManageAccountButton>

@@ -64,12 +64,12 @@ function AccountManagementNav() {
     <AccountManagementNavContainer>
       <NavList>
         <NavItem
-          uri="/manage-account"
+          uri="/account-management"
           IconComponent={BADGE_ICON}
           itemName="Personal info"
         />
         <NavItem
-          uri="/manage-account/security"
+          uri="/account-management/security"
           IconComponent={LOCK_ICON}
           itemName="Security"
         />
