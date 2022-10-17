@@ -1,43 +1,12 @@
 import { useContext } from "react";
 import { useState } from "react";
-import styled from "styled-components";
+import { ButtonsContainer, CancelButton, FormContainer, SubmitButton } from "src/styles/AccountManagement";
+import Form from "src/styles/Form";
+import { ErrorMessage } from "src/styles/PostForm";
 import api from "../../adapters/api";
 import { UserContext } from "../../contexts/UserContext";
-import Card from "../../styles/Card";
 import Avatar from "../Avatar";
 import Modal from "../Modal";
-
-const AvatarFormButton = styled.button`
-  background-color: ${(props) => props.submit ? 'var(--color-orange)' : 'var(--color-gray-dark)'};
-  font-size: 1rem;
-  font-weight: 700;
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-`;
-
-const AvatarFormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: center;
-  h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.5rem;
-  }
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 8px;
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
-  font-size: 1rem;
-`;
 
 function AvatarForm({ setFormVisible }) {
   const { user, setUser } = useContext(UserContext);
@@ -63,15 +32,10 @@ function AvatarForm({ setFormVisible }) {
     }
   }
 
-  function handleCancel() {
-    setFormVisible(false);
-  }
-
   return (
     <Modal setModalVisible={() => setFormVisible(false)}>
-      <Card padding="32px">
-        <AvatarFormContainer onSubmit={handleSubmit}>
-          <h2>Upload your picture</h2>
+      <FormContainer>
+        <Form center onSubmit={handleSubmit}>
           <Avatar
             src={file ? URL.createObjectURL(file) : user.avatar}
             onError={(event) => {
@@ -92,13 +56,18 @@ function AvatarForm({ setFormVisible }) {
               setError(null);
             }}
           />
-          <ErrorMessage>{error}</ErrorMessage>
-          <Buttons>
-            <AvatarFormButton submit>Save</AvatarFormButton>
-            <AvatarFormButton onClick={handleCancel} type="button">Cancel</AvatarFormButton>
-          </Buttons>
-        </AvatarFormContainer>
-      </Card>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          <ButtonsContainer>
+            <SubmitButton>SUBMIT</SubmitButton>
+            <CancelButton
+              type="button"
+              onClick={() => setFormVisible(false)}
+            >
+                CANCEL
+            </CancelButton>
+          </ButtonsContainer>
+        </Form>
+      </FormContainer>
     </Modal>
   );
 }

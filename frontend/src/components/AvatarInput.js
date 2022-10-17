@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import Avatar from "./Avatar";
-import AvatarForm from "./AccountManagement/AvatarForm";
+import AvatarForm from "./AccountManagement/ChangeAvatarForm";
 import ADD_PHOTO_ICON from "../img/add-photo.svg";
 import styled from "styled-components";
 

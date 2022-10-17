@@ -5,7 +5,7 @@ import EditableInfo from "./EditableInfo";
 import ChangeNameForm from "./ChangeNameForm";
 import ChangeBioForm from "./ChangeBioForm";
 import ChangeEmailForm from "./ChangeEmailForm";
-import AvatarForm from "./AvatarForm";
+import AvatarForm from "./ChangeAvatarForm";
 
 function PersonalInfo() {
   const { user } = useContext(UserContext);

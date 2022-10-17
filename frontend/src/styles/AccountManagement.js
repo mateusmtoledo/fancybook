@@ -28,11 +28,17 @@ export const AccountManagementSection = styled(Card.withComponent('section'))`
   overflow: hidden;
 `;
 
-export const Buttons = styled.div`
+export const ButtonsContainer = styled.div`
   display: flex;
+  flex-direction: ${(props) => props.column ? 'column' : 'row'};
   width: 100%;
   gap: 8px;
+  align-items: center;
   justify-content: flex-end;
+
+  > button {
+    width: ${(props) => props.column ? '100%' : null}
+  }
 `;
 
 export const Button = styled.button`
@@ -56,6 +62,7 @@ export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
 `;
 
 export const FormContainer = styled(Card)`

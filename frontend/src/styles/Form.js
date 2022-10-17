@@ -2,8 +2,13 @@ import styled from "styled-components";
 
 const Form = styled.form`
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 16px;
+  ${(props) => props.center && `
+    justify-content: center;
+    align-items: center;
+  `}
 
   .same-line {
     display: flex;

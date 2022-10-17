@@ -3,7 +3,7 @@ import { useState } from "react";
 import api from "../../adapters/api";
 import { UserContext } from "../../contexts/UserContext";
 import Form from "../../styles/Form";
-import { Buttons, CancelButton, FormContainer, InputContainer, SubmitButton } from "../../styles/AccountManagement";
+import { ButtonsContainer, CancelButton, FormContainer, InputContainer, SubmitButton } from "../../styles/AccountManagement";
 import Input from "../Input";
 import Modal from "../Modal";
 
@@ -40,7 +40,7 @@ function ChangeEmailForm({ setFormVisible }) {
               error={errors?.email?.msg}
             />
           </InputContainer>
-          <Buttons>
+          <ButtonsContainer>
             <CancelButton
               type="button"
               onClick={() => setFormVisible(false)}
@@ -48,7 +48,7 @@ function ChangeEmailForm({ setFormVisible }) {
                 CANCEL
             </CancelButton>
             <SubmitButton>SUBMIT</SubmitButton>
-          </Buttons>
+          </ButtonsContainer>
         </Form>
       </FormContainer>
     </Modal>
