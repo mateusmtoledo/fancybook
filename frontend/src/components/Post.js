@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import Card from "../styles/Card";
-import { ReactComponent as CommentIcon} from "../img/comment.svg";
 import UserDisplayInfo from "./UserDisplayInfo";
 import useLikes from "../hooks/useLikes";
 import useComments from "../hooks/useComments";
-import CommentList from "./CommentList";
-import { useState } from "react";
-import InteractionButton from "../styles/InteractionButton";
 
 const StyledPost = styled(Card)`
   display: flex;
@@ -32,14 +28,6 @@ const PostStats = styled.div`
   justify-content: space-between;
 `;
 
-const CommentCounter = styled.button`
-  font-size: 0.9rem;
-
-  &:hover {
-    color: var(--color-orange);
-  }
-`;
-
 function Post({ post }) {
   const {
     likeCounter,
@@ -47,16 +35,10 @@ function Post({ post }) {
   } = useLikes(post._id);
 
   const {
-    comments,
-    pageNumber,
-    hasNextPage: hasNextCommentPage,
-    commentCount,
-    commentsLoading,
-    loadNextCommentPage,
-    refreshComments,
+    commentCounter,
+    commentButton,
+    commentList,
   } = useComments(post._id);
-
-  const [commentsVisible, setCommentsVisible] = useState(false);
 
   return (
     <StyledPost>
@@ -71,31 +53,13 @@ function Post({ post }) {
       <hr />
       <PostStats>
         {likeCounter}
-        <CommentCounter onClick={() => setCommentsVisible((prev) => !prev)}>
-          {commentCount} Comments
-        </CommentCounter>
+        {commentCounter}
       </PostStats>
       <div className="buttons">
         {likeButton}
-        <InteractionButton
-          onClick={() => setCommentsVisible((prev) => !prev)}
-          isActive={commentsVisible}
-        >
-          <CommentIcon />
-          <p>Comment</p>
-        </InteractionButton>
+        {commentButton}
       </div>
-      {commentsVisible && comments
-        && <CommentList
-          comments={comments}
-          postId={post._id}
-          hasNextPage={hasNextCommentPage}
-          pageNumber={pageNumber}
-          commentCount={commentCount}
-          commentsLoading={commentsLoading}
-          refreshComments={refreshComments}
-          loadNextCommentPage={loadNextCommentPage}
-        />}
+      {commentList}
     </StyledPost>
   );
 }

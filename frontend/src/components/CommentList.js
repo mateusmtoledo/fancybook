@@ -17,13 +17,13 @@ const LoadMoreCommentsButton = styled.button`
 function CommentList({
   postId,
   comments,
-  pageNumber,
   hasNextPage,
-  commentCount,
-  commentsLoading,
   loadNextCommentPage,
   refreshComments,
+  commentsVisible
 }) {
+  if (!commentsVisible) return null;
+
   return (
     <CommentListContainer>
       <CommentForm postId={postId} refreshComments={refreshComments} />

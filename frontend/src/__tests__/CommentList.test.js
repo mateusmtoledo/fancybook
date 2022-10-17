@@ -46,7 +46,10 @@ describe('CommentList', () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={{ user: currentUser }}>
-          <CommentList comments={comments} />
+          <CommentList
+            commentsVisible={true}
+            comments={comments}
+          />
         </UserContext.Provider>
       </MemoryRouter>
     );
@@ -64,7 +67,10 @@ describe('CommentList', () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={{ user: currentUser }}>
-          <CommentList comments={comments} />
+          <CommentList
+            commentsVisible={true}
+            comments={comments}
+          />
         </UserContext.Provider>
       </MemoryRouter>
     );
