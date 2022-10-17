@@ -132,14 +132,14 @@ router.put('/password', [
     .escape()
     .custom(async (password, { req }) => {
       const user = await User.findById(req.user._id, 'password');
+      if (!user.password) return;
       const res = await bcrypt.compare(password, user.password);
       if (!res) {
-        const error = new Error('Wrong password');
-        error.statusCode = 401;
-        throw error;
+        throw new Error();
       }
-    }),
-  body('newPassword', 'Password must have at least 6 characters').trim().isLength({ min: 6 }).escape(),
+    })
+    .withMessage('Wrong password'),
+  body('newPassword', 'New password must have at least 6 characters').trim().isLength({ min: 6 }).escape(),
 
   async (req, res, next) => {
     const errors = validationResult.withDefaults({
