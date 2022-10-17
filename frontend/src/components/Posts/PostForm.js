@@ -1,15 +1,15 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import { UserContext } from "../contexts/UserContext";
-import Avatar from "./Avatar";
-import Card from "../styles/Card";
-import SEND_ICON from '../img/send.svg';
-import api from "../adapters/api";
-import Loading from "./Loading";
-import VariableHeightTextInput from "./VariableHeightTextInput";
+import { UserContext } from "../../contexts/UserContext";
+import Avatar from "../Avatar";
+import Card from "../../styles/Card";
+import SEND_ICON from '../../img/send.svg';
+import api from "../../adapters/api";
+import Loading from "../Loading";
+import VariableHeightTextInput from "../VariableHeightTextInput";
 import { Link } from "react-router-dom";
-import { ErrorMessage } from "../styles/PostForm";
-import Form from "../styles/Form";
+import { ErrorMessage } from "../../styles/PostForm";
+import Form from "../../styles/Form";
 
 const StyledPostForm = styled(Card)`
   position: relative;

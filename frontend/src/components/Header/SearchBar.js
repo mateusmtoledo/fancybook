@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import api from "../adapters/api";
-import SEARCH_ICON from "../img/search.svg";
+import api from "../../adapters/api";
+import SEARCH_ICON from "../../img/search.svg";
 import SearchResultsList from "./SearchResultsList";
 
 const StyledSearchBar = styled.div`

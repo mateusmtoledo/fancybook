@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import userEvent from "@testing-library/user-event";
 import api from "../adapters/api";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/Header/SearchBar";
 import { MemoryRouter } from "react-router-dom";
 
 jest.mock('../adapters/api', () => {

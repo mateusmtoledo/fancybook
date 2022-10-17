@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import LikeCounter from "../components/LikeCounter";
+import LikeCounter from "../components/Likes/LikeCounter";
 import '@testing-library/jest-dom';
 import userEvent from "@testing-library/user-event";
 import ReactDOM from "react-dom";

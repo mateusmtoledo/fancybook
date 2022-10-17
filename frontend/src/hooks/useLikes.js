@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import api from "../adapters/api";
-import LikeCounter from "../components/LikeCounter";
-import LikeButton from "../components/LikeButton";
+import LikeCounter from "../components/Likes/LikeCounter";
+import LikeButton from "../components/Likes/LikeButton";
 import { useMemo } from "react";
 import { useCallback } from "react";
 

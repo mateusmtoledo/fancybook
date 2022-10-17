@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom';
 import { UserContext } from "../contexts/UserContext";
 import userEvent from "@testing-library/user-event";
-import UserMenu from "../components/UserMenu";
+import UserMenu from "../components/Header/UserMenu";
 import { MemoryRouter } from "react-router-dom";
 
 const user = {

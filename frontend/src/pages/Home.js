@@ -1,5 +1,5 @@
 import Main from "../styles/Main";
-import PostList from "../components/PostList";
+import PostList from "../components/Posts/PostList";
 import FriendRequestList from "../components/FriendRequestList";
 import Aside from "../styles/Aside";
 import usePosts from "../hooks/usePosts";

@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import api from "../adapters/api";
-import { UserContext } from "../contexts/UserContext";
-import Form from "../styles/Form";
-import { Buttons, CancelButton, FormContainer, InputContainer, SubmitButton } from "../styles/ManageAccount";
-import { ErrorMessage } from "../styles/PostForm";
-import TextArea from "../styles/TextArea";
-import Modal from "./Modal";
+import api from "../../adapters/api";
+import { UserContext } from "../../contexts/UserContext";
+import Form from "../../styles/Form";
+import { Buttons, CancelButton, FormContainer, InputContainer, SubmitButton } from "../../styles/AccountManagement";
+import { ErrorMessage } from "../../styles/PostForm";
+import TextArea from "../../styles/TextArea";
+import Modal from "../Modal";
 
 const BioInput = styled(TextArea)`
   border-radius: 4px;

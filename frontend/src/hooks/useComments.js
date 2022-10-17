@@ -2,9 +2,9 @@ import { useCallback } from "react";
 import { useMemo } from "react";
 import { useEffect, useState } from "react";
 import api from "../adapters/api";
-import CommentButton from "../components/CommentButton";
-import CommentCounter from "../components/CommentCounter";
-import CommentList from "../components/CommentList";
+import CommentButton from "../components/Comments/CommentButton";
+import CommentCounter from "../components/Comments/CommentCounter";
+import CommentList from "../components/Comments/CommentList";
 
 function useComments(postId) {
   const [comments, setComments] = useState([]);

@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Loading from "./Loading";
+import Loading from "../Loading";
 import SearchResult from "./SearchResult";
-import USER_ICON from "../img/user.svg";
+import USER_ICON from "../../img/user.svg";
 
 const StyledSearchResultsList = styled.div`
   position: absolute;

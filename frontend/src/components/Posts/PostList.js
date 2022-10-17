@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Card from "../styles/Card";
+import Card from "../../styles/Card";
 import Post from "./Post";
 import PostForm from "./PostForm";
-import NO_DATA_IMG from "../img/no-data.svg";
+import NO_DATA_IMG from "../../img/no-data.svg";
 import NextPageButton from "./NextPageButton";
 
 const NoPosts = styled(Card)`

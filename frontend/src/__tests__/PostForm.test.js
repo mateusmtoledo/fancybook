@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import userEvent from "@testing-library/user-event";
 import { UserContext } from "../contexts/UserContext";
 import api from '../adapters/api';
-import PostForm from "../components/PostForm";
+import PostForm from "../components/Posts/PostForm";
 import { MemoryRouter } from "react-router-dom";
 
 const userContextValue = {

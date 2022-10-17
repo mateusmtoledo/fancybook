@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Loading from "./Loading";
+import Loading from "../Loading";
 
 const NextPageDiv = styled.div`
   position: relative;

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { UserContext } from "../contexts/UserContext";
-import Card from "../styles/Card";
-import Avatar from "./Avatar";
-import LOGOUT_ICON from "../img/log-out.svg";
+import { UserContext } from "../../contexts/UserContext";
+import Card from "../../styles/Card";
+import Avatar from "../Avatar";
+import LOGOUT_ICON from "../../img/log-out.svg";
 import { Link, useLocation } from "react-router-dom";
 
 const UserMenuDropdown = styled(Card)`

@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Card from "../styles/Card";
-import UserDisplayInfo from "./UserDisplayInfo";
-import useLikes from "../hooks/useLikes";
-import useComments from "../hooks/useComments";
+import Card from "../../styles/Card";
+import UserDisplayInfo from "../UserDisplayInfo";
+import useLikes from "../../hooks/useLikes";
+import useComments from "../../hooks/useComments";
 
 const StyledPost = styled(Card)`
   display: flex;

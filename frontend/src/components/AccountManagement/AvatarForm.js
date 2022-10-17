@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import api from "../adapters/api";
-import { UserContext } from "../contexts/UserContext";
-import Card from "../styles/Card";
-import Avatar from "./Avatar";
-import Modal from "./Modal";
+import api from "../../adapters/api";
+import { UserContext } from "../../contexts/UserContext";
+import Card from "../../styles/Card";
+import Avatar from "../Avatar";
+import Modal from "../Modal";
 
 const AvatarFormButton = styled.button`
   background-color: ${(props) => props.submit ? 'var(--color-orange)' : 'var(--color-gray-dark)'};

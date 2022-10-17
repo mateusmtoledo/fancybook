@@ -1,4 +1,4 @@
-import { InfoList, ManageAccountSection } from "../styles/ManageAccount";
+import { InfoList, AccountManagementSection } from "../../styles/AccountManagement";
 import EditableInfo from "./EditableInfo";
 import ChangePasswordForm from "./ChangePasswordForm";
 
@@ -6,12 +6,12 @@ function Security() {
   return (
     <>
       <h2>Security</h2>
-      <ManageAccountSection>
+      <AccountManagementSection>
         <h3>Password</h3>
         <InfoList>
           <EditableInfo fieldName="Change Password" Form={ChangePasswordForm} />
         </InfoList>
-      </ManageAccountSection>
+      </AccountManagementSection>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom';
-import SearchResultsList from "../components/SearchResultsList";
+import SearchResultsList from "../components/Header/SearchResultsList";
 import { MemoryRouter } from "react-router-dom";
 
 const searchResults = [

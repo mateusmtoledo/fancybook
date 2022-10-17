@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import Card from "../styles/Card";
+import Card from "../../styles/Card";
 import Like from "./Like";
-import X_ICON from "../img/x.svg";
+import X_ICON from "../../img/x.svg";
 import React, { useCallback, useRef } from "react";
-import Modal from "./Modal";
+import Modal from "../Modal";
 
 const LikeListContainer = styled(Card)`
   width: 400px;

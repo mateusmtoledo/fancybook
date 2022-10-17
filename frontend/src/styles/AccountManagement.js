@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Card from "./Card";
 
-export const ManageAccountContainer = styled.div`
+export const AccountManagementContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -20,7 +20,7 @@ export const ManageAccountContainer = styled.div`
   }
 `;
 
-export const ManageAccountSection = styled(Card.withComponent('section'))`
+export const AccountManagementSection = styled(Card.withComponent('section'))`
   --padding-x: 16px;
   display: flex;
   flex-direction: column;

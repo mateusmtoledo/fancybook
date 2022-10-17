@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import USERS_ICON from "../img/users.svg";
+import USERS_ICON from "../../img/users.svg";
 import SearchBar from "./SearchBar";
 import UserMenu from "./UserMenu";
 

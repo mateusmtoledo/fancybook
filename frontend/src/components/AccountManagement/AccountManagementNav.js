@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { ReactComponent as BADGE_ICON } from "../img/badge.svg";
-import { ReactComponent as LOCK_ICON } from "../img/lock.svg";
+import { ReactComponent as BADGE_ICON } from "../../img/badge.svg";
+import { ReactComponent as LOCK_ICON } from "../../img/lock.svg";
 
-const ManageAccountNavContainer = styled.nav`
+const AccountManagementNavContainer = styled.nav`
   height: max-content;
   display: flex;
   flex: 0 0 max-content;
@@ -59,9 +59,9 @@ function NavItem({ uri, IconComponent, itemName }) {
   )
 }
 
-function ManageAccountNav() {
+function AccountManagementNav() {
   return (
-    <ManageAccountNavContainer>
+    <AccountManagementNavContainer>
       <NavList>
         <NavItem
           uri="/manage-account"
@@ -74,8 +74,8 @@ function ManageAccountNav() {
           itemName="Security"
         />
       </NavList>
-    </ManageAccountNavContainer>
+    </AccountManagementNavContainer>
   );
 }
 
-export default ManageAccountNav;
+export default AccountManagementNav;

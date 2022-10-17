@@ -1,5 +1,5 @@
-import InteractionButton from "../styles/InteractionButton";
-import { ReactComponent as CommentIcon} from "../img/comment.svg";
+import InteractionButton from "../../styles/InteractionButton";
+import { ReactComponent as CommentIcon} from "../../img/comment.svg";
 
 function CommentButton({ commentsVisible, setCommentsVisible }) {
   return (

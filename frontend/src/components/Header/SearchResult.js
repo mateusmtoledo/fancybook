@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Avatar from "./Avatar";
+import Avatar from "../Avatar";
 
 const StyledSearchResult = styled.div`
   border-bottom: 1px solid var(--color-gray-dark);

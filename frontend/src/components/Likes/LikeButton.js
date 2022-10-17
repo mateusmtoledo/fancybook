@@ -1,6 +1,6 @@
-import InteractionButton from "../styles/InteractionButton";
-import { ReactComponent as  LikeIcon } from "../img/thumbs-up.svg";
-import api from "../adapters/api";
+import InteractionButton from "../../styles/InteractionButton";
+import { ReactComponent as  LikeIcon } from "../../img/thumbs-up.svg";
+import api from "../../adapters/api";
 
 function LikeButton({ refreshLikes, userHasLiked, postId }) {
   async function handleClick() {

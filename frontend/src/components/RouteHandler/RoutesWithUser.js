@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "../../pages/Home";
-import ManageAccount from "../../pages/ManageAccount";
+import AccountManaement from "../../pages/AccountManagement";
 import UserProfile from "../../pages/UserProfile";
-import Header from "../Header";
-import PersonalInfo from "../PersonalInfo";
-import Security from "../Security";
+import Header from "../Header/Header";
+import PersonalInfo from "../AccountManagement/PersonalInfo";
+import Security from "../AccountManagement/Security";
 
 function RoutesWithUser() {
 
@@ -15,7 +15,7 @@ function RoutesWithUser() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/user/:userId" element={<UserProfile />} />
-        <Route path="/manage-account" element={<ManageAccount />}>
+        <Route path="/manage-account" element={<AccountManaement />}>
           <Route index element={<PersonalInfo />} />
           <Route path="security" element={<Security />} />
         </Route>

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import api from "../adapters/api";
 import FriendList from "../components/FriendList";
-import PostList from "../components/PostList";
+import PostList from "../components/Posts/PostList";
 import UserInfo from "../components/UserInfo";
 import Main from "../styles/Main";
 import Aside from "../styles/Aside";

@@ -1,6 +1,6 @@
-import { InfoList, ManageAccountSection } from "../styles/ManageAccount";
+import { InfoList, AccountManagementSection } from "../../styles/AccountManagement";
 import { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import EditableInfo from "./EditableInfo";
 import ChangeNameForm from "./ChangeNameForm";
 import ChangeBioForm from "./ChangeBioForm";
@@ -13,7 +13,7 @@ function PersonalInfo() {
   return (
     <>
       <h2>Personal Info</h2>
-      <ManageAccountSection>
+      <AccountManagementSection>
         <h3>Basic Info</h3>
         <InfoList>
           <li>
@@ -26,15 +26,15 @@ function PersonalInfo() {
             <EditableInfo fieldName="Bio" fieldValue={user.bio} Form={ChangeBioForm} />
           </li>
         </InfoList>
-      </ManageAccountSection>
-      <ManageAccountSection>
+      </AccountManagementSection>
+      <AccountManagementSection>
         <h3>Contact Info</h3>
         <InfoList>
           <li>
             <EditableInfo fieldName="Email" fieldValue={user.email} Form={ChangeEmailForm} />
           </li>
         </InfoList>
-      </ManageAccountSection>
+      </AccountManagementSection>
     </>
   );
 }
