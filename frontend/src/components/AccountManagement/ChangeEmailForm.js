@@ -6,12 +6,15 @@ import Form from "../../styles/Form";
 import { ButtonsContainer, CancelButton, FormContainer, InputContainer, SubmitButton } from "../../styles/AccountManagement";
 import Input from "../Input";
 import Modal from "../Modal";
+import { ToastContext } from "src/contexts/ToastContext";
 
 function ChangeEmailForm({ setFormVisible }) {
   const { user, setUser } = useContext(UserContext);
   const [email, setEmail] = useState(user.email);
   const [errors, setErrors] = useState(null);
 
+  const { sendNotification } = useContext(ToastContext);
+  
   async function handleSubmit(event) {
     event.preventDefault();
     setErrors(null);
@@ -19,6 +22,7 @@ function ChangeEmailForm({ setFormVisible }) {
       const newUser = (await api.put(`/users/me/email`, { email })).data.user;
       setUser(newUser);
       setFormVisible(false);
+      sendNotification({ type: 'success',  text: 'Email successfully updated!' });
     } catch (err) {
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);

@@ -6,6 +6,7 @@ import Form from "../../styles/Form";
 import { ButtonsContainer, CancelButton, FormContainer, InputContainer, SubmitButton } from "../../styles/AccountManagement";
 import Input from "../Input";
 import Modal from "../Modal";
+import { ToastContext } from "src/contexts/ToastContext";
 
 function ChangeNameForm({ setFormVisible }) {
   const { user, setUser } = useContext(UserContext);
@@ -13,6 +14,8 @@ function ChangeNameForm({ setFormVisible }) {
   const [lastName, setLastName] = useState(user.lastName);
   const [errors, setErrors] = useState(null);
 
+  const { sendNotification } = useContext(ToastContext);
+  
   async function handleSubmit(event) {
     event.preventDefault();
     setErrors(null);
@@ -20,6 +23,7 @@ function ChangeNameForm({ setFormVisible }) {
       const newUser = (await api.put(`/users/me/name`, { firstName, lastName })).data.user;
       setUser(newUser);
       setFormVisible(false);
+      sendNotification({ type: 'success',  text: 'Name successfully updated!' });
     } catch (err) {
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);

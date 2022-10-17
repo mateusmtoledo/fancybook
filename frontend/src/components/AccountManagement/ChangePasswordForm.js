@@ -6,6 +6,7 @@ import Form from "../../styles/Form";
 import { ButtonsContainer, CancelButton, FormContainer, InputContainer, SubmitButton } from "../../styles/AccountManagement";
 import Input from "../Input";
 import Modal from "../Modal";
+import { ToastContext } from "src/contexts/ToastContext";
 
 function ChangePasswordForm({ setFormVisible }) {
   const { setUser } = useContext(UserContext);
@@ -13,6 +14,8 @@ function ChangePasswordForm({ setFormVisible }) {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [errors, setErrors] = useState(null);
+
+  const { sendNotification } = useContext(ToastContext);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -29,6 +32,7 @@ function ChangePasswordForm({ setFormVisible }) {
       const newUser = (await api.put(`/users/me/password`, { password, newPassword })).data.user;
       setUser(newUser);
       setFormVisible(false);
+      sendNotification({ type: 'success',  text: 'Password successfully updated!' });
     } catch (err) {
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);

@@ -8,6 +8,7 @@ import { ButtonsContainer, CancelButton, FormContainer, InputContainer, SubmitBu
 import { ErrorMessage } from "../../styles/PostForm";
 import TextArea from "../../styles/TextArea";
 import Modal from "../Modal";
+import { ToastContext } from "src/contexts/ToastContext";
 
 const BioInput = styled(TextArea)`
   border-radius: 4px;
@@ -18,6 +19,8 @@ function ChangeBioForm({ setFormVisible }) {
   const [bio, setBio] = useState(user.bio);
   const [errors, setErrors] = useState(null);
 
+  const { sendNotification } = useContext(ToastContext);
+  
   async function handleSubmit(event) {
     event.preventDefault();
     setErrors(null);
@@ -25,6 +28,7 @@ function ChangeBioForm({ setFormVisible }) {
       const newUser = (await api.put(`/users/me/bio`, { bio })).data.user;
       setUser(newUser);
       setFormVisible(false);
+      sendNotification({ type: 'success',  text: 'Bio successfully updated!' });
     } catch (err) {
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);

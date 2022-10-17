@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useState } from "react";
+import { ToastContext } from "src/contexts/ToastContext";
 import { ButtonsContainer, CancelButton, FormContainer, SubmitButton } from "src/styles/AccountManagement";
 import Form from "src/styles/Form";
 import { ErrorMessage } from "src/styles/PostForm";
@@ -13,6 +14,8 @@ function AvatarForm({ setFormVisible }) {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
 
+  const { sendNotification } = useContext(ToastContext);
+  
   async function handleSubmit(event) {
     event.preventDefault();
     if (error) return;
@@ -22,6 +25,7 @@ function AvatarForm({ setFormVisible }) {
       const response = await api.put('/users/me/avatar', formData);
       setUser(response.data.user);
       setFormVisible(false);
+      sendNotification({ type: 'success',  text: 'Avatar successfully updated!' });
     } catch (err) {
       if (err.response) {
         if (err.response.status === 400) setError('Invalid image file');
