@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema({
   firstName: { type: String, required: true, maxLength: 35 },
-  lastName: { type: String, required: true, maxLength: 35 },
+  lastName: { type: String, maxLength: 35 },
   bio: { type: String, maxLength: 155 },
   gender: {
     type: String,
