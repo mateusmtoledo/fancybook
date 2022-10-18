@@ -4,6 +4,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const passportJWT = require('passport-jwt');
 const GoogleStrategy = require('passport-google-oidc');
+const axios = require('axios');
 const User = require('../models/User');
 
 passport.use(new LocalStrategy(
@@ -74,18 +75,25 @@ passport.use(new GoogleStrategy(
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: '/login/google/redirect',
   },
-  (issuer, profile, cb) => {
-    User.findOne({ googleId: profile.id }, (err, user) => {
-      if (err) {
-        cb(err);
-        return;
-      }
+  async (issuer, profile, cb) => {
+    try {
+      const user = await User.findOne({ googleId: profile.id });
       if (!user) {
+        const avatar = (await axios.get(
+          `https://people.googleapis.com/v1/people/${profile.id}`,
+          {
+            params: {
+              personFields: 'photos',
+              key: process.env.GOOGLE_API_KEY,
+            },
+          },
+        )).data.photos[0].url;
         new User({
           googleId: profile.id,
           firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
+          lastName: profile.name.familyName || '',
           email: profile.emails[0].value,
+          avatar,
         }).save((err, user) => {
           if (err) {
             cb(err);
@@ -96,7 +104,9 @@ passport.use(new GoogleStrategy(
         return;
       }
       cb(null, user);
-    });
+    } catch (err) {
+      cb(err);
+    }
   },
 ));
 
