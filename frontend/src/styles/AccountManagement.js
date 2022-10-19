@@ -37,12 +37,14 @@ export const ButtonsContainer = styled.div`
   justify-content: flex-end;
 
   > button {
-    width: ${(props) => props.column ? '100%' : null}
+    width: ${(props) => props.column ? '100%' : null};
   }
 `;
 
 export const Button = styled.button`
   font-family: 'Outfit', sans-serif;
+  display: flex;
+  justify-content: center;
   font-size: 1rem;
   font-weight: 700;
   width: max-content;

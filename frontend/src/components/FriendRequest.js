@@ -1,66 +1,89 @@
 import styled from "styled-components";
-import CHECK_ICON from "../img/check-square.svg";
-import X_ICON from "../img/x-square.svg";
 import api from "../adapters/api";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import UserDisplayInfo from "./UserDisplayInfo";
+import Avatar from "./Avatar";
+import Card from "src/styles/Card";
+import { ButtonsContainer, CancelButton, SubmitButton } from "src/styles/AccountManagement";
+import { handleFriendshipError } from "./FriendshipButtons";
+import { ToastContext } from "src/contexts/ToastContext";
+import { Link } from "react-router-dom";
 
-const StyledFriendRequest = styled.li`
+const FriendRequestContainer = styled(Card)`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 0 0 12px;
+  overflow: hidden;
+  gap: 8px;
 
-  .buttons {
-    display: flex;
-    gap: 4px;
-    align-items: center;
+  p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
+
+  > a {
+    padding: 0;
+  }
+
+  > * {
+    padding: 0 12px;
+  }
+`;
+
+const FriendRequestAvatar = styled(Avatar)`
+  border-radius: 0;
+  width: 100%;
+  height: min-content;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 `;
 
 function FriendRequest({ friendRequest, refreshPosts }) {
   const { refreshFriends } = useContext(UserContext);
+  const { sendNotification } = useContext(ToastContext);
 
   return (
-    <StyledFriendRequest>
-      <UserDisplayInfo user={friendRequest} />
-      <div className="buttons">
-        <button onClick={async () => {
-          try {
-            await api.delete(`/users/${friendRequest._id}/friends`);
-          } catch (err) {
-            // TODO implement error handling
-            console.log(err);
+    <FriendRequestContainer>
+      <Link to={`/user/${friendRequest._id}`}>
+        <FriendRequestAvatar user={friendRequest} />
+      </Link>
+      <p>
+        <Link to={`/user/${friendRequest._id}`}>
+          {friendRequest.fullName}
+        </Link>
+      </p>
+      <ButtonsContainer column>
+        <SubmitButton onClick={
+          async () => {
+            try {
+              await api
+                .put(`/users/${friendRequest._id.toString()}/friends`)
+            } catch (err) {
+              handleFriendshipError(err, sendNotification);
+            }
+            refreshFriends();
           }
-          refreshFriends();
-          refreshPosts();
-        }}>
-          <img
-            alt="Decline request"
-            src={X_ICON}
-            width="24px"
-            height="24px"
-          />
-        </button>
-        <button onClick={async () => {
-          try {
-            await api.put(`/users/${friendRequest._id}/friends`);
-          } catch (err) {
-            // TODO implement error handling
-            console.log(err);
+        }>
+          ACCEPT
+        </SubmitButton>
+        <CancelButton onClick={
+          async () => {
+            try {
+              await api
+                .delete(`/users/${friendRequest._id.toString()}/friends`)
+            } catch (err) {
+              handleFriendshipError(err, sendNotification);
+            }
+            refreshFriends();
           }
-          refreshFriends();
-          refreshPosts();
-        }}>
-          <img
-            alt="Accept request"
-            src={CHECK_ICON}
-            width="24px"
-            height="24px"
-          />
-        </button>
-      </div>
-    </StyledFriendRequest>
+        }>
+          DECLINE
+        </CancelButton>
+      </ButtonsContainer>
+    </FriendRequestContainer>
   );
 }
 

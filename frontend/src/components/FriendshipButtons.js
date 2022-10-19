@@ -6,8 +6,20 @@ import USER_CHECK_ICON from "../img/user-check.svg";
 import USER_MINUS_ICON from "../img/user-minus.svg";
 import api from "../adapters/api";
 import { ToastContext } from "../contexts/ToastContext";
+import styled from "styled-components";
 
-function handleFriendshipError(err, sendNotification) {
+const ButtonStyled = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  font-size: 1.2rem;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--color-orange);
+  border-radius: 8px;
+`;
+
+export function handleFriendshipError(err, sendNotification) {
   const message = typeof err.response.data === 'string'
     ? err.response.data
     : 'Something went wrong';
@@ -22,7 +34,7 @@ function FriendshipButtons({ targetUser }) {
 
   if (friends.sent && friends.sent.some((friend) => friend._id === targetUser._id)) {
     return (
-      <button onClick={async () => {
+      <ButtonStyled onClick={async () => {
         try {
           await api
             .delete(`/users/${targetUser._id.toString()}/friends`);
@@ -33,13 +45,13 @@ function FriendshipButtons({ targetUser }) {
       }}>
         <img src={USER_X_ICON} alt="Cancel friend request" />
         Cancel
-      </button>
+      </ButtonStyled>
     );
   }
   if (friends.pending && friends.pending.some((friend) => friend._id === targetUser._id)) {
     return (
       <>
-        <button onClick={async () => {
+        <ButtonStyled onClick={async () => {
           try {
             await api
               .delete(`/users/${targetUser._id.toString()}/friends`);
@@ -50,8 +62,8 @@ function FriendshipButtons({ targetUser }) {
         }}>
           <img src={USER_X_ICON} alt="Decline friend request" />
           Decline
-        </button>
-        <button onClick={async () => {
+        </ButtonStyled>
+        <ButtonStyled onClick={async () => {
           try {
             await api
               .put(`/users/${targetUser._id.toString()}/friends`)
@@ -62,13 +74,13 @@ function FriendshipButtons({ targetUser }) {
         }}>
           <img src={USER_CHECK_ICON} alt="Accept friend request" />
           Accept
-        </button>
+        </ButtonStyled>
       </>
     );
   }
   if (friends.friends && friends.friends.some((friend) => friend._id === targetUser._id)) {
     return (
-      <button onClick={async () => {
+      <ButtonStyled onClick={async () => {
         try {
           await api
             .delete(`/users/${targetUser._id.toString()}/friends`);
@@ -79,11 +91,11 @@ function FriendshipButtons({ targetUser }) {
       }}>
         <img src={USER_MINUS_ICON} alt="Remove friend" />
         Remove
-      </button>
+      </ButtonStyled>
     );
   }
   return (
-    <button onClick={async () => {
+    <ButtonStyled onClick={async () => {
       try {
         await api
           .post(`/users/${targetUser._id.toString()}/friends`);
@@ -94,7 +106,7 @@ function FriendshipButtons({ targetUser }) {
     }}>
       <img src={USER_PLUS_ICON} alt="Add as a friend" />
       Add
-    </button>
+    </ButtonStyled>
   );
 }
 

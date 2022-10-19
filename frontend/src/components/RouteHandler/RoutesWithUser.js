@@ -5,6 +5,7 @@ import UserProfile from "../../pages/UserProfile";
 import Header from "../Header/Header";
 import PersonalInfo from "../AccountManagement/PersonalInfo";
 import Security from "../AccountManagement/Security";
+import Friends from "src/pages/Friends";
 
 function RoutesWithUser() {
 
@@ -14,6 +15,7 @@ function RoutesWithUser() {
       <Header />
       <Routes>
         <Route index element={<Home />} />
+        <Route path="/friends" element={<Friends />} />
         <Route path="/user/:userId" element={<UserProfile />} />
         <Route path="/account-management" element={<AccountManagement />}>
           <Route index element={<PersonalInfo />} />

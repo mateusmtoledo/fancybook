@@ -41,17 +41,6 @@ const StyledUserInfo = styled(Card)`
     padding: 16px;
     gap: 8px;
     min-height: 64px;
-
-    button {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 12px;
-      font-size: 1.2rem;
-      font-family: 'Outfit', sans-serif;
-      background-color: var(--color-orange);
-      border-radius: 6px;
-    }
   }
 
   @media (max-width: 650px) {

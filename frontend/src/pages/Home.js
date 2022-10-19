@@ -2,16 +2,7 @@ import Main from "../styles/Main";
 import PostList from "../components/Posts/PostList";
 import usePosts from "../hooks/usePosts";
 import Nav from "src/components/Nav";
-import styled from "styled-components";
-
-const Container = styled.div`
-  flex: 1;
-  display: flex;
-
-  @media (max-width: 650px) {
-    flex-direction: column;
-  }
-`;
+import { Container } from "src/styles/Home";
 
 function Home() {
   const {

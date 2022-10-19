@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
-const StyledAvatar = styled.img`
-  border-radius: 100%;
+const AvatarStyled = styled.img`
+  border-radius: ${(props) => props.borderRadius || '100%'};
   object-fit: cover;
   cursor: ${(props) => props.clickable ? 'pointer' : null};
 `;
 
 function Avatar({ user, size, className, src, alt, onError }) {
   return (
-    <StyledAvatar
+    <AvatarStyled
       src={src || user.avatar}
       alt={alt || `${user.firstName}'s avatar`}
       width={size || '32px'}

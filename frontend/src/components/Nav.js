@@ -91,7 +91,7 @@ function Nav() {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/">
+          <NavLink to="/friends">
             <img
               src={USERS_ICON}
               alt="Friends"

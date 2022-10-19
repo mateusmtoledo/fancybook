@@ -5,6 +5,7 @@ import { UserContext } from "../contexts/UserContext";
 import userEvent from "@testing-library/user-event";
 import api from "../adapters/api";
 import { MemoryRouter } from "react-router-dom";
+import { ToastContext } from "src/contexts/ToastContext";
 
 jest.mock('../adapters/api', () => {
   return {
@@ -33,12 +34,14 @@ describe('FriendRequest', () => {
   it('renders requesting user\'s name and avatar', () => {
     render(
       <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
-        <MemoryRouter>
-          <FriendRequest
-            friendRequest={friendRequest}
-            refreshPosts={jest.fn()}
-          />
-        </MemoryRouter>
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <MemoryRouter>
+            <FriendRequest
+              friendRequest={friendRequest}
+              refreshPosts={jest.fn()}
+            />
+          </MemoryRouter>
+        </ToastContext.Provider>
       </UserContext.Provider>
     );
     const requesterName = screen.getByText(/jane doe/i);
@@ -51,15 +54,17 @@ describe('FriendRequest', () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
-          <FriendRequest
-            friendRequest={friendRequest}
-            refreshPosts={jest.fn()}
-          />
+          <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+            <FriendRequest
+              friendRequest={friendRequest}
+              refreshPosts={jest.fn()}
+            />
+          </ToastContext.Provider>
         </UserContext.Provider>
       </MemoryRouter>
     );
-    const acceptButton = screen.getByAltText(/accept/i);
-    const declineButton = screen.getByAltText(/decline/i);
+    const acceptButton = screen.getByText(/accept/i);
+    const declineButton = screen.getByText(/decline/i);
     expect(acceptButton).toBeInTheDocument();
     expect(declineButton).toBeInTheDocument();
   });
@@ -70,14 +75,16 @@ describe('accept button', () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
-          <FriendRequest
-            friendRequest={friendRequest}
-            refreshPosts={jest.fn()}
-          />
+          <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+            <FriendRequest
+              friendRequest={friendRequest}
+              refreshPosts={jest.fn()}
+            />
+          </ToastContext.Provider>
         </UserContext.Provider>
       </MemoryRouter>
     );
-    const acceptButton = screen.getByAltText(/accept/i);
+    const acceptButton = screen.getByText(/accept/i);
     userEvent.click(acceptButton);
     expect(api.put).toBeCalledWith('/users/janesid/friends');
   });
@@ -88,14 +95,16 @@ describe('decline button', () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
-          <FriendRequest
-            friendRequest={friendRequest}
-            refreshPosts={jest.fn()}
-          />
+          <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+            <FriendRequest
+              friendRequest={friendRequest}
+              refreshPosts={jest.fn()}
+            />
+          </ToastContext.Provider>
         </UserContext.Provider>
       </MemoryRouter>
     );
-    const declineButton = screen.getByAltText(/decline/i);
+    const declineButton = screen.getByText(/decline/i);
     userEvent.click(declineButton);
     expect(api.delete).toBeCalledWith('/users/janesid/friends');
   });
