@@ -12,7 +12,8 @@ const NoPosts = styled(Card)`
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 48px;
+  gap: 8px;
+  padding: 28px;
   img, p {
     opacity: 0.8;
   }
