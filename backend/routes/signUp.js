@@ -6,9 +6,16 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/', [
-  body('firstName', 'First name is required').trim().isLength({ min: 1 }).escape(),
-  body('lastName', 'Last name is required').trim().isLength({ min: 1 }).escape(),
-  body('email', 'Email is invalid').isEmail().normalizeEmail(),
+  body('firstName', 'First name must have 1 to 35 characters').trim().isLength({ min: 1, max: 35 }).escape(),
+  body('lastName', 'Last name must have 1 to 35 characters').trim().isLength({ min: 1, max: 35 }).escape(),
+  body('email', 'Email is invalid').isEmail().normalizeEmail()
+    .custom(async (email) => {
+      const emailInUse = await User.exists({ email });
+      if (emailInUse) {
+        throw new Error();
+      }
+    })
+    .withMessage('Email is already in use'),
   body('password', 'Password must have at least 6 characters').trim().isLength({ min: 6 }).escape(),
 
   async (req, res, next) => {
@@ -32,7 +39,7 @@ router.post('/', [
       const emailInUse = await User.exists({ email });
       if (emailInUse) {
         const err = new Error('Email already in use');
-        err.statusCode = 409;
+        err.statusCode = 400;
         throw err;
       }
       const hashedPassword = await bcrypt.hash(password, 10);
