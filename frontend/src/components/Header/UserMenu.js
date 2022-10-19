@@ -14,8 +14,11 @@ const UserMenuDropdown = styled(Card)`
   position: absolute;
   top: 100%;
   right: 0;
-  min-width: 300px;
+  width: max-content;
+  max-width: 100vw;
   z-index: 2;
+
+  // FIXME text overflowing when user's name is too long
 
   hr {
     border: none;
@@ -56,6 +59,12 @@ const UserEmail = styled.p`
 const CurrentUser = styled.div`
   display: flex;
   gap: 24px;
+
+  @media (max-width: 450px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
 `;
 
 const RightSideContent = styled.div`

@@ -21,7 +21,7 @@ const EditableInfoButton = styled.button`
 
 const FieldName = styled.p`
   font-weight: 700;
-  flex: 0 0 130px;
+  width: 70px;
 `
 
 const FieldValue = styled.p`

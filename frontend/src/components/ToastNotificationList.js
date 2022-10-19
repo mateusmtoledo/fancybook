@@ -16,6 +16,12 @@ const ToastNotificationListContainer = styled.div`
   z-index: 1;
   gap: 16px;
   height: max-content;
+
+  @media (max-width: 450px) {
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
 `;
 
 function ToastNotificationList () {

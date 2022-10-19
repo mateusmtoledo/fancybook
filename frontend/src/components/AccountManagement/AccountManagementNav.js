@@ -13,11 +13,6 @@ const AccountManagementNavContainer = styled.nav`
   h2 {
     text-align: center;
   }
-
-  @media (max-width: 750px) {
-    // TODO responsive design
-    display: none;
-  }
 `;
 
 const StyledLink = styled(Link)`
@@ -30,6 +25,11 @@ const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (max-width: 650px) {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
 `;
 
 const NavItemContainer = styled.li`

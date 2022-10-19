@@ -69,7 +69,7 @@ export const InputContainer = styled.div`
 
 export const FormContainer = styled(Card)`
   width: 400px;
-  max-width: 98vw;
+  max-width: 100%;
 `;
 
 export const InfoList = styled.ul`

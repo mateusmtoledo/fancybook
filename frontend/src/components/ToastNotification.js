@@ -37,7 +37,7 @@ const ToastContainer = styled(Card)`
   position: relative;
   background-color: ${(props) => props.bgColor};
   width: 350px;
-  max-width: 100vw;
+  max-width: 96vw;
   display: grid;
   grid-template-columns: max-content 1fr;
   grid-auto-rows: max-content 1fr;

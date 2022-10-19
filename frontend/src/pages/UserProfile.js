@@ -14,6 +14,15 @@ import { UserContext } from "../contexts/UserContext";
 const UserContent = styled.div`
   display: flex;
   gap: 16px;
+
+  @media (max-width: 650px) {
+    // TODO improve friend list layout
+    flex-direction: column;
+  }
+`;
+
+const UserProfileMain = styled(Main)`
+  flex-direction: column;
 `;
 
 async function getUser(userId) {
@@ -53,29 +62,23 @@ function UserProfile() {
     if(userId === currentUser._id) refreshPosts();
   }, [userId, currentUser, refreshPosts]);
 
+  if (!user) return null;
+
   return (
-    <>
-      {  
-        user
-        ? <>
-          <Main column>
-            <UserInfo user={user} />
-            <UserContent>
-              <Aside>
-                <FriendList friends={friends} />
-              </Aside>
-              <PostList
-                posts={posts}
-                loadNextPostPage={loadNextPostPage}
-                postsLoading={postsLoading}
-                hasNextPage={hasNextPage}
-              />
-            </UserContent>
-          </Main>
-        </>
-        : null
-      }
-    </>
+    <UserProfileMain>
+      <UserInfo user={user} />
+      <UserContent>
+        <Aside>
+          <FriendList friends={friends} />
+        </Aside>
+        <PostList
+          posts={posts}
+          loadNextPostPage={loadNextPostPage}
+          postsLoading={postsLoading}
+          hasNextPage={hasNextPage}
+        />
+      </UserContent>
+    </UserProfileMain>
   );
 }
 
