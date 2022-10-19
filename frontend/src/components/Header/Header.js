@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import USERS_ICON from "../../img/users.svg";
 import SearchBar from "./SearchBar";
 import UserMenu from "./UserMenu";
 
@@ -54,15 +53,6 @@ function Header() {
         <SearchBar />
       </div>
       <div className="right-side">
-        <button className="mobile">
-          {/* TODO friend requests responsiveness */}
-          <img
-            alt="Friend requests"
-            src={USERS_ICON}
-            width="28px"
-            height="28px"
-          />
-        </button>
         <UserMenu />
       </div>
     </StyledHeader>

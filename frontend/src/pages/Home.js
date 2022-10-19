@@ -1,8 +1,17 @@
 import Main from "../styles/Main";
 import PostList from "../components/Posts/PostList";
-import FriendRequestList from "../components/FriendRequestList";
-import Aside from "../styles/Aside";
 import usePosts from "../hooks/usePosts";
+import Nav from "src/components/Nav";
+import styled from "styled-components";
+
+const Container = styled.div`
+  flex: 1;
+  display: flex;
+
+  @media (max-width: 650px) {
+    flex-direction: column;
+  }
+`;
 
 function Home() {
   const {
@@ -14,8 +23,9 @@ function Home() {
   } = usePosts();
 
   return (
-    <>
-      <Main>
+    <Container>
+      <Nav />
+      <Main maxWidth="700px">
         <PostList
           posts={posts}
           postsLoading={postsLoading}
@@ -24,13 +34,8 @@ function Home() {
           refreshPosts={refreshPosts}
           renderForm
         />
-        <Aside>
-          <FriendRequestList
-            refreshPosts={refreshPosts}
-          />
-        </Aside>
       </Main>
-    </>
+    </Container>
   );
 }
 

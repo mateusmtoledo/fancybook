@@ -1,15 +1,23 @@
 import styled from "styled-components";
 
 const Main = styled.main`
-  flex: 1;
-  padding: 16px 8px;
+  position: relative;
+  flex: 1 1 auto;
+  padding: 0 8px;
+  margin: 16px auto;
   max-width: ${(props) => props.maxWidth ? props.maxWidth : '1064px'};
   width: 100%;
   display: flex;
-  flex-direction: ${(props) => props.column ? 'column' : 'row'};
-  justify-content: ${(props) => props.column ? 'flex-start' : 'center'};
-  margin: auto;
   gap: 16px;
+  ${(props) => props.column
+  ? `
+    flex-direction: column;
+    justify-content: flex-start;
+  `
+  : `
+    flex-direction: row;
+    justify-content: center;
+  `}
 `;
 
 export default Main;

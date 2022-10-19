@@ -1,1 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FF7517" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+<defs>
+  <linearGradient id="gradient-1">
+    <stop offset="0%" stop-color="#3085E1" />
+    <stop offset="100%" stop-color="#00A5EA" />
+  </linearGradient>
+  <linearGradient id="gradient-2">
+    <stop offset="0%" stop-color="#00BFDD" />
+    <stop offset="100%" stop-color="#21D5C6" />
+  </linearGradient>
+</defs>
+<path fill="url(#gradient-2)" d="M63.333,10C55.97,10,50,15.97,50,23.333s5.97,13.333,13.333,13.333s13.334-5.97,13.334-13.333S70.696,10,63.333,10z"/>
+<path fill="url(#gradient-1)" d="M36.667,30c-7.363,0-13.334,5.97-13.334,13.333c0,7.364,5.971,13.333,13.334,13.333S50,50.697,50,43.333
+	C50,35.97,44.03,30,36.667,30z"/>
+<path fill="url(#gradient-1)" d="M50,63.333H23.333C15.97,63.333,10,69.304,10,76.667V90h53.333V76.667C63.333,69.307,57.363,63.333,50,63.333z"/>
+<path fill="url(#gradient-2)" d="M76.667,43.333h-20v14.535C62.324,59.876,66.823,64.336,68.835,70H90V56.667C90,49.307,84.03,43.333,76.667,43.333z"/>
+</svg>
