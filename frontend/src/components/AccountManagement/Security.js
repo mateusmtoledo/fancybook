@@ -5,7 +5,6 @@ import ChangePasswordForm from "./ChangePasswordForm";
 function Security() {
   return (
     <>
-      <h2>Security</h2>
       <AccountManagementSection>
         <h3>Password</h3>
         <InfoList>

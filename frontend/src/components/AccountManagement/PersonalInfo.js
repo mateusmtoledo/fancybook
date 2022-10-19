@@ -12,7 +12,6 @@ function PersonalInfo() {
 
   return (
     <>
-      <h2>Personal Info</h2>
       <AccountManagementSection>
         <h3>Basic Info</h3>
         <InfoList>
