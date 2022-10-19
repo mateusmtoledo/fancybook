@@ -14,6 +14,7 @@ import { UserContext } from "../contexts/UserContext";
 const UserContent = styled.div`
   display: flex;
   gap: 16px;
+  flex: 1;
 
   @media (max-width: 650px) {
     // TODO improve friend list layout
@@ -23,6 +24,7 @@ const UserContent = styled.div`
 
 const UserProfileMain = styled(Main)`
   flex-direction: column;
+  justify-content: flex-start;
 `;
 
 async function getUser(userId) {
