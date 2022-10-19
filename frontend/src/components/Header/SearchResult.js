@@ -15,6 +15,13 @@ const StyledSearchResult = styled.div`
     gap: 8px;
     align-items: center;
   }
+
+  p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
 `;
 
 function SearchResult({ user }) {

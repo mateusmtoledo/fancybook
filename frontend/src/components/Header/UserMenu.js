@@ -11,19 +11,26 @@ const UserMenuDropdown = styled(Card)`
   flex-direction: column;
   gap: 16px;
   align-items: center;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  width: max-content;
-  max-width: 100vw;
+  position: fixed;
+  top: 64px;
+  right: 8px;
+  max-width: calc(100vw - 31px);
+  width: 400px;
   z-index: 2;
 
-  // FIXME text overflowing when user's name is too long
+  > a {
+    max-width: 100%;
+  }
 
   hr {
     border: none;
     border-top: 1px solid var(--color-gray-dark);
     width: 100%;
+  }
+
+  @media (max-width: 450px) {
+    position: fixed;
+    top: 64px;
   }
 `;
 
@@ -73,6 +80,17 @@ const RightSideContent = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  max-width: 100%;
+  flex: 1;
+  min-width: 0;
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    min-width: 0;
+  }
 `
 
 const UserMenuContainer = styled.div`

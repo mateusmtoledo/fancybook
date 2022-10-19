@@ -22,6 +22,7 @@ const FriendRequestContainer = styled(Card)`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   > a {
