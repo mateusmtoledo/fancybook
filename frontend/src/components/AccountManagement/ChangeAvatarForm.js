@@ -62,13 +62,13 @@ function AvatarForm({ setFormVisible }) {
           />
           {error && <ErrorMessage>{error}</ErrorMessage>}
           <ButtonsContainer>
-            <SubmitButton>SUBMIT</SubmitButton>
             <CancelButton
               type="button"
               onClick={() => setFormVisible(false)}
             >
                 CANCEL
             </CancelButton>
+            <SubmitButton>SUBMIT</SubmitButton>
           </ButtonsContainer>
         </Form>
       </FormContainer>
