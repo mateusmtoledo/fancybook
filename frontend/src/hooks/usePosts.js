@@ -37,10 +37,11 @@ function usePosts(userId) {
 
   return {
     posts,
+    setPosts,
     hasNextPage,
     postsLoading,
     refreshPosts,
-    loadNextPostPage
+    loadNextPostPage,
   };
 }
 

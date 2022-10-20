@@ -7,6 +7,7 @@ import { Container } from "src/styles/Home";
 function Home() {
   const {
     posts,
+    setPosts,
     hasNextPage,
     postsLoading,
     refreshPosts,
@@ -19,6 +20,7 @@ function Home() {
       <Main maxWidth="700px">
         <PostList
           posts={posts}
+          setPosts={setPosts}
           postsLoading={postsLoading}
           hasNextPage={hasNextPage}
           loadNextPostPage={loadNextPostPage}

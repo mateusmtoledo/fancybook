@@ -4,6 +4,9 @@ import Post from "./Post";
 import PostForm from "./PostForm";
 import NO_DATA_IMG from "../../img/no-data.svg";
 import NextPageButton from "./NextPageButton";
+import { useEffect } from "react";
+import { UserContext } from "src/contexts/UserContext";
+import { useContext } from "react";
 
 const NoPosts = styled(Card)`
   display: flex;
@@ -32,12 +35,23 @@ const StyledPostList = styled.div`
 
 function PostList({
   posts,
+  setPosts,
   postsLoading,
   hasNextPage,
   refreshPosts,
   loadNextPostPage,
   renderForm,
 }) {
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    setPosts((previousPosts) => previousPosts.map((post) =>
+      post.author._id === user._id
+        ? { ...post, author: user }
+        : post
+    ));
+  }, [user, setPosts]);
+
   return (
     <StyledPostList>
       {

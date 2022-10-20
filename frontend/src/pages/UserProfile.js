@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -9,7 +9,6 @@ import UserInfo from "../components/UserInfo";
 import Main from "../styles/Main";
 import Aside from "../styles/Aside";
 import usePosts from "../hooks/usePosts";
-import { UserContext } from "../contexts/UserContext";
 
 const UserContent = styled.div`
   display: flex;
@@ -37,13 +36,12 @@ function getFriends(userId) {
 
 function UserProfile() {
   const { userId } = useParams();
-  const { user: currentUser } = useContext(UserContext);
   const {
     posts,
+    setPosts,
     hasNextPage,
     postsLoading,
     loadNextPostPage,
-    refreshPosts,
   } = usePosts(userId);
 
   const [user, setUser] = useState(null);
@@ -60,10 +58,6 @@ function UserProfile() {
     });
   }, [userId]);
 
-  useEffect(() => {
-    if(userId === currentUser._id) refreshPosts();
-  }, [userId, currentUser, refreshPosts]);
-
   if (!user) return null;
 
   return (
@@ -75,6 +69,7 @@ function UserProfile() {
         </Aside>
         <PostList
           posts={posts}
+          setPosts={setPosts}
           loadNextPostPage={loadNextPostPage}
           postsLoading={postsLoading}
           hasNextPage={hasNextPage}
