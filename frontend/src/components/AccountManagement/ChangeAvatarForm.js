@@ -9,6 +9,19 @@ import { UserContext } from "../../contexts/UserContext";
 import Avatar from "../Avatar";
 import Modal from "../Modal";
 
+function getBase64(file) {
+  var reader = new FileReader();
+  reader.readAsDataURL(file);
+  return new Promise((resolve, reject) => {
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.onerror = (err) => {
+      reject(err);
+    };
+  });
+}
+
 function AvatarForm({ setFormVisible }) {
   const { user, setUser } = useContext(UserContext);
   const [file, setFile] = useState(null);
@@ -19,10 +32,11 @@ function AvatarForm({ setFormVisible }) {
   async function handleSubmit(event) {
     event.preventDefault();
     if (error) return;
-    const formData = new FormData();
-    formData.append('avatar', file);
     try {
-      const response = await api.put('/users/me/avatar', formData);
+      const base64img = await getBase64(file);
+      const response = await api.put('/users/me/avatar', {
+        avatar: base64img,
+      });
       setUser(response.data.user);
       setFormVisible(false);
       sendNotification({ type: 'success',  text: 'Avatar successfully updated!' });
@@ -55,7 +69,7 @@ function AvatarForm({ setFormVisible }) {
             id="avatar"
             aria-label="Avatar"
             type="file"
-            onChange={(e) => {
+            onChange={async (e) => {
               setFile(e.target.files[0]);
               setError(null);
             }}
