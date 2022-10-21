@@ -4,6 +4,7 @@ import Like from "./Like";
 import X_ICON from "../../img/x.svg";
 import React, { useCallback, useRef } from "react";
 import Modal from "../Modal";
+import { useEffect } from "react";
 
 const LikeListContainer = styled(Card)`
   width: 400px;
@@ -50,27 +51,31 @@ const LikeListContainer = styled(Card)`
   }
 `;
 
-function LikeList({ likes, setListVisible, hasNextPage, loadNextLikePage, likesLoading }) {
+function LikeList({ likes, setLikeListVisible, hasNextLikePage, loadNextLikePage, likesLoading }) {
   const observer = useRef();
 
   const lastLikeRef = useCallback((node) => {
     if (likesLoading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasNextPage)
+      if (entries[0].isIntersecting && hasNextLikePage)
         loadNextLikePage();
     });
     if (node) observer.current.observe(node);
-  }, [loadNextLikePage, hasNextPage, likesLoading]);
+  }, [loadNextLikePage, hasNextLikePage, likesLoading]);
+
+  useEffect(() => {
+    loadNextLikePage();
+  }, [loadNextLikePage]);
 
   if (!likes) return null;
 
   return (
-    <Modal setModalVisible={setListVisible}>
+    <Modal setModalVisible={setLikeListVisible}>
       <LikeListContainer>
         <div className="header">
           <h2>Likes</h2>
-          <button onClick={() => setListVisible(false)}>
+          <button onClick={() => setLikeListVisible(false)}>
             <img
               src={X_ICON}
               alt="Close like list"

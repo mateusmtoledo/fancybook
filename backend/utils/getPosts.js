@@ -18,31 +18,35 @@ exports.getPosts = async (req, res, next) => {
     : req.user.friendList
       .filter((friendship) => friendship.status === 'friends')
       .map((friendship) => friendship.user)
-      .concat([req.user._id]);
-
+      .concat(req.user._id);
   try {
     const posts = await Post
       .paginate({
         author: { $in: ids },
       }, paginateOptions);
+    const promises = [];
     posts.docs = posts.docs.map((doc) => doc.toObject());
-    const commentCounts = [];
-    const likeCounts = [];
-    posts.docs.forEach((doc) => {
-      commentCounts.push(Comment
-        .countDocuments({ post: doc._id })
-        .then((count) => {
-          // eslint-disable-next-line no-param-reassign
-          doc.commentCount = count;
-        }));
-      likeCounts.push(Like
-        .countDocuments({ post: doc._id })
-        .then((count) => {
-          // eslint-disable-next-line no-param-reassign
-          doc.likeCount = count;
-        }));
-    });
-    Promise.all([...commentCounts, ...likeCounts]).then(() => {
+    const { docs } = posts;
+    for (let i = 0; i < docs.length; i += 1) {
+      promises.push(
+        Comment
+          .countDocuments({ post: docs[i]._id })
+          .then((count) => {
+            docs[i].commentCount = count;
+          }),
+        Like
+          .countDocuments({ post: docs[i]._id })
+          .then((count) => {
+            docs[i].likeCount = count;
+          }),
+        Like
+          .exists({ post: docs[i]._id, author: req.user._id })
+          .then((result) => {
+            docs[i].userHasLiked = !!result;
+          }),
+      );
+    }
+    Promise.all(promises).then(() => {
       req.posts = posts;
       next();
     });

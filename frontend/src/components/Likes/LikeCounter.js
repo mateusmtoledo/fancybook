@@ -1,6 +1,4 @@
-import { useState } from "react";
 import styled from "styled-components";
-import LikeList from "./LikeList";
 
 const StyledLikeCounter = styled.div`
   button {
@@ -11,23 +9,14 @@ const StyledLikeCounter = styled.div`
   }
 `;
 
-function LikeCounter({ likes, count, loadNextLikePage, hasNextPage, likesLoading }) {
-  const [listVisible, setListVisible] = useState(false);
-
+function LikeCounter({ likeCount, setLikeListVisible }) {
   return (
     <StyledLikeCounter>
-      <button onClick={() => setListVisible(true)}>
+      <button onClick={() => setLikeListVisible(true)}>
         <p>
-          {`${count} Likes`}
+          {`${likeCount} Likes`}
         </p>
       </button>
-      { listVisible
-        && <LikeList
-          likes={likes}
-          setListVisible={setListVisible}
-          loadNextLikePage={loadNextLikePage}
-          hasNextPage={hasNextPage}
-          likesLoading={likesLoading}/>}
     </StyledLikeCounter>
   );
 }

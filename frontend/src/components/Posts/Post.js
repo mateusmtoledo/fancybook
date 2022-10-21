@@ -3,6 +3,10 @@ import Card from "../../styles/Card";
 import UserDisplayInfo from "../UserDisplayInfo";
 import useLikes from "../../hooks/useLikes";
 import useComments from "../../hooks/useComments";
+import { useState } from "react";
+import LikeList from "../Likes/LikeList";
+import LikeButton from "../Likes/LikeButton";
+import LikeCounter from "../Likes/LikeCounter";
 
 const StyledPost = styled(Card)`
   display: flex;
@@ -35,10 +39,18 @@ const PostStats = styled.div`
 `;
 
 function Post({ post }) {
+  const [likeListVisible, setLikeListVisible] = useState(false);
   const {
-    likeCounter,
-    likeButton,
-  } = useLikes(post._id);
+    likes,
+    setLikes,
+    likeCount,
+    setLikeCount,
+    hasNextLikePage,
+    loadNextLikePage,
+    userHasLiked,
+    setUserHasLiked,
+    likesLoading,
+  } = useLikes(post._id, post.likeCount, post.userHasLiked);
 
   const {
     commentCounter,
@@ -58,14 +70,30 @@ function Post({ post }) {
       </p>
       <hr />
       <PostStats>
-        {likeCounter}
+        <LikeCounter
+          likeCount={likeCount}
+          setLikeListVisible={setLikeListVisible}
+        />
         {commentCounter}
       </PostStats>
       <ButtonsContainer>
-        {likeButton}
+        <LikeButton
+          setLikes={setLikes}
+          setLikeCount={setLikeCount}
+          userHasLiked={userHasLiked}
+          setUserHasLiked={setUserHasLiked}
+          postId={post._id}
+        />
         {commentButton}
       </ButtonsContainer>
       {commentList}
+      { likeListVisible
+        && <LikeList
+          likes={likes}
+          setLikeListVisible={setLikeListVisible}
+          loadNextLikePage={loadNextLikePage}
+          hasNextLikePage={hasNextLikePage}
+          loading={likesLoading}/>}
     </StyledPost>
   );
 }

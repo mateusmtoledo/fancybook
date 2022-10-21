@@ -1,73 +1,45 @@
 import { useEffect } from "react";
+import { useCallback } from "react";
 import { useState } from "react";
 import api from "../adapters/api";
-import LikeCounter from "../components/Likes/LikeCounter";
-import LikeButton from "../components/Likes/LikeButton";
-import { useMemo } from "react";
-import { useCallback } from "react";
 
-function useLikes(postId) {
-  const [pageNumber, setPageNumber] = useState(1);
+function useLikes(postId, initialLikeCount, initialUserHasLiked) {
   const [likes, setLikes] = useState([]);
-  const [hasNextPage, setHasNextPage] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [userHasLiked, setUserHasLiked] = useState(false);
+  const [likePageNumber, setLikePageNumber] = useState(0);
+  const [hasNextLikePage, setHasNextLikePage] = useState(false);
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+  const [userHasLiked, setUserHasLiked] = useState(initialUserHasLiked);
   const [likesLoading, setLikesLoading] = useState(false);
 
   const uri = `/posts/${postId}/likes`;
 
-  function loadNextLikePage() {
-    setPageNumber((previous) => previous + 1);
-  }
-
-  const refreshLikes = useCallback(() => {
-    console.log('ran');
-    setLikesLoading(true);
-    api.get(uri, { params: { page: 1 } }).then((response) => {
-      const { data } = response;
-      setLikes(data.likes);
-      setHasNextPage(data.hasNextPage);
-      setLikeCount(data.count);
-      setUserHasLiked(data.userHasLiked);
-      setPageNumber(1);
-      setLikesLoading(false);
-    });
-  }, [uri]);
+  const loadNextLikePage = useCallback(() => {
+    setLikePageNumber((previous) => previous + 1);
+  }, []);
 
   useEffect(() => {
+    if (likePageNumber === 0) return;
     setLikesLoading(true);
-    api.get(uri, { params: { page: pageNumber } }).then((response) => {
+    api.get(uri, { params: { page: likePageNumber } }).then((response) => {
       const { data } = response;
-      if (pageNumber === 1) setLikes(data.likes);
-      else setLikes((previousLikes) => [...previousLikes, ...data.likes]);
-      setHasNextPage(data.hasNextPage);
+      setLikes((previousLikes) => [...previousLikes, ...data.likes]);
+      setHasNextLikePage(data.hasNextPage);
       setLikeCount(data.count);
-      setLikesLoading(false);
       setUserHasLiked(data.userHasLiked);
+      setLikesLoading(false);
     });
-  }, [pageNumber, uri]);
-
-  const likeButton = useMemo(() =>
-    <LikeButton
-      userHasLiked={userHasLiked}
-      postId={postId}
-      refreshLikes={refreshLikes}
-    />
-  , [userHasLiked, postId, refreshLikes]);
-
-  const likeCounter = useMemo(() =>
-    <LikeCounter
-      likes={likes}
-      count={likeCount}
-      loadNextLikePage={loadNextLikePage}
-      hasNextPage={hasNextPage}
-      likesLoading={likesLoading}
-    />
-  , [hasNextPage, likeCount, likes, likesLoading]);
+  }, [likePageNumber, uri]);
 
   return {
-    likeButton,
-    likeCounter,
+    likes,
+    setLikes,
+    likeCount,
+    setLikeCount,
+    hasNextLikePage,
+    loadNextLikePage,
+    userHasLiked,
+    setUserHasLiked,
+    likesLoading,
   };
 }
 
