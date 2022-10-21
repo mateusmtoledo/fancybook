@@ -35,6 +35,7 @@ function useLikes(postId, initialLikeCount, initialUserHasLiked) {
     setLikes,
     likeCount,
     setLikeCount,
+    likePageNumber,
     hasNextLikePage,
     loadNextLikePage,
     userHasLiked,

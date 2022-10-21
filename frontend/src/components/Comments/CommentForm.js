@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { ToastContext } from "src/contexts/ToastContext";
 import styled from "styled-components";
 import api from "../../adapters/api";
 import { UserContext } from "../../contexts/UserContext";
@@ -44,23 +45,32 @@ const CancelCommentButton = styled(CommentButton)`
   background-color: var(--color-gray-dark);
 `;
 
-function CommentForm({ postId, refreshComments }) {
+function CommentForm({ postId, setComments }) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState('');
   const [buttonsVisible, setButtonsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
+  const { sendNotification } = useContext(ToastContext);
   
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
     setErrors(null);
     try {
-      await api.post(`/posts/${postId}/comments`, { text });
+      const response = await api.post(`/posts/${postId}/comments`, { text });
+      const { comment } = response.data;
       setText('');
-      refreshComments();
       setButtonsVisible(false);
+      setComments((prev) => [comment, ...prev]);
     } catch (err) {
+      if (!err.response.data) {
+        sendNotification({
+          type: 'error',
+          text: 'Something went wrong',
+        });
+        return;
+      }
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);
     }

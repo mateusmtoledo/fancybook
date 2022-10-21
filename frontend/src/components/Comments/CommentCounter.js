@@ -8,13 +8,9 @@ const CommentCounterContainer = styled.button`
   }
 `;
 
-function CommentCounter({ commentCount, setCommentsVisible }) {
-  function handleClick() {
-    setCommentsVisible((prev) => !prev);
-  }
-
+function CommentCounter({ commentCount, setCommentListVisible }) {
   return (
-    <CommentCounterContainer onClick={handleClick}>
+    <CommentCounterContainer onClick={() => setCommentListVisible((prev) => !prev)}>
       {commentCount} Comments
     </CommentCounterContainer>
   );

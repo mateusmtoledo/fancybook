@@ -7,6 +7,9 @@ import { useState } from "react";
 import LikeList from "../Likes/LikeList";
 import LikeButton from "../Likes/LikeButton";
 import LikeCounter from "../Likes/LikeCounter";
+import CommentCounter from "../Comments/CommentCounter";
+import CommentButton from "../Comments/CommentButton";
+import CommentList from "../Comments/CommentList";
 
 const StyledPost = styled(Card)`
   display: flex;
@@ -45,6 +48,7 @@ function Post({ post }) {
     setLikes,
     likeCount,
     setLikeCount,
+    likePageNumber,
     hasNextLikePage,
     loadNextLikePage,
     userHasLiked,
@@ -52,11 +56,15 @@ function Post({ post }) {
     likesLoading,
   } = useLikes(post._id, post.likeCount, post.userHasLiked);
 
+  const [commentListVisible, setCommentListVisible] = useState(false);
   const {
-    commentCounter,
-    commentButton,
-    commentList,
-  } = useComments(post._id);
+    comments,
+    setComments,
+    commentPageNumber,
+    loadNextCommentPage,
+    hasNextCommentPage,
+    commentCount,
+  } = useComments(post._id, post.commentCount);
 
   return (
     <StyledPost>
@@ -74,7 +82,10 @@ function Post({ post }) {
           likeCount={likeCount}
           setLikeListVisible={setLikeListVisible}
         />
-        {commentCounter}
+        <CommentCounter
+          commentCount={commentCount}
+          setCommentListVisible={setCommentListVisible}
+        />
       </PostStats>
       <ButtonsContainer>
         <LikeButton
@@ -84,16 +95,29 @@ function Post({ post }) {
           setUserHasLiked={setUserHasLiked}
           postId={post._id}
         />
-        {commentButton}
+        <CommentButton
+          commentListVisible={commentListVisible}
+          setCommentListVisible={setCommentListVisible}
+        />
       </ButtonsContainer>
-      {commentList}
-      { likeListVisible
-        && <LikeList
-          likes={likes}
-          setLikeListVisible={setLikeListVisible}
-          loadNextLikePage={loadNextLikePage}
-          hasNextLikePage={hasNextLikePage}
-          loading={likesLoading}/>}
+      <LikeList
+        likes={likes}
+        likeListVisible={likeListVisible}
+        setLikeListVisible={setLikeListVisible}
+        likePageNumber={likePageNumber}
+        hasNextLikePage={hasNextLikePage}
+        loadNextLikePage={loadNextLikePage}
+        loading={likesLoading}
+      />
+      <CommentList
+        postId={post._id}
+        comments={comments}
+        commentPageNumber={commentPageNumber}
+        setComments={setComments}
+        hasNextCommentPage={hasNextCommentPage}
+        loadNextCommentPage={loadNextCommentPage}
+        commentListVisible={commentListVisible}
+      />
     </StyledPost>
   );
 }

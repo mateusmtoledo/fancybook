@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
@@ -17,25 +18,34 @@ const LoadMoreCommentsButton = styled.button`
 function CommentList({
   postId,
   comments,
-  hasNextPage,
+  commentPageNumber,
+  setComments,
+  hasNextCommentPage,
   loadNextCommentPage,
-  refreshComments,
-  commentsVisible
+  commentListVisible,
 }) {
-  if (!commentsVisible) return null;
+  useEffect(() => {
+    if (commentListVisible && commentPageNumber === 0) {
+      loadNextCommentPage();
+    }
+  }, [commentListVisible, commentPageNumber, loadNextCommentPage]);
+
+  if(!commentListVisible) return null;
 
   return (
     <CommentListContainer>
-      <CommentForm postId={postId} refreshComments={refreshComments} />
+      <CommentForm postId={postId} setComments={setComments} />
       {
         comments.map((comment) => 
           <Comment key={comment._id} comment={comment} />
         )
       }
-      {hasNextPage &&
+      {
+        hasNextCommentPage &&
         <LoadMoreCommentsButton onClick={loadNextCommentPage}>
           Load more
-        </LoadMoreCommentsButton>}
+        </LoadMoreCommentsButton>
+      }
     </CommentListContainer>
   );
 }

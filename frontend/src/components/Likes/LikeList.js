@@ -51,7 +51,7 @@ const LikeListContainer = styled(Card)`
   }
 `;
 
-function LikeList({ likes, setLikeListVisible, hasNextLikePage, loadNextLikePage, likesLoading }) {
+function LikeList({ likes, likeListVisible, setLikeListVisible, likePageNumber, hasNextLikePage, loadNextLikePage, likesLoading }) {
   const observer = useRef();
 
   const lastLikeRef = useCallback((node) => {
@@ -65,10 +65,12 @@ function LikeList({ likes, setLikeListVisible, hasNextLikePage, loadNextLikePage
   }, [loadNextLikePage, hasNextLikePage, likesLoading]);
 
   useEffect(() => {
-    loadNextLikePage();
-  }, [loadNextLikePage]);
+    if (likeListVisible && likePageNumber === 0) {
+      loadNextLikePage();
+    }
+  }, [likeListVisible, likePageNumber, loadNextLikePage]);
 
-  if (!likes) return null;
+  if (!likeListVisible) return null;
 
   return (
     <Modal setModalVisible={setLikeListVisible}>

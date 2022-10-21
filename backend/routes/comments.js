@@ -46,6 +46,7 @@ router.post('/', [
         author: req.user._id,
         text: req.body.text,
       }).save();
+      await savedComment.populate('author', 'avatar firstName lastName fullName');
       res.json({
         comment: savedComment,
       });
