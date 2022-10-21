@@ -15,7 +15,7 @@ describe('PUT /avatar', () => {
     await request(app)
       .put('/users/me/avatar')
       .auth(fakeUsers[0].authToken, { type: 'bearer' })
-      .attach('avatar', `${__dirname}/__mocks__/avatarFileMock.png`)
+      .send({ avatar: 'base64string' })
       .expect(200)
       .expect((response) => {
         expect(response.body.user.avatar).toBe('https://someurl.com/w_256,h_256,c_fill/path/image.png');
