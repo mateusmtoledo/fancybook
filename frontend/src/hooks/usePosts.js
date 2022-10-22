@@ -6,7 +6,7 @@ function usePosts(userId) {
   const [pageNumber, setPageNumber] = useState(1);
   const [posts, setPosts] = useState([]);
   const [hasNextPage, setHasNextPage] = useState(false);
-  const [postsLoading, setPostsLoading] = useState(false);
+  const [postsLoading, setPostsLoading] = useState(true);
 
   const uri = userId ? `/users/${userId}/posts` : '/posts';
 

@@ -1,12 +1,4 @@
-import styled from "styled-components";
-
-const CommentCounterContainer = styled.button`
-  font-size: 0.9rem;
-
-  &:hover {
-    color: var(--color-orange);
-  }
-`;
+import { CommentCounterContainer } from "src/styles/CommentCounter";
 
 function CommentCounter({ commentCount, setCommentListVisible }) {
   return (

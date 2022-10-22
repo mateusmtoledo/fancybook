@@ -7,6 +7,9 @@ import NextPageButton from "./NextPageButton";
 import { useEffect } from "react";
 import { UserContext } from "src/contexts/UserContext";
 import { useContext } from "react";
+import PostSkeleton from "../Skeletons/PostSkeleton";
+import { SkeletonTheme } from "react-loading-skeleton";
+import PostFormSkeleton from "../Skeletons/PostFormSkeleton";
 
 const NoPosts = styled(Card)`
   display: flex;
@@ -52,20 +55,29 @@ function PostList({
     ));
   }, [user, setPosts]);
 
+  if (!posts.length) {
+    return (
+      <SkeletonTheme baseColor="var(--color-brown)" highlightColor="var(--color-brown-light)" duration={2.5}>
+        <StyledPostList>
+          { renderForm && <PostFormSkeleton /> }
+          {
+            new Array(4).fill().map((_, index) => (
+              <PostSkeleton key={index} />
+            ))
+          }
+        </StyledPostList>
+      </SkeletonTheme>
+    );
+  }
+
   return (
     <StyledPostList>
-      {
-        renderForm
-        ? <PostForm refreshPosts={refreshPosts} />
-        : null
-      }
+      { renderForm && <PostForm refreshPosts={refreshPosts} /> }
       {
         posts.length
         ? posts.map((post) => (
           <Post key={post._id} post={post} />
         ))
-        : postsLoading
-        ? null
         : <NoPosts>
             <img
               src={NO_DATA_IMG}

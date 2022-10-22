@@ -1,5 +1,3 @@
-import styled from "styled-components";
-import Card from "../../styles/Card";
 import UserDisplayInfo from "../UserDisplayInfo";
 import useLikes from "../../hooks/useLikes";
 import useComments from "../../hooks/useComments";
@@ -10,36 +8,7 @@ import LikeCounter from "../Likes/LikeCounter";
 import CommentCounter from "../Comments/CommentCounter";
 import CommentButton from "../Comments/CommentButton";
 import CommentList from "../Comments/CommentList";
-
-const StyledPost = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  word-break: break-word;
-
-  hr {
-    border: none;
-    border-top: 1px solid var(--color-gray-dark);
-  }
-`;
-
-const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 80px;
-
-  @media (max-width: 400px) {
-    gap: 0;
-    justify-content: space-between;
-  }
-`;
-
-const PostStats = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+import { PostContainer, PostStatsContainer, ButtonsContainer } from "src/styles/Post";
 
 function Post({ post }) {
   const [likeListVisible, setLikeListVisible] = useState(false);
@@ -67,7 +36,7 @@ function Post({ post }) {
   } = useComments(post._id, post.commentCount);
 
   return (
-    <StyledPost>
+    <PostContainer>
       <UserDisplayInfo
         user={post.author}
         postDate={post.date}
@@ -77,7 +46,7 @@ function Post({ post }) {
         {post.text}
       </p>
       <hr />
-      <PostStats>
+      <PostStatsContainer>
         <LikeCounter
           likeCount={likeCount}
           setLikeListVisible={setLikeListVisible}
@@ -86,7 +55,7 @@ function Post({ post }) {
           commentCount={commentCount}
           setCommentListVisible={setCommentListVisible}
         />
-      </PostStats>
+      </PostStatsContainer>
       <ButtonsContainer>
         <LikeButton
           setLikes={setLikes}
@@ -118,7 +87,7 @@ function Post({ post }) {
         loadNextCommentPage={loadNextCommentPage}
         commentListVisible={commentListVisible}
       />
-    </StyledPost>
+    </PostContainer>
   );
 }
 

@@ -1,41 +1,13 @@
 import { useContext, useState } from "react";
-import styled from "styled-components";
 import { UserContext } from "../../contexts/UserContext";
 import Avatar from "../Avatar";
-import Card from "../../styles/Card";
 import SEND_ICON from '../../img/send.svg';
 import api from "../../adapters/api";
 import Loading from "../Loading";
 import VariableHeightTextInput from "../VariableHeightTextInput";
 import { Link } from "react-router-dom";
-import { ErrorMessage } from "../../styles/PostForm";
+import { ErrorMessage, PostFormContainer } from "../../styles/PostForm";
 import Form from "../../styles/Form";
-
-const StyledPostForm = styled(Card)`
-  position: relative;
-  .post-text {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-  }
-  .user-input {
-    flex: 1;
-    position: relative;
-  }
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-  }
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  hr {
-    border: none;
-    border-top: 1px solid var(--color-gray-dark);
-  }
-`;
 
 function PostForm({ refreshPosts }) {
   const { user } = useContext(UserContext);
@@ -59,12 +31,7 @@ function PostForm({ refreshPosts }) {
   }
 
   return (
-    <StyledPostForm>
-      {
-        loading
-        ? <Loading />
-        : null
-      }
+    <PostFormContainer>
       <Form onSubmit={submitPost}>
         <div className="post-text">
           <Link to={`/user/${user._id}`}>
@@ -96,7 +63,7 @@ function PostForm({ refreshPosts }) {
           </button>
         </div>
       </Form>
-    </StyledPostForm>
+    </PostFormContainer>
   );
 }
 

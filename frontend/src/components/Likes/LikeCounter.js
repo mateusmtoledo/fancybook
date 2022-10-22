@@ -1,23 +1,14 @@
-import styled from "styled-components";
-
-const StyledLikeCounter = styled.div`
-  button {
-    font-size: 0.9rem;
-    :hover {
-      color: var(--color-orange);
-    }
-  }
-`;
+import { LikeCounterStyled } from "src/styles/LikeCounter";
 
 function LikeCounter({ likeCount, setLikeListVisible }) {
   return (
-    <StyledLikeCounter>
+    <LikeCounterStyled>
       <button onClick={() => setLikeListVisible(true)}>
         <p>
           {`${likeCount} Likes`}
         </p>
       </button>
-    </StyledLikeCounter>
+    </LikeCounterStyled>
   );
 }
 
