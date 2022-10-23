@@ -49,6 +49,10 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
   }
 
+  img {
+    display: block;
+  }
+
   @media (max-width: 650px) {
     .desktop {
         display: none;

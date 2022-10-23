@@ -7,6 +7,7 @@ function FriendList({ friends, friendsLoading }) {
   if (friends.length === 0 && !friendsLoading) {
     return (
       <FriendListContainer>
+        <h3>Friends</h3>
         <NoFriends>
           <img
             src={X_CIRCLE_ICON}

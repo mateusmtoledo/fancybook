@@ -44,6 +44,7 @@ const NavLink = styled(Link)`
 
   @media (max-width: 650px) {
     justify-content: center;
+    align-items: center;
   }
   
   @media (max-width: 400px) {

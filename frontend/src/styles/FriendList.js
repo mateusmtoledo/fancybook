@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Card from "./Card";
 
 export const FriendListContainer = styled(Card)`
+  min-height: 420px;
+
   h3 {
     font-family: 'Outfit', sans-serif;
     font-size: 1.4rem;
@@ -17,6 +19,7 @@ export const Friends = styled.div`
 `;
 
 export const NoFriends = styled.div`
+  flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
