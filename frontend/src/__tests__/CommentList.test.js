@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { MemoryRouter } from "react-router-dom";
 import CommentList from "../components/Comments/CommentList";
 import { UserContext } from "../contexts/UserContext";
+import { ToastContext } from "src/contexts/ToastContext";
 
 const currentDate = Date.now();
 
@@ -45,12 +46,14 @@ describe('CommentList', () => {
   it('renders list of comments', () => {
     render(
       <MemoryRouter>
-        <UserContext.Provider value={{ user: currentUser }}>
-          <CommentList
-            commentsVisible={true}
-            comments={comments}
-          />
-        </UserContext.Provider>
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserContext.Provider value={{ user: currentUser }}>
+            <CommentList
+              commentListVisible={true}
+              comments={comments}
+            />
+          </UserContext.Provider>
+        </ToastContext.Provider>
       </MemoryRouter>
     );
     const johnsFullName = screen.getByText(/john doe/i);
@@ -66,12 +69,14 @@ describe('CommentList', () => {
   it('renders a form for submiting a new comment', () => {
     render(
       <MemoryRouter>
-        <UserContext.Provider value={{ user: currentUser }}>
-          <CommentList
-            commentsVisible={true}
-            comments={comments}
-          />
-        </UserContext.Provider>
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserContext.Provider value={{ user: currentUser }}>
+            <CommentList
+              commentListVisible={true}
+              comments={comments}
+            />
+          </UserContext.Provider>
+        </ToastContext.Provider>
       </MemoryRouter>
     );
     const commentTextInput = screen.getByPlaceholderText(/comment on this post/i);

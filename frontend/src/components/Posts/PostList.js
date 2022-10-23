@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import { UserContext } from "src/contexts/UserContext";
 import { useContext } from "react";
 import PostSkeleton from "../Skeletons/PostSkeleton";
-import { SkeletonTheme } from "react-loading-skeleton";
 import PostFormSkeleton from "../Skeletons/PostFormSkeleton";
 
 const NoPosts = styled(Card)`
@@ -57,16 +56,14 @@ function PostList({
 
   if (!posts.length) {
     return (
-      <SkeletonTheme baseColor="var(--color-brown)" highlightColor="var(--color-brown-light)" duration={2.5}>
-        <StyledPostList>
-          { renderForm && <PostFormSkeleton /> }
-          {
-            new Array(4).fill().map((_, index) => (
-              <PostSkeleton key={index} />
-            ))
-          }
-        </StyledPostList>
-      </SkeletonTheme>
+      <StyledPostList>
+        { renderForm && <PostFormSkeleton /> }
+        {
+          new Array(4).fill().map((_, index) => (
+            <PostSkeleton key={index} />
+          ))
+        }
+      </StyledPostList>
     );
   }
 

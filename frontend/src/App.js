@@ -6,6 +6,7 @@ import { ToastContext } from "./contexts/ToastContext";
 import useToastNotifications from "./hooks/useToastNotifications";
 import ToastNotificationList from "./components/ToastNotificationList";
 import RouteHandler from "./components/RouteHandler/RouteHandler";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -30,15 +31,17 @@ function App() {
   } = useToastNotifications();
 
   return (
-    <UserContext.Provider value={{ user, setUser, login, logout, friends, refreshFriends }}>
-      <ToastContext.Provider value={{ notifications, sendNotification }}>
-        <ToastNotificationList />
-        <Container>
-          <RouteHandler />
-          <Footer />
-        </Container>
-      </ToastContext.Provider>
-    </UserContext.Provider>
+    <SkeletonTheme baseColor="var(--color-brown)" highlightColor="var(--color-brown-light)" duration={2.5}>
+      <UserContext.Provider value={{ user, setUser, login, logout, friends, refreshFriends }}>
+        <ToastContext.Provider value={{ notifications, sendNotification }}>
+          <ToastNotificationList />
+          <Container>
+            <RouteHandler />
+            <Footer />
+          </Container>
+        </ToastContext.Provider>
+      </UserContext.Provider>
+    </SkeletonTheme>
   );
 }
 

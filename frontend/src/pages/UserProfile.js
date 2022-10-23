@@ -46,26 +46,26 @@ function UserProfile() {
 
   const [user, setUser] = useState(null);
   const [friends, setFriends] = useState([]);
+  const [userLoading, setUserLoading] = useState(true);
+  const [friendsLoading, setFriendsLoading] = useState(true);
   
   useEffect(() => {
-    Promise.all([
-      getUser(userId),
-      getFriends(userId),
-    ]).then((data) => {
-      const [user, friends] = data;
-      setUser(user);
-      setFriends(friends);
+    getUser(userId).then((userData) => {
+      setUser(userData);
+      setUserLoading(false);
+    });
+    getFriends(userId).then((friendsData) => {
+      setFriends(friendsData);
+      setFriendsLoading(false);
     });
   }, [userId]);
 
-  if (!user) return null;
-
   return (
     <UserProfileMain>
-      <UserInfo user={user} />
+      <UserInfo user={user} userLoading={userLoading} />
       <UserContent>
         <Aside>
-          <FriendList friends={friends} />
+          <FriendList friends={friends} friendsLoading={friendsLoading} />
         </Aside>
         <PostList
           posts={posts}
