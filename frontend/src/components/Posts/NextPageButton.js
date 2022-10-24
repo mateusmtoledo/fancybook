@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Loading from "../Loading";
 
 const NextPageDiv = styled.div`
   position: relative;
@@ -19,13 +18,11 @@ const NextPageDiv = styled.div`
 `
 
 function NextPageButton({ hasNextPage, loadNextPostPage, postsLoading }) {
-  if (!hasNextPage) return null;
+  if (!hasNextPage || postsLoading) return null;
   return (
     <NextPageDiv>
       {
-        postsLoading
-        ? <Loading transparent />
-        : <button onClick={loadNextPostPage}>Load more</button>
+        !postsLoading && <button onClick={loadNextPostPage}>Load more</button>
       }
     </NextPageDiv>
   );

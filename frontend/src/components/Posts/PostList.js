@@ -4,11 +4,11 @@ import Post from "./Post";
 import PostForm from "./PostForm";
 import NO_DATA_IMG from "../../img/no-data.svg";
 import NextPageButton from "./NextPageButton";
+import PostSkeleton from "../Skeletons/PostSkeleton";
+import usePosts from "src/hooks/usePosts";
+import { useContext } from "react";
 import { useEffect } from "react";
 import { UserContext } from "src/contexts/UserContext";
-import { useContext } from "react";
-import PostSkeleton from "../Skeletons/PostSkeleton";
-import PostFormSkeleton from "../Skeletons/PostFormSkeleton";
 
 const NoPosts = styled(Card)`
   display: flex;
@@ -35,15 +35,15 @@ const StyledPostList = styled.div`
   }
 `;
 
-function PostList({
-  posts,
-  setPosts,
-  postsLoading,
-  hasNextPage,
-  refreshPosts,
-  loadNextPostPage,
-  renderForm,
-}) {
+function PostList({ userId, renderForm }) {
+  const {
+    posts,
+    setPosts,
+    hasNextPage,
+    postsLoading,
+    loadNextPostPage,
+  } = usePosts(userId);
+
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -54,36 +54,36 @@ function PostList({
     ));
   }, [user, setPosts]);
 
-  if (!posts.length) {
-    return (
-      <StyledPostList>
-        { renderForm && <PostFormSkeleton /> }
-        {
-          new Array(4).fill().map((_, index) => (
-            <PostSkeleton key={index} />
-          ))
-        }
-      </StyledPostList>
-    );
-  }
-
   return (
     <StyledPostList>
-      { renderForm && <PostForm refreshPosts={refreshPosts} /> }
+      { renderForm &&
+        <PostForm
+          postsLoading={postsLoading}
+        />
+      }
       {
-        posts.length
-        ? posts.map((post) => (
+        !!posts.length  &&
+        posts.map((post) => (
           <Post key={post._id} post={post} />
         ))
-        : <NoPosts>
-            <img
-              src={NO_DATA_IMG}
-              alt="No posts found"
-              width="128px"
-              height="128px"
-            />
-            <p>No posts found</p>
-          </NoPosts>
+      }
+      {
+        !postsLoading && !posts.length &&
+        <NoPosts>
+          <img
+            src={NO_DATA_IMG}
+            alt="No posts found"
+            width="128px"
+            height="128px"
+          />
+          <p>No posts found</p>
+        </NoPosts>
+      }
+      {
+        postsLoading &&
+        new Array(8).fill().map((_, index) => (
+          <PostSkeleton key={index} />
+        ))
       }
       <NextPageButton
         hasNextPage={hasNextPage}

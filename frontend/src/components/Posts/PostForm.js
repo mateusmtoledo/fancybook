@@ -3,21 +3,25 @@ import { UserContext } from "../../contexts/UserContext";
 import Avatar from "../Avatar";
 import SEND_ICON from '../../img/send.svg';
 import api from "../../adapters/api";
-import Loading from "../Loading";
 import VariableHeightTextInput from "../VariableHeightTextInput";
 import { Link } from "react-router-dom";
 import { ErrorMessage, PostFormContainer } from "../../styles/PostForm";
 import Form from "../../styles/Form";
+import PostFormSkeleton from "../Skeletons/PostFormSkeleton";
+import Loading from "../Loading";
 
-function PostForm({ refreshPosts }) {
+function PostForm({ refreshPosts, postsLoading }) {
   const { user } = useContext(UserContext);
   
   const [text, setText] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
   const [errors, setErrors] = useState(null);
+
+  if (postsLoading) return <PostFormSkeleton /> 
+
   async function submitPost(event) {
     event.preventDefault();
-    setLoading(true);
+    setFormLoading(true);
     setErrors(null);
     try {
       await api.post('/posts', { text });
@@ -27,11 +31,12 @@ function PostForm({ refreshPosts }) {
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);
     }
-    setLoading(false);
+    setFormLoading(false);
   }
 
   return (
     <PostFormContainer>
+      { formLoading && <Loading />}
       <Form onSubmit={submitPost}>
         <div className="post-text">
           <Link to={`/user/${user._id}`}>

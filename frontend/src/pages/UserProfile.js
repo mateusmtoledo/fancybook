@@ -8,7 +8,6 @@ import PostList from "../components/Posts/PostList";
 import UserInfo from "../components/UserInfo";
 import Main from "../styles/Main";
 import Aside from "../styles/Aside";
-import usePosts from "../hooks/usePosts";
 
 const UserContent = styled.div`
   display: flex;
@@ -36,13 +35,6 @@ function getFriends(userId) {
 
 function UserProfile() {
   const { userId } = useParams();
-  const {
-    posts,
-    setPosts,
-    hasNextPage,
-    postsLoading,
-    loadNextPostPage,
-  } = usePosts(userId);
 
   const [user, setUser] = useState(null);
   const [friends, setFriends] = useState([]);
@@ -67,13 +59,7 @@ function UserProfile() {
         <Aside>
           <FriendList friends={friends} friendsLoading={friendsLoading} />
         </Aside>
-        <PostList
-          posts={posts}
-          setPosts={setPosts}
-          loadNextPostPage={loadNextPostPage}
-          postsLoading={postsLoading}
-          hasNextPage={hasNextPage}
-        />
+        <PostList userId={userId}/>
       </UserContent>
     </UserProfileMain>
   );

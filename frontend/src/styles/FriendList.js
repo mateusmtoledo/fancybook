@@ -3,6 +3,8 @@ import Card from "./Card";
 
 export const FriendListContainer = styled(Card)`
   min-height: 420px;
+  display: flex;
+  flex-direction: column;
 
   h3 {
     font-family: 'Outfit', sans-serif;

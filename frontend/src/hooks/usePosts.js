@@ -1,4 +1,5 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import api from "../adapters/api";
 
@@ -10,29 +11,26 @@ function usePosts(userId) {
 
   const uri = userId ? `/users/${userId}/posts` : '/posts';
 
-  function loadNextPostPage() {
+  const loadNextPostPage = useCallback(() => {
     setPageNumber((previous) => previous + 1);
-  }
-
-  const refreshPosts = useCallback(() => {
-    setPostsLoading(true);
-    api.get(uri, { params: { page: pageNumber } }).then((response) => {
-      const { data } = response;
-      setPosts(data.posts);
-      setHasNextPage(data.hasNextPage);
-      setPostsLoading(false);
-    });
-  }, [pageNumber, uri]);
+  }, [])
   
   useEffect(() => {
     setPostsLoading(true);
-    api.get(uri, { params: { page: pageNumber } }).then((response) => {
-      const { data } = response;
-      if(pageNumber === 1) setPosts(data.posts);
-      else setPosts((previousPosts) => [...previousPosts, ...data.posts]);
-      setHasNextPage(data.hasNextPage);
-      setPostsLoading(false);
-    });
+    const controller = new AbortController();
+    const { signal } = controller;
+    api.get(uri, { params: { page: pageNumber },  signal })
+      .then((response) => {
+        const { data } = response;
+        if (pageNumber === 1) setPosts((previousPosts) => data.posts);
+        else setPosts((previousPosts) => [...previousPosts, ...data.posts]);
+        setHasNextPage(data.hasNextPage);
+        setPostsLoading(false);
+      })
+      .catch((err) => {
+        if (signal.aborted) return;
+      });
+    return () => controller.abort();
   }, [pageNumber, uri]);
 
   return {
@@ -40,7 +38,6 @@ function usePosts(userId) {
     setPosts,
     hasNextPage,
     postsLoading,
-    refreshPosts,
     loadNextPostPage,
   };
 }
