@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
+import getUniqueEntriesById from "src/utils/getUniqueEntriesById";
 import api from "../adapters/api";
 
 function useComments(postId, initialCommentCount) {
@@ -18,7 +19,8 @@ function useComments(postId, initialCommentCount) {
     if (commentPageNumber === 0) return;
     api.get(uri, { params: { page: commentPageNumber } }).then((response) => {
       const { data } = response;
-      setComments((previousComments) => [...previousComments, ...data.comments]);
+      // TODO implement better solution for pagination
+      setComments((previousComments) => getUniqueEntriesById([...previousComments, ...data.comments]));
       setHasNextPage(data.hasNextPage);
       setCommentCount(data.count);
     });

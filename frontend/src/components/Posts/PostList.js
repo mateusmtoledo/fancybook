@@ -58,6 +58,7 @@ function PostList({ userId, renderForm }) {
     <StyledPostList>
       { renderForm &&
         <PostForm
+          setPosts={setPosts}
           postsLoading={postsLoading}
         />
       }

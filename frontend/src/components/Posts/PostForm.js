@@ -9,9 +9,11 @@ import { ErrorMessage, PostFormContainer } from "../../styles/PostForm";
 import Form from "../../styles/Form";
 import PostFormSkeleton from "../Skeletons/PostFormSkeleton";
 import Loading from "../Loading";
+import { ToastContext } from "src/contexts/ToastContext";
 
-function PostForm({ refreshPosts, postsLoading }) {
+function PostForm({ postsLoading, setPosts }) {
   const { user } = useContext(UserContext);
+  const { sendNotification } = useContext(ToastContext);
   
   const [text, setText] = useState('');
   const [formLoading, setFormLoading] = useState(false);
@@ -24,12 +26,19 @@ function PostForm({ refreshPosts, postsLoading }) {
     setFormLoading(true);
     setErrors(null);
     try {
-      await api.post('/posts', { text });
+      const response = await api.post('/posts', { text });
       setText('');
-      refreshPosts();
+      setPosts((prev) => [response.data.post, ...prev]);
     } catch (err) {
       const { invalidFields } = err.response.data;
-      invalidFields && setErrors(invalidFields);
+      if (invalidFields) {
+        setErrors(invalidFields);
+      } else {
+        sendNotification({
+          type: 'error',
+          text: 'Something went wrong',
+        });
+      }
     }
     setFormLoading(false);
   }

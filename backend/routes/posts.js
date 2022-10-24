@@ -37,7 +37,12 @@ router.post('/', [
       }).save();
       await post.populate('author', 'firstName lastName fullName avatar');
       res.json({
-        post,
+        post: {
+          ...post.toObject(),
+          likeCount: 0,
+          commentCount: 0,
+          userHasLiked: false,
+        },
       });
     } catch (err) {
       next(err);
