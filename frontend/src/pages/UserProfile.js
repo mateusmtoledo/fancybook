@@ -8,6 +8,7 @@ import PostList from "../components/Posts/PostList";
 import UserInfo from "../components/UserInfo";
 import Main from "../styles/Main";
 import Aside from "../styles/Aside";
+import useFriends from "src/hooks/useFriends";
 
 const UserContent = styled.div`
   display: flex;
@@ -29,37 +30,27 @@ async function getUser(userId) {
   return api.get(`/users/${userId}`).then((response) => response.data);
 }
 
-function getFriends(userId) {
-  return api.get(`/users/${userId}/friends`).then((response) => response.data);
-}
-
 function UserProfile() {
   const { userId } = useParams();
 
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
 
-  const [friends, setFriends] = useState([]);
-  const [friendsLoading, setFriendsLoading] = useState(true);
-  const [friendshipStatus, setFriendshipStatus] = useState(null);
-  const [friendCount, setFriendCount] = useState(0);
-  const [hasNextFriendsPage, setHasNextFriendsPage] = useState(false);
+  const {
+    friends,
+    friendsLoading,
+    hasNextFriendsPage,
+    loadNextFriendsPage,
+    friendCount,
+    friendshipStatus,
+  } = useFriends(userId);
   
   useEffect(() => {
     setUser(null);
-    setFriends([]);
     setUserLoading(true);
-    setFriendsLoading(true);
     getUser(userId).then((data) => {
       setUser(data.user);
       setUserLoading(false);
-    });
-    getFriends(userId).then((data) => {
-      setFriends(data.friends);
-      setFriendshipStatus(data.friendshipStatus);
-      setFriendCount(data.friendCount);
-      setFriendsLoading(false);
-      setHasNextFriendsPage(data.hasNextFriendsPage);
     });
   }, [userId]);
 
@@ -77,6 +68,7 @@ function UserProfile() {
             friendsLoading={friendsLoading}
             friendCount={friendCount}
             hasNextFriendsPage={hasNextFriendsPage}
+            loadNextFriendsPage={loadNextFriendsPage}
           />
         </Aside>
         <PostList userId={userId}/>

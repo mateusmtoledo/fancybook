@@ -30,7 +30,7 @@ function PostForm({ postsLoading, setPosts }) {
       setText('');
       setPosts((prev) => [response.data.post, ...prev]);
     } catch (err) {
-      const { invalidFields } = err.response.data;
+      const { invalidFields } = err?.response?.data;
       if (invalidFields) {
         setErrors(invalidFields);
       } else {

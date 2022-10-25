@@ -32,7 +32,7 @@ describe('UserInfo component', () => {
         },
       }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-          <UserInfo user={user} />
+          <UserInfo user={user} friendshipStatus={null} />
         </ToastContext.Provider>
       </UserContext.Provider>
     );
@@ -51,7 +51,7 @@ describe('UserInfo component', () => {
         },
       }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-          <UserInfo user={user} />
+          <UserInfo user={user} friendshipStatus={null} />
         </ToastContext.Provider>
       </UserContext.Provider>
     );
@@ -70,7 +70,7 @@ describe('UserInfo component', () => {
         }
       }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-          <UserInfo user={user} />
+          <UserInfo user={user} friendshipStatus="pending" />
         </ToastContext.Provider>
       </UserContext.Provider>
     );
@@ -91,7 +91,7 @@ describe('UserInfo component', () => {
         }
       }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-          <UserInfo user={user} />
+          <UserInfo user={user} friendshipStatus="sent" />
         </ToastContext.Provider>
       </UserContext.Provider>
     );
@@ -110,7 +110,7 @@ describe('UserInfo component', () => {
         }
       }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-          <UserInfo user={user} />
+          <UserInfo user={user} friendshipStatus="friends" />
         </ToastContext.Provider>
       </UserContext.Provider>
     );

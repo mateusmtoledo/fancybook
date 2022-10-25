@@ -5,6 +5,7 @@ import { UserContext } from "../contexts/UserContext";
 import api from '../adapters/api';
 import PostForm from "../components/Posts/PostForm";
 import { MemoryRouter } from "react-router-dom";
+import { ToastContext } from "src/contexts/ToastContext";
 
 const userContextValue = {
   user: {
@@ -24,9 +25,11 @@ describe('Post form', () => {
   it('renders text input', () => {
     render(
       <MemoryRouter>
-        <UserContext.Provider value={userContextValue}>
-          <PostForm refreshPosts={jest.fn()} />
-        </UserContext.Provider>
+        <ToastContext.Provider value={{sendNotification: jest.fn()}}>
+          <UserContext.Provider value={userContextValue}>
+            <PostForm setPosts={jest.fn()} />
+          </UserContext.Provider>
+        </ToastContext.Provider>
       </MemoryRouter>
     );
     const textInput = screen.getByPlaceholderText(/share your thoughts/i);
@@ -36,9 +39,11 @@ describe('Post form', () => {
   it('calls api.post with correct arguments', async () => {
     render(
       <MemoryRouter>
-        <UserContext.Provider value={userContextValue}>
-          <PostForm refreshPosts={jest.fn()} />
-        </UserContext.Provider>
+        <ToastContext.Provider value={{sendNotification: jest.fn()}}>
+          <UserContext.Provider value={userContextValue}>
+            <PostForm setPosts={jest.fn()} />
+          </UserContext.Provider>
+        </ToastContext.Provider>
       </MemoryRouter>
     );
     const textInput = screen.getByPlaceholderText(/share your thoughts/i);

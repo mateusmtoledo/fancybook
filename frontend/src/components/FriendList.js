@@ -10,7 +10,13 @@ const NextPageButton = styled(Button)`
   background-color: var(--color-orange);
 `;
 
-function FriendList({ friends, friendsLoading, friendCount, hasNextFriendsPage }) {
+function FriendList({
+  friends,
+  friendsLoading,
+  friendCount,
+  hasNextFriendsPage,
+  loadNextFriendsPage
+}) {
   if (friends.length === 0 && !friendsLoading) {
     return (
       <FriendListContainer>
@@ -42,7 +48,12 @@ function FriendList({ friends, friendsLoading, friendCount, hasNextFriendsPage }
         }
       </Friends>
       { !friendsLoading && hasNextFriendsPage &&
-        <NextPageButton>Show more</NextPageButton>
+        <NextPageButton
+          type="button"
+          onClick={() => loadNextFriendsPage()}
+        >
+          Show more
+        </NextPageButton>
       }
     </FriendListContainer>
   );
