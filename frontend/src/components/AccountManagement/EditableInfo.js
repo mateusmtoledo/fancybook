@@ -38,7 +38,7 @@ function EditableInfo({ fieldName, avatar, fieldValue, Form }) {
   return (
     <EditableInfoButton onClick={() => setFormVisible(true)}>
       <FieldName>{fieldName}</FieldName>
-      <FieldValue>{avatar ? <Avatar size="64px" user={user} /> : fieldValue}</FieldValue>
+      <FieldValue as={avatar ? 'div' : 'p'}>{avatar ? <Avatar size="64px" user={user} /> : fieldValue}</FieldValue>
       <img width="20px" src={EDIT_ICON} alt="Edit" />
       {formVisible &&
         <Form setFormVisible={setFormVisible} />}

@@ -53,6 +53,10 @@ const GlobalStyles = createGlobalStyle`
     display: block;
   }
 
+  .react-loading-skeleton {
+    z-index: 0;
+  }
+
   @media (max-width: 650px) {
     .desktop {
         display: none;

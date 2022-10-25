@@ -43,17 +43,36 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:userId', async (req, res, next) => {
   const requestedUserId = req.params.userId;
-  const projection = 'firstName lastName fullName avatar';
+  const projection = 'firstName lastName fullName avatar friendList';
   try {
     const requestedUser = await User
-      .findById(requestedUserId, projection);
+      .findById(requestedUserId, projection)
+      ?.populate({
+        path: 'friendList.user',
+        select: 'avatar firstName lastName fullName coverPhoto',
+      });
     if (!requestedUser) {
       const err = new Error('User not found');
       err.statusCode = 404;
       throw err;
     }
+    const friendshipStatus = req.user.friendList.find(
+      (friendship) => friendship.user._id.equals(requestedUser._id),
+    )?.status || null;
+    const userResponse = requestedUser.toObject();
+    const usersFriends = userResponse
+      .friendList
+      .filter((friendship) => friendship.status === 'friends');
+    const friendCount = usersFriends.length;
+    userResponse.friends = usersFriends
+      .slice(0, 9)
+      .map((friendship) => friendship.user);
+    delete userResponse.friendList;
     res.json({
-      user: requestedUser,
+      user: userResponse,
+      friendshipStatus,
+      friendCount,
+      hasNextFriendsPage: friendCount > 9,
     });
   } catch (err) {
     next(err);

@@ -14,7 +14,11 @@ function usePosts(userId) {
 
   const loadNextPostPage = useCallback(() => {
     setPageNumber((previous) => previous + 1);
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    setPosts([]);
+  }, [userId]);
   
   useEffect(() => {
     setPostsLoading(true);

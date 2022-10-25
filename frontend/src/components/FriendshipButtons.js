@@ -26,18 +26,19 @@ export function handleFriendshipError(err, sendNotification) {
   sendNotification({ type: 'error', text: message });
 }
 
-function FriendshipButtons({ targetUser }) {
-  const { user, friends, refreshFriends } = useContext(UserContext);
+function FriendshipButtons({ friendshipStatus, targetUserId }) {
+  // TODO friendship status refreshing
+  const { refreshFriends } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
 
-  if (targetUser._id === user._id) return null;
+  if (friendshipStatus === undefined) return null;
 
-  if (friends.sent && friends.sent.some((friend) => friend._id === targetUser._id)) {
+  if (friendshipStatus === 'sent') {
     return (
       <ButtonStyled onClick={async () => {
         try {
           await api
-            .delete(`/users/${targetUser._id.toString()}/friends`);
+            .delete(`/users/${targetUserId}/friends`);
         } catch (err) {
           handleFriendshipError(err, sendNotification);
         }
@@ -48,13 +49,13 @@ function FriendshipButtons({ targetUser }) {
       </ButtonStyled>
     );
   }
-  if (friends.pending && friends.pending.some((friend) => friend._id === targetUser._id)) {
+  if (friendshipStatus === 'pending') {
     return (
       <>
         <ButtonStyled onClick={async () => {
           try {
             await api
-              .delete(`/users/${targetUser._id.toString()}/friends`);
+              .delete(`/users/${targetUserId}/friends`);
           } catch (err) {
             handleFriendshipError(err, sendNotification);
           }
@@ -66,7 +67,7 @@ function FriendshipButtons({ targetUser }) {
         <ButtonStyled onClick={async () => {
           try {
             await api
-              .put(`/users/${targetUser._id.toString()}/friends`)
+              .put(`/users/${targetUserId}/friends`)
           } catch (err) {
             handleFriendshipError(err, sendNotification);
           }
@@ -78,12 +79,12 @@ function FriendshipButtons({ targetUser }) {
       </>
     );
   }
-  if (friends.friends && friends.friends.some((friend) => friend._id === targetUser._id)) {
+  if (friendshipStatus === 'friends') {
     return (
       <ButtonStyled onClick={async () => {
         try {
           await api
-            .delete(`/users/${targetUser._id.toString()}/friends`);
+            .delete(`/users/${targetUserId}/friends`);
         } catch (err) {
           handleFriendshipError(err, sendNotification);
         }
@@ -98,7 +99,7 @@ function FriendshipButtons({ targetUser }) {
     <ButtonStyled onClick={async () => {
       try {
         await api
-          .post(`/users/${targetUser._id.toString()}/friends`);
+          .post(`/users/${targetUserId}/friends`);
       } catch (err) {
         handleFriendshipError(err, sendNotification);
       }

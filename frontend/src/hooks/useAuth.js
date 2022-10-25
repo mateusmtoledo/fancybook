@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import api from "../adapters/api";
 
+// TODO implement better solution for user's friends list
 async function getFriends() {
   const response = await api.get('/users/me/friends');
   return response.data;

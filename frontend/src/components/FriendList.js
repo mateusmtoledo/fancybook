@@ -2,12 +2,19 @@ import Friend from "./Friend";
 import X_CIRCLE_ICON from "../img/x-circle.svg";
 import { NoFriends, FriendListContainer, Friends } from "src/styles/FriendList";
 import FriendSkeleton from "./Skeletons/FriendSkeleton";
+import { Button } from "src/styles/AccountManagement";
+import styled from "styled-components";
 
-function FriendList({ friends, friendsLoading }) {
+const NextPageButton = styled(Button)`
+  width: 100%;
+  background-color: var(--color-orange);
+`;
+
+function FriendList({ friends, friendsLoading, friendCount, hasNextFriendsPage }) {
   if (friends.length === 0 && !friendsLoading) {
     return (
       <FriendListContainer>
-        <h3>Friends</h3>
+        <h3>Friends ( {friendCount} )</h3>
         <NoFriends>
           <img
             src={X_CIRCLE_ICON}
@@ -18,10 +25,10 @@ function FriendList({ friends, friendsLoading }) {
       </FriendListContainer>
     );
   }
-  
+
   return (
     <FriendListContainer>
-      <h3>Friends</h3>
+      <h3>Friends ( {friendCount} )</h3>
       <Friends>
         {
           friends.map((friend) =>
@@ -34,6 +41,9 @@ function FriendList({ friends, friendsLoading }) {
           ))
         }
       </Friends>
+      { !friendsLoading && hasNextFriendsPage &&
+        <NextPageButton>Show more</NextPageButton>
+      }
     </FriendListContainer>
   );
 }

@@ -5,11 +5,11 @@ export const FriendListContainer = styled(Card)`
   min-height: 420px;
   display: flex;
   flex-direction: column;
+  gap: 8px;
 
   h3 {
     font-family: 'Outfit', sans-serif;
     font-size: 1.4rem;
-    margin-bottom: 8px;
   }
 `;
 

@@ -5,33 +5,35 @@ const { sendFriendRequest, acceptFriendRequest, removeFriend } = require('../uti
 const router = express.Router({ mergeParams: true });
 
 router.get('/', async (req, res, next) => {
-  let { userId } = req.params;
-  if (userId === 'me') userId = req.user._id;
+  const { userId } = req.params;
   const projection = 'firstName lastName fullName avatar';
   try {
-    const user = await User.findById(userId).populate('friendList.user', projection);
+    const user = await User.findById(userId)?.populate('friendList.user', projection);
     if (!user) {
       const err = new Error('User not found');
       err.statusCode = 404;
       throw err;
     }
-    const response = {
-      friends: user
-        .friendList
-        .filter((friendship) => friendship.status === 'friends')
-        .map((friendship) => friendship.user),
-    };
-    if (req.user._id.equals(userId)) {
-      response.pending = user
-        .friendList
-        .filter((friendship) => friendship.status === 'pending')
-        .map((friendship) => friendship.user);
-      response.sent = user
-        .friendList
-        .filter((friendship) => friendship.status === 'sent')
-        .map((friendship) => friendship.user);
-    }
-    res.json(response);
+    const page = Number(req.query.page) >= 1 ? Number(req.query.page) : 1;
+    const friendshipStatus = req.user._id.equals(userId)
+      ? undefined
+      : req.user.friendList.find(
+        (friendship) => friendship.user._id.equals(user._id),
+      )?.status || null;
+    const usersFriends = user
+      .toObject()
+      .friendList
+      .filter((friendship) => friendship.status === 'friends');
+    const friendCount = usersFriends.length;
+    const friends = usersFriends
+      .slice((page - 1) * 9, page * 9)
+      .map((friendship) => friendship.user);
+    res.json({
+      friends,
+      friendshipStatus,
+      friendCount,
+      hasNextFriendsPage: (page * 9) < friendCount,
+    });
   } catch (err) {
     next(err);
   }

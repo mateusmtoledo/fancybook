@@ -6,7 +6,7 @@ import AvatarInput from "./AvatarInput";
 import { BasicUserInfo, UserInfoContainer } from "src/styles/UserInfo";
 import UserInfoSkeleton from "./Skeletons/UserInfoSkeleton";
 
-function UserInfo({ user, userLoading }) {
+function UserInfo({ user, userLoading, friendshipStatus }) {
   const { user: currentUser } = useContext(UserContext);
 
   if (userLoading) return (
@@ -29,7 +29,10 @@ function UserInfo({ user, userLoading }) {
         <h4>{user.fullName}</h4>
       </BasicUserInfo>
       <div className="options">
-        <FriendshipButtons targetUser={user} />
+        <FriendshipButtons
+          friendshipStatus={friendshipStatus}
+          targetUserId={user._id}
+        />
       </div>
     </UserInfoContainer>
   );
