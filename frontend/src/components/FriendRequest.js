@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import api from "../adapters/api";
 import { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
 import Avatar from "./Avatar";
 import Card from "src/styles/Card";
 import { ButtonsContainer, CancelButton, SubmitButton } from "src/styles/AccountManagement";
@@ -42,8 +41,7 @@ const FriendRequestAvatar = styled(Avatar)`
   object-fit: cover;
 `;
 
-function FriendRequest({ friendRequest, refreshPosts }) {
-  const { refreshFriends } = useContext(UserContext);
+function FriendRequest({ friendRequest }) {
   const { sendNotification } = useContext(ToastContext);
 
   return (
@@ -65,7 +63,6 @@ function FriendRequest({ friendRequest, refreshPosts }) {
             } catch (err) {
               handleFriendshipError(err, sendNotification);
             }
-            refreshFriends();
           }
         }>
           ACCEPT
@@ -78,7 +75,6 @@ function FriendRequest({ friendRequest, refreshPosts }) {
             } catch (err) {
               handleFriendshipError(err, sendNotification);
             }
-            refreshFriends();
           }
         }>
           DECLINE

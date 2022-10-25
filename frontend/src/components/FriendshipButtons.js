@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
 import USER_PLUS_ICON from "../img/user-plus.svg";
 import USER_X_ICON from "../img/user-x.svg";
 import USER_CHECK_ICON from "../img/user-check.svg";
@@ -28,7 +27,6 @@ export function handleFriendshipError(err, sendNotification) {
 
 function FriendshipButtons({ friendshipStatus, targetUserId }) {
   // TODO friendship status refreshing
-  const { refreshFriends } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
 
   if (friendshipStatus === undefined) return null;
@@ -42,7 +40,6 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
         } catch (err) {
           handleFriendshipError(err, sendNotification);
         }
-        refreshFriends();
       }}>
         <img src={USER_X_ICON} alt="Cancel friend request" />
         Cancel
@@ -59,7 +56,6 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
           } catch (err) {
             handleFriendshipError(err, sendNotification);
           }
-          refreshFriends();
         }}>
           <img src={USER_X_ICON} alt="Decline friend request" />
           Decline
@@ -71,7 +67,6 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
           } catch (err) {
             handleFriendshipError(err, sendNotification);
           }
-          refreshFriends();
         }}>
           <img src={USER_CHECK_ICON} alt="Accept friend request" />
           Accept
@@ -88,7 +83,6 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
         } catch (err) {
           handleFriendshipError(err, sendNotification);
         }
-        refreshFriends();
       }}>
         <img src={USER_MINUS_ICON} alt="Remove friend" />
         Remove
@@ -103,7 +97,6 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
       } catch (err) {
         handleFriendshipError(err, sendNotification);
       }
-      refreshFriends();
     }}>
       <img src={USER_PLUS_ICON} alt="Add as a friend" />
       Add

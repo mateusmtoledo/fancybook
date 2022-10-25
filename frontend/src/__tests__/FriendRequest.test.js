@@ -33,12 +33,11 @@ const friendRequest = {
 describe('FriendRequest', () => {
   it('renders requesting user\'s name and avatar', () => {
     render(
-      <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
+      <UserContext.Provider value={{ user }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
           <MemoryRouter>
             <FriendRequest
               friendRequest={friendRequest}
-              refreshPosts={jest.fn()}
             />
           </MemoryRouter>
         </ToastContext.Provider>
@@ -53,11 +52,10 @@ describe('FriendRequest', () => {
   it('renders accept and decline buttons', () => {
     render(
       <MemoryRouter>
-        <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
+        <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
             <FriendRequest
               friendRequest={friendRequest}
-              refreshPosts={jest.fn()}
             />
           </ToastContext.Provider>
         </UserContext.Provider>
@@ -74,11 +72,10 @@ describe('accept button', () => {
   it('calls api.put with correct arguments', () => {
     render(
       <MemoryRouter>
-        <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
+        <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
             <FriendRequest
               friendRequest={friendRequest}
-              refreshPosts={jest.fn()}
             />
           </ToastContext.Provider>
         </UserContext.Provider>
@@ -94,11 +91,10 @@ describe('decline button', () => {
   it('calls api.delete with correct arguments', () => {
     render(
       <MemoryRouter>
-        <UserContext.Provider value={{ user, refreshFriends: jest.fn() }}>
+        <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
             <FriendRequest
               friendRequest={friendRequest}
-              refreshPosts={jest.fn()}
             />
           </ToastContext.Provider>
         </UserContext.Provider>

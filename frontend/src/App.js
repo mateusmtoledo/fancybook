@@ -19,8 +19,6 @@ function App() {
   const {
     user,
     setUser,
-    friends,
-    refreshFriends,
     login,
     logout,
   } = useAuth();
@@ -32,7 +30,7 @@ function App() {
 
   return (
     <SkeletonTheme baseColor="var(--color-brown)" highlightColor="var(--color-brown-light)" duration={2.5}>
-      <UserContext.Provider value={{ user, setUser, login, logout, friends, refreshFriends }}>
+      <UserContext.Provider value={{ user, setUser, login, logout }}>
         <ToastContext.Provider value={{ notifications, sendNotification }}>
           <ToastNotificationList />
           <Container>

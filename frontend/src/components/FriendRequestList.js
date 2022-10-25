@@ -1,7 +1,8 @@
 import FriendRequest from "../components/FriendRequest";
 import styled from "styled-components";
-import { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { useState } from "react";
+import { useEffect } from "react";
+import api from "src/adapters/api";
 
 const FriendRequestListContainer = styled.div`
   width: 100%;
@@ -14,9 +15,15 @@ const FriendRequests = styled.div`
   font-family: 'Outfit', sans-serif;
 `;
 
-function FriendRequestList({ refreshPosts }) {
-  const { friends } = useContext(UserContext);
-  const friendRequests = friends.pending || [];
+function FriendRequestList() {
+  const [friendRequests, setFriendRequests] = useState([]);
+
+  useEffect(() => {
+    api.get('/users/me/friend-requests').then((response) => {
+      const { data } = response;
+      setFriendRequests(data.friendRequests);
+    });
+  }, []);
 
   return (
     <FriendRequestListContainer>
@@ -29,7 +36,6 @@ function FriendRequestList({ refreshPosts }) {
               <FriendRequest
                 key={friendRequest._id}
                 friendRequest={friendRequest}
-                refreshPosts={refreshPosts}
               />
             )
           : <p>No friend requests</p>

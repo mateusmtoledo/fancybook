@@ -7,6 +7,23 @@ const User = require('../models/User');
 
 const router = express.Router();
 
+router.get('/friend-requests', async (req, res, next) => {
+  try {
+    await req.user.populate({
+      path: 'friendList.user',
+      select: 'avatar fullName firstName lastName',
+    });
+    const friendRequests = req.user.friendList
+      .filter((friendship) => friendship.status === 'pending')
+      .map((friendship) => friendship.user);
+    res.json({
+      friendRequests,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.put('/avatar', async (req, res, next) => {
   if (!req.body.avatar) {
     const err = new Error('Invalid image file');

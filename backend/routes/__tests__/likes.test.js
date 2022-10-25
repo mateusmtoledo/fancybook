@@ -47,7 +47,7 @@ describe('likes router POST method', () => {
       .expect((response) => {
         const { like } = response.body;
         expect(like.post.toString()).toBe('6324d197ac8a1ce8ba3ae613');
-        expect(fakeUsers[0]._id.equals(like.author)).toBe(true);
+        expect(fakeUsers[0]._id.equals(like.author._id)).toBe(true);
       });
   });
 

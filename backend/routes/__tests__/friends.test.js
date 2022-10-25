@@ -28,12 +28,10 @@ describe('friends route', () => {
 
     it('sends user\'s requests on /me route', async () => {
       await request(app)
-        .get('/users/me/friends')
+        .get('/users/me/friend-requests')
         .auth(fakeUsers[0].authToken, { type: 'bearer' })
         .expect((response) => {
-          expect(response.body.friends.length).toBe(2);
-          expect(response.body.pending.length).toBe(1);
-          expect(response.body.sent.length).toBe(1);
+          expect(response.body.friendRequests.length).toBe(1);
         });
     });
   });
