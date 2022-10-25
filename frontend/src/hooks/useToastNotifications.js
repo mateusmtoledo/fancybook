@@ -13,7 +13,7 @@ function useToastNotifications() {
     setTimeout(() => {
       setNotifications((prev) => (prev.filter((item) => item !== newNotification)));
     }, duration);
-    setNotifications([...notifications, newNotification]);
+    setNotifications((previous) => [...previous, newNotification]);
   }
 
   return {

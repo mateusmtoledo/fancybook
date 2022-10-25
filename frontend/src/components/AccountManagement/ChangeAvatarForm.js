@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { ToastContext } from "src/contexts/ToastContext";
 import { ButtonsContainer, CancelButton, FormContainer, SubmitButton } from "src/styles/AccountManagement";
 import Form from "src/styles/Form";
@@ -26,12 +27,13 @@ function AvatarForm({ setFormVisible }) {
   const { user, setUser } = useContext(UserContext);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
-
+  const { setLoading } = useOutletContext();
   const { sendNotification } = useContext(ToastContext);
   
   async function handleSubmit(event) {
     event.preventDefault();
     if (error) return;
+    setLoading(true);
     try {
       const base64img = await getBase64(file);
       const response = await api.put('/users/me/avatar', {
@@ -48,6 +50,7 @@ function AvatarForm({ setFormVisible }) {
       }
       console.log(err);
     }
+    setLoading(false);
   }
 
   return (

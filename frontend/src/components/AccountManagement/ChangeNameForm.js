@@ -7,18 +7,20 @@ import { ButtonsContainer, CancelButton, FormContainer, InputContainer, SubmitBu
 import Input from "../Input";
 import Modal from "../Modal";
 import { ToastContext } from "src/contexts/ToastContext";
+import { useOutletContext } from "react-router-dom";
 
 function ChangeNameForm({ setFormVisible }) {
   const { user, setUser } = useContext(UserContext);
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [errors, setErrors] = useState(null);
-
+  const { setLoading } = useOutletContext();
   const { sendNotification } = useContext(ToastContext);
   
   async function handleSubmit(event) {
     event.preventDefault();
     setErrors(null);
+    setLoading(true);
     try {
       const newUser = (await api.put(`/users/me/name`, { firstName, lastName })).data.user;
       setUser(newUser);
@@ -28,6 +30,7 @@ function ChangeNameForm({ setFormVisible }) {
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);
     }
+    setLoading(false);
   }
 
   return (

@@ -7,6 +7,7 @@ import { ButtonsContainer, CancelButton, FormContainer, InputContainer, SubmitBu
 import Input from "../Input";
 import Modal from "../Modal";
 import { ToastContext } from "src/contexts/ToastContext";
+import { useOutletContext } from "react-router-dom";
 
 function ChangePasswordForm({ setFormVisible }) {
   const { setUser } = useContext(UserContext);
@@ -14,7 +15,7 @@ function ChangePasswordForm({ setFormVisible }) {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [errors, setErrors] = useState(null);
-
+  const { setLoading } = useOutletContext();
   const { sendNotification } = useContext(ToastContext);
 
   async function handleSubmit(event) {
@@ -28,6 +29,7 @@ function ChangePasswordForm({ setFormVisible }) {
       return;
     }
     setErrors(null);
+    setLoading(true);
     try {
       const newUser = (await api.put(`/users/me/password`, { password, newPassword })).data.user;
       setUser(newUser);
@@ -37,6 +39,7 @@ function ChangePasswordForm({ setFormVisible }) {
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);
     }
+    setLoading(false);
   }
 
   return (

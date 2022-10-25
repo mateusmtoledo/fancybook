@@ -3,6 +3,8 @@ import AccountManagementNav from "../components/AccountManagement/AccountManagem
 import { Outlet } from "react-router-dom";
 import { AccountManagementContainer } from "../styles/AccountManagement";
 import styled from "styled-components";
+import { useState } from "react";
+import GlobalLoading from "src/components/GlobalLoading";
 
 const AccountManagementMain = styled(Main)`
   max-width: 840px;
@@ -13,11 +15,14 @@ const AccountManagementMain = styled(Main)`
 `;
 
 function AccountManagement() {
+  const [loading, setLoading] = useState(false);
+
   return (
     <AccountManagementMain>
+      {loading && <GlobalLoading />}
       <AccountManagementNav />
       <AccountManagementContainer>
-        <Outlet />
+        <Outlet context={{ setLoading }} />
       </AccountManagementContainer>
     </AccountManagementMain>
   );
