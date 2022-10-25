@@ -7,6 +7,7 @@ import useToastNotifications from "./hooks/useToastNotifications";
 import ToastNotificationList from "./components/ToastNotificationList";
 import RouteHandler from "./components/RouteHandler/RouteHandler";
 import { SkeletonTheme } from "react-loading-skeleton";
+import GlobalLoading from "./components/GlobalLoading";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -21,12 +22,15 @@ function App() {
     setUser,
     login,
     logout,
+    loading,
   } = useAuth();
 
   const {
     notifications,
     sendNotification,
   } = useToastNotifications();
+
+  if (loading) return <GlobalLoading />;
 
   return (
     <SkeletonTheme baseColor="var(--color-brown)" highlightColor="var(--color-brown-light)" duration={2.5}>

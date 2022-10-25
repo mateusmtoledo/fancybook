@@ -1,38 +1,48 @@
+import { useMemo } from "react";
 import { useCallback, useEffect, useState } from "react";
 import api from "../adapters/api";
 
 function useAuth() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const searchParams = useMemo(() => new URLSearchParams(window.location.search), []);
 
   const login = useCallback(async () => {
-    if(localStorage.getItem('token')) {
-      try {
-        const response = await api.get('/login');
-        setUser(response.data.user);
-      } catch(err) {
-        localStorage.removeItem('token');
-        setUser(null);
-        console.log(err);
-      }
+    setLoading(true);
+    try {
+      const response = await api.get('/login');
+      setUser(response.data.user);
+    } catch(err) {
+      localStorage.removeItem('token');
+      setUser(null);
+      console.log(err);
     }
+    setLoading(false);
   }, []);
   
   const logout = useCallback(() => {
-    if(localStorage.getItem('token')) {
-      localStorage.removeItem('token');
-      setUser(null);
-    }
+    localStorage.removeItem('token');
+    setUser(null);
   }, []);
 
   useEffect(() => {
-    login();
-  }, [login]);
+    let token = searchParams.get('token');
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+    if (localStorage.getItem('token')) {
+      login();
+    } else {
+      setLoading(false);
+    }
+  }, [login, searchParams]);
 
   return {
     user,
     setUser,
     login,
-    logout
+    logout,
+    loading
   };
 }
 

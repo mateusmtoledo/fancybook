@@ -10,7 +10,7 @@ router.get(
   async (req, res, next) => {
     try {
       const token = await jwt.sign(req.user.toJSON(), process.env.JWT_SECRET);
-      res.redirect(`${process.env.ORIGIN}/googleauth?token=${token}`);
+      res.redirect(`${process.env.ORIGIN}?token=${token}`);
     } catch (err) {
       next(err);
     }

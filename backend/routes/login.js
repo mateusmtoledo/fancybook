@@ -6,7 +6,7 @@ require('dotenv').config();
 const router = express.Router();
 
 const { body, validationResult } = require('express-validator');
-const googleRouter = require('./google');
+const googleRouter = require('./googleauth');
 
 router.use('/google', googleRouter);
 
