@@ -6,6 +6,8 @@ import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import api from "../adapters/api";
 import Input from "./Input";
+import GlobalLoading from "./GlobalLoading";
+import { ToastContext } from "src/contexts/ToastContext";
 
 const GoogleSignIn = styled.button`
   margin: 0 auto;
@@ -44,27 +46,39 @@ function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { login } = useContext(UserContext);
+  const { sendNotification } = useContext(ToastContext);
   const navigate = useNavigate();
 
   async function submitLogin(event) {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await api.post('/login', {email, password});
       localStorage.setItem('token', response.data.token);
       await login();
       navigate('/');
     } catch(err) {
-      const { invalidFields } = err.response.data;
-      invalidFields && setErrors(invalidFields);
+      const { invalidFields } = err?.response?.data;
+      if (invalidFields) {
+        setErrors(invalidFields);
+        return;
+      }
+      sendNotification({
+        type: 'error',
+        text: 'Something went wrong',
+      });
     }
+    setLoading(false);
   }
 
   return (
     <LoginContainer>
+      {loading && <GlobalLoading />}
       <Form onSubmit={submitLogin}>
         <Input
-          type="email"
+          type="text"
           name="email"
           placeholder="Email"
           aria-label="Email"

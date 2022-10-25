@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContext } from "src/contexts/ToastContext";
 import styled from "styled-components";
 import api from "../adapters/api";
 import Card from "../styles/Card";
 import Form from "../styles/Form";
+import GlobalLoading from "./GlobalLoading";
 import Input from "./Input";
 
 const StyledSignUpForm = styled.div`
@@ -31,6 +34,8 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { sendNotification } = useContext(ToastContext);
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
@@ -43,6 +48,7 @@ function SignUp() {
       });
       return;
     }
+    setLoading(true);
     try {
       await api.post('/sign-up', {
         firstName,
@@ -51,14 +57,27 @@ function SignUp() {
         password,
       });
       navigate('/');
+      sendNotification({
+        type: 'success',
+        text: 'User successfully registered!',
+      });
     } catch (err) {
       const { invalidFields } = err.response.data;
-      invalidFields && setErrors(invalidFields);
+      if (invalidFields) {
+        setErrors(invalidFields);
+        return;
+      }
+      sendNotification({
+        type: 'error',
+        text: 'Something went wrong',
+      });
     }
+    setLoading(false);
   }
 
   return (
     <StyledSignUpForm>
+      {loading && <GlobalLoading />}
       <Card>
         <Form onSubmit={handleSubmit}>
           <div className="same-line">
@@ -83,7 +102,7 @@ function SignUp() {
           </div>
           <hr />
           <Input
-            type="email"
+            type="text"
             placeholder="Email"
             aria-label="Email"
             value={email}
