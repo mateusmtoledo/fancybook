@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
+import EXPAND_ICON from "../../img/expand-down.svg";
 
 const CommentListContainer = styled.ul`
   display: flex;
@@ -10,9 +11,33 @@ const CommentListContainer = styled.ul`
 `;
 
 const LoadMoreCommentsButton = styled.button`
-  color: var(--color-orange);
-  width: max-content;
-  align-self: center;
+  display: flex;
+  gap: 4px;
+  color: var(--color-white);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 0.8rem;
+
+  // adjust sizing and positioning so that hover box-shadow takes whole width
+  width: calc(100% + 32px);
+  height: calc(1.6em + 32px);
+  position: relative;
+  margin: 0 0 -32px;
+  right: 16px;
+  bottom: 16px;
+  border-radius: 8px;
+  
+  transition: box-shadow 0.3s;
+
+  img {
+    width: 20px;
+    height: auto;
+  }
+  
+  :hover {
+    box-shadow: inset 0px -40px 40px -40px var(--color-orange);
+  }
 `;
 
 function CommentList({
@@ -43,7 +68,11 @@ function CommentList({
       {
         hasNextCommentPage &&
         <LoadMoreCommentsButton onClick={loadNextCommentPage}>
-          Load more
+          <p>Show more</p>
+          <img
+            alt="Show more comments"
+            src={EXPAND_ICON}
+          />
         </LoadMoreCommentsButton>
       }
     </CommentListContainer>
