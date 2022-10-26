@@ -5,6 +5,7 @@ import X_ICON from "../../img/x.svg";
 import React, { useCallback, useRef } from "react";
 import Modal from "../Modal";
 import { useEffect } from "react";
+import Loading from "../Loading";
 
 const LikeListContainer = styled(Card)`
   width: 400px;
@@ -96,6 +97,7 @@ function LikeList({ likes, likeListVisible, setLikeListVisible, likePageNumber, 
             }
             )
           }
+          {likesLoading && <Loading transparent positionStatic />}
         </ul>
       </LikeListContainer>
     </Modal>

@@ -33,6 +33,7 @@ function Post({ post }) {
     loadNextCommentPage,
     hasNextCommentPage,
     commentCount,
+    commentsLoading,
   } = useComments(post._id, post.commentCount);
 
   return (
@@ -76,7 +77,7 @@ function Post({ post }) {
         likePageNumber={likePageNumber}
         hasNextLikePage={hasNextLikePage}
         loadNextLikePage={loadNextLikePage}
-        loading={likesLoading}
+        likesLoading={likesLoading}
       />
       <CommentList
         postId={post._id}
@@ -86,6 +87,7 @@ function Post({ post }) {
         hasNextCommentPage={hasNextCommentPage}
         loadNextCommentPage={loadNextCommentPage}
         commentListVisible={commentListVisible}
+        commentsLoading={commentsLoading}
       />
     </PostContainer>
   );

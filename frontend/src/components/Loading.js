@@ -4,10 +4,10 @@ const StyledLoading = styled.div`
   display: inline-block;
   position: relative;
   width: 80px;
-  height: 80px;
+  height: 16px;
   div {
     position: absolute;
-    top: 33px;
+    top: 0px;
     width: 13px;
     height: 13px;
     border-radius: 50%;
@@ -58,8 +58,8 @@ const StyledLoading = styled.div`
 
 const Wrapper = styled.div`
   width: ${props => props.window ? '100vw' : '100%'};
-  height: ${props => props.window ? '100vh' : '100%'};
-  position: ${props => props.window ? 'fixed' : 'absolute'};
+  height: ${props => props.window ? '100vh' : props.positionStatic ? 'max-content' : '100%'};
+  position: ${props => props.window ? 'fixed' : props.positionStatic ? 'static' : 'absolute'};
   border-radius: inherit;
   top: 0;
   left: 0;
@@ -71,9 +71,9 @@ const Wrapper = styled.div`
   z-index: 1;
 `;
 
-function Loading({ window, transparent }) {
+function Loading({ window, transparent, positionStatic }) {
   return (
-    <Wrapper window={window} transparent={transparent}>
+    <Wrapper window={window} transparent={transparent} positionStatic={positionStatic}>
       <StyledLoading>
         <div></div>
         <div></div>

@@ -20,7 +20,7 @@ const ModalContainer = styled.div`
   padding: 8px;
 `
 
-function Modal({ setModalVisible, children, ...props}) {
+function Modal({ setModalVisible, children, portalElementId, ...props}) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => document.body.style.overflow = 'auto';
@@ -35,7 +35,7 @@ function Modal({ setModalVisible, children, ...props}) {
         {children}
       </ModalContainer>
     </ModalOverlay>,
-    document.getElementById('portal'),
+    document.getElementById(portalElementId || 'portal'),
   );
 }
 

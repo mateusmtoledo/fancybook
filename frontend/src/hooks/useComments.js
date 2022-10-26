@@ -8,6 +8,7 @@ function useComments(postId, initialCommentCount) {
   const [commentPageNumber, setCommentPageNumber] = useState(0);
   const [hasNextCommentPage, setHasNextPage] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentCount);
+  const [commentsLoading, setCommentsLoading] = useState(false);
 
   const uri = `/posts/${postId}/comments`;
 
@@ -17,12 +18,14 @@ function useComments(postId, initialCommentCount) {
   
   useEffect(() => {
     if (commentPageNumber === 0) return;
+    setCommentsLoading(true);
     api.get(uri, { params: { page: commentPageNumber } }).then((response) => {
       const { data } = response;
       // TODO implement better solution for pagination
       setComments((previousComments) => getUniqueEntriesById([...previousComments, ...data.comments]));
       setHasNextPage(data.hasNextPage);
       setCommentCount(data.count);
+      setCommentsLoading(false);
     });
   }, [commentPageNumber, uri]);
 
@@ -33,6 +36,7 @@ function useComments(postId, initialCommentCount) {
     commentPageNumber,
     hasNextCommentPage,
     commentCount,
+    commentsLoading,
   }
 }
   

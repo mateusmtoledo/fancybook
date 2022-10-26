@@ -39,8 +39,8 @@ div:nth-child(3) {
 
 function GlobalLoading() {
   return (
-    <Modal>
-      <LoadingStyled>
+    <Modal portalElementId="loading">
+      <LoadingStyled data-testid="global-loading">
         <div></div>
         <div></div>
         <div></div>

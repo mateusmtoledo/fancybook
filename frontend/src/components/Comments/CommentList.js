@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import EXPAND_ICON from "../../img/expand-down.svg";
+import Loading from "../Loading";
 
 const CommentListContainer = styled.ul`
   display: flex;
@@ -18,6 +19,7 @@ const LoadMoreCommentsButton = styled.button`
   justify-content: center;
   width: 100%;
   font-size: 0.8rem;
+  font-weight: 700;
 
   // adjust sizing and positioning so that hover box-shadow takes whole width
   width: calc(100% + 32px);
@@ -48,6 +50,7 @@ function CommentList({
   hasNextCommentPage,
   loadNextCommentPage,
   commentListVisible,
+  commentsLoading,
 }) {
   useEffect(() => {
     if (commentListVisible && commentPageNumber === 0) {
@@ -66,7 +69,10 @@ function CommentList({
         )
       }
       {
-        hasNextCommentPage &&
+        commentsLoading && <Loading transparent positionStatic />
+      }
+      {
+        hasNextCommentPage && !commentsLoading &&
         <LoadMoreCommentsButton onClick={loadNextCommentPage}>
           <p>Show more</p>
           <img
