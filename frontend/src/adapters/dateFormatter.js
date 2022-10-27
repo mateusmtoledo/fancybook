@@ -7,7 +7,7 @@ export function getDateString(date) {
       dateNumber = Math.floor(dateNumber);
       return dateNumber === 1
         ? `1 ${dateNames[i]} ago`
-        : `${dateNumber} ${dateNames[i]}s ago`;
+        : `${Math.max(dateNumber, 0)} ${dateNames[i]}s ago`;
     }
     dateNumber *= dateDistances[i];
   }

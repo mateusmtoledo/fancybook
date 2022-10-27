@@ -1,14 +1,8 @@
 import Friend from "./Friend";
 import X_CIRCLE_ICON from "../img/x-circle.svg";
-import { NoFriends, FriendListContainer, Friends } from "src/styles/FriendList";
+import { NoFriends, FriendListContainer, Friends, NextPageButton } from "src/styles/FriendList";
 import FriendSkeleton from "./Skeletons/FriendSkeleton";
-import { Button } from "src/styles/AccountManagement";
-import styled from "styled-components";
-
-const NextPageButton = styled(Button)`
-  width: 100%;
-  background-color: var(--color-orange);
-`;
+import MORE_VERTICAL_ICON from "../img/more-vertical.svg";
 
 function FriendList({
   friends,
@@ -46,15 +40,22 @@ function FriendList({
             <FriendSkeleton key={i} />
           ))
         }
+        { !friendsLoading && hasNextFriendsPage &&
+          <NextPageButton
+            type="button"
+            onClick={() => loadNextFriendsPage()}
+          >
+            <p>
+              Show more
+            </p>
+            <img
+              src={MORE_VERTICAL_ICON}
+              alt="Show more"
+              width="36px"
+            />
+          </NextPageButton>
+        }
       </Friends>
-      { !friendsLoading && hasNextFriendsPage &&
-        <NextPageButton
-          type="button"
-          onClick={() => loadNextFriendsPage()}
-        >
-          Show more
-        </NextPageButton>
-      }
     </FriendListContainer>
   );
 }

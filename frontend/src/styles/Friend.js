@@ -18,4 +18,8 @@ export const FriendContainer = styled.div`
     overflow: hidden;
     white-space: nowrap;
   }
+
+  @media (max-width: 650px) {
+    width: 96px;
+  }
 `;
