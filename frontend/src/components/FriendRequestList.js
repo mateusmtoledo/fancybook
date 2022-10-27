@@ -3,9 +3,14 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useEffect } from "react";
 import api from "src/adapters/api";
+import FriendRequestSkeleton from "./Skeletons/FriendRequestSkeleton";
 
 const FriendRequestListContainer = styled.div`
   width: 100%;
+
+  h2 {
+    margin-bottom: 16px;
+  }
 `;
 
 const FriendRequests = styled.div`
@@ -17,11 +22,14 @@ const FriendRequests = styled.div`
 
 function FriendRequestList() {
   const [friendRequests, setFriendRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     api.get('/users/me/friend-requests').then((response) => {
       const { data } = response;
       setFriendRequests(data.friendRequests);
+      setLoading(false);
     });
   }, []);
 
@@ -30,7 +38,11 @@ function FriendRequestList() {
       <h2>Friend Requests</h2>
       <FriendRequests>
         {
-          friendRequests.length
+          loading
+          ? new Array(12).fill().map((_, i) => (
+            <FriendRequestSkeleton key={i} />
+          ))
+          : friendRequests.length
           ?
             friendRequests.map((friendRequest) =>
               <FriendRequest

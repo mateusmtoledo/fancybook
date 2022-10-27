@@ -12,7 +12,7 @@ const FriendRequestContainer = styled(Card)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 0 0 12px;
   overflow: hidden;
   gap: 8px;
@@ -34,11 +34,20 @@ const FriendRequestContainer = styled(Card)`
 `;
 
 const FriendRequestAvatar = styled(Avatar)`
-  border-radius: 0;
   width: 100%;
+  border-radius: 0;
+  aspect-ratio: 1 / 1;
   height: min-content;
+`;
+  
+const AvatarContainer = styled(Link)`
+  width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+  display: block;
+  img {
+    display: block;
+  }
 `;
 
 function FriendRequest({ friendRequest }) {
@@ -46,9 +55,9 @@ function FriendRequest({ friendRequest }) {
 
   return (
     <FriendRequestContainer>
-      <Link to={`/user/${friendRequest._id}`}>
+      <AvatarContainer to={`/user/${friendRequest._id}`}>
         <FriendRequestAvatar user={friendRequest} />
-      </Link>
+      </AvatarContainer>
       <p>
         <Link to={`/user/${friendRequest._id}`}>
           {friendRequest.fullName}
