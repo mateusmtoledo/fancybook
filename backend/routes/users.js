@@ -43,7 +43,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:userId', async (req, res, next) => {
   const requestedUserId = req.params.userId;
-  const projection = 'firstName lastName fullName avatar friendList';
+  const projection = 'firstName lastName fullName avatar bio friendList coverPhoto';
   try {
     const requestedUser = await User
       .findById(requestedUserId, projection)

@@ -9,6 +9,7 @@ import UserInfo from "../components/UserInfo";
 import Main from "../styles/Main";
 import Aside from "../styles/Aside";
 import useFriends from "src/hooks/useFriends";
+import UserBio from "src/components/UserBio";
 
 const UserContent = styled.div`
   display: flex;
@@ -63,6 +64,7 @@ function UserProfile() {
       />
       <UserContent>
         <Aside>
+          <UserBio bio={user?.bio} />
           <FriendList
             friends={friends}
             friendsLoading={friendsLoading}
