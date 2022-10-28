@@ -3,12 +3,13 @@ import Card from "../../styles/Card";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import NO_DATA_IMG from "../../img/no-data.svg";
-import NextPageButton from "./NextPageButton";
 import PostSkeleton from "../Skeletons/PostSkeleton";
 import usePosts from "src/hooks/usePosts";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { UserContext } from "src/contexts/UserContext";
+import { useRef } from "react";
+import { useCallback } from "react";
 
 const NoPosts = styled(Card)`
   display: flex;
@@ -24,7 +25,7 @@ const NoPosts = styled(Card)`
   }
 `;
 
-const StyledPostList = styled.div`
+const StyledPostList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -46,6 +47,17 @@ function PostList({ userId, renderForm }) {
 
   const { user } = useContext(UserContext);
 
+  const observer = useRef();
+  const lastPostRef = useCallback((node) => {
+    if (postsLoading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasNextPage)
+        loadNextPostPage();
+    });
+    if (node) observer.current.observe(node);
+  }, [loadNextPostPage, hasNextPage, postsLoading]);
+
   useEffect(() => {
     setPosts((previousPosts) => previousPosts.map((post) =>
       post.author._id === user._id
@@ -64,8 +76,10 @@ function PostList({ userId, renderForm }) {
       }
       {
         !!posts.length  &&
-        posts.map((post) => (
-          <Post key={post._id} post={post} />
+        posts.map((post, index) => (
+          (index + 1 === posts.length)
+          ? <li key={post._id} ref={lastPostRef}><Post  post={post} /></li>
+          : <li key={post._id}><Post key={post._id} post={post} /></li>
         ))
       }
       {
@@ -86,11 +100,6 @@ function PostList({ userId, renderForm }) {
           <PostSkeleton key={index} />
         ))
       }
-      <NextPageButton
-        hasNextPage={hasNextPage}
-        loadNextPostPage={loadNextPostPage}
-        postsLoading={postsLoading}
-      />
     </StyledPostList>
   );
 }
