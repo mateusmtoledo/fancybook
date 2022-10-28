@@ -36,7 +36,7 @@ function FriendList({
           )
         }
         { friendsLoading &&
-          new Array(9).fill().map((_, i) => (
+          new Array(6).fill().map((_, i) => (
             <FriendSkeleton key={i} />
           ))
         }

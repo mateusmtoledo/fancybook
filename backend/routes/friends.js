@@ -26,13 +26,13 @@ router.get('/', async (req, res, next) => {
       .filter((friendship) => friendship.status === 'friends');
     const friendCount = usersFriends.length;
     const friends = usersFriends
-      .slice((page - 1) * 9, page * 9)
+      .slice((page - 1) * 6, page * 6)
       .map((friendship) => friendship.user);
     res.json({
       friends,
       friendshipStatus,
       friendCount,
-      hasNextFriendsPage: (page * 9) < friendCount,
+      hasNextFriendsPage: (page * 6) < friendCount,
     });
   } catch (err) {
     next(err);

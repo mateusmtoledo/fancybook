@@ -21,6 +21,9 @@ function useFriends(userId) {
   useEffect(() => {
     setFriends([]);
     setFriendsPageNumber(1);
+    setFriendshipStatus(null);
+    setFriendCount(0);
+    setHasNextFriendsPage(false);
   }, [userId]);
   
   useEffect(() => {

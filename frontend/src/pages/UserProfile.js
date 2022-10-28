@@ -64,7 +64,10 @@ function UserProfile() {
       />
       <UserContent>
         <Aside>
-          <UserBio bio={user?.bio} />
+          <UserBio
+            bio={user?.bio}
+            userLoading={userLoading}
+          />
           <FriendList
             friends={friends}
             friendsLoading={friendsLoading}

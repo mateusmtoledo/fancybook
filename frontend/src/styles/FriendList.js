@@ -3,7 +3,6 @@ import { Button } from "./AccountManagement";
 import Card from "./Card";
 
 export const FriendListContainer = styled(Card)`
-  min-height: 420px;
   display: flex;
   flex-direction: column;
   gap: 8px;

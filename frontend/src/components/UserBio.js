@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import Card from "src/styles/Card";
 import styled from "styled-components";
 
@@ -8,12 +9,17 @@ const UserBioContainer = styled(Card)`
   }
 `;
 
-function UserBio({ bio }) {
-  if (!bio) return null;
+function UserBio({ bio, userLoading }) {
   return (
     <UserBioContainer>
       <h3>Bio</h3>
-      <p>{ bio }</p>
+      <p>
+        {
+          userLoading
+          ? <Skeleton count={3} />
+          : bio
+        }
+      </p>
     </UserBioContainer>
   );
 }
