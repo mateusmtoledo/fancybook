@@ -7,35 +7,34 @@ const {
 } = require('./fakeDataGenerator');
 require('../config/mongoSetup');
 
-function saveUsers(numberOfUsers) {
-  return User
-    .insertMany(new Array(numberOfUsers).fill(null).map(() => generateRandomUser()));
+function createUsers(numberOfUsers) {
+  return new Array(numberOfUsers).fill(null).map((_, i) => generateRandomUser(i));
 }
 
 function savePosts(users) {
-  const promises = [];
+  const posts = [];
   users.forEach((user) => {
-    const numberOfPosts = Math.floor(Math.random() * 4);
+    const numberOfPosts = Math.floor(Math.random() * 15);
     for (let i = 0; i < numberOfPosts; i += 1) {
-      promises.push(new Post(generateRandomPost(user._id)).save());
+      posts.push(generateRandomPost(user._id));
     }
   });
-  return Promise.all(promises);
+  return Post.insertMany(posts);
 }
 
 function saveComments(users, posts) {
-  const promises = [];
-  users.forEach((user) => {
-    const numberOfComments = Math.floor(Math.random() * 20);
+  const comments = [];
+  posts.forEach((post) => {
+    const numberOfComments = Math.floor(Math.random() * users.length);
     for (let i = 0; i < numberOfComments; i += 1) {
-      const post = posts[Math.floor(Math.random() * posts.length)];
-      promises.push(new Comment(generateRandomComment(user._id, post._id, post.date)).save());
+      const user = users[Math.floor(Math.random() * users.length)];
+      comments.push(generateRandomComment(user._id, post._id, post.date));
     }
   });
-  return Promise.all(promises);
+  return Comment.insertMany(comments);
 }
 
-function makeRandomFriends(users) {
+function saveUsersWithRandomFriends(users) {
   for (let i = 0; i < users.length; i += 1) {
     for (let j = i + 1; j < users.length; j += 1) {
       const randomNumber = Math.floor(Math.random() * 4);
@@ -75,26 +74,30 @@ function makeRandomFriends(users) {
       }
     }
   }
-  return Promise.all(users.map((user) => user.save()));
+  return User.insertMany(users);
 }
 
 function setRandomLikes(users, posts) {
-  const promises = [];
-  users.forEach((user) => {
-    posts.forEach((post) => {
-      if (Math.floor(Math.random() * 2)) {
-        promises.push(new Like(generateLike(user._id, post._id)).save());
-      }
+  const likes = [];
+  posts.forEach((post) => {
+    const shuffledUsers = users
+      .map((user) => ({ user, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ user }) => user);
+    const numberOfLikes = Math.floor(Math.random() * shuffledUsers.length);
+    const selectedUsers = shuffledUsers.slice(0, numberOfLikes);
+    selectedUsers.forEach((user) => {
+      likes.push(generateLike(user._id, post._id, post.date));
     });
   });
-  return Promise.all(promises);
+  return Like.insertMany(likes);
 }
 
 async function seedDatabase(numberOfUsers) {
-  const users = await saveUsers(numberOfUsers);
+  const users = createUsers(numberOfUsers);
   const [posts] = await Promise.all([
     savePosts(users),
-    makeRandomFriends(users),
+    saveUsersWithRandomFriends(users),
   ]);
   await Promise.all([
     saveComments(users, posts),
