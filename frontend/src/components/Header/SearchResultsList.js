@@ -34,6 +34,10 @@ const StyledSearchResultsList = styled.div`
   }
 `;
 
+const NoResultsMessage = styled.p`
+  text-align: center;
+`;
+
 function SearchResultsList({ searchResults, searchLoading }) {
   return (
     <StyledSearchResultsList>
@@ -54,7 +58,7 @@ function SearchResultsList({ searchResults, searchLoading }) {
               }
             </div>
           </>
-        : <p>No results found</p>
+        : <NoResultsMessage>No results found</NoResultsMessage>
       }
     </StyledSearchResultsList>
   );
