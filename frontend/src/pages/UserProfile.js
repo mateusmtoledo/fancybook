@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import api from "../adapters/api";
-import FriendList from "../components/FriendList";
-import PostList from "../components/Posts/PostList";
-import UserInfo from "../components/UserInfo";
-import Main from "../styles/Main";
-import Aside from "../styles/Aside";
-import useFriends from "src/hooks/useFriends";
-import UserBio from "src/components/UserBio";
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import api from '../adapters/api';
+import FriendList from '../components/FriendList';
+import PostList from '../components/Posts/PostList';
+import UserInfo from '../components/UserInfo';
+import Main from '../styles/Main';
+import Aside from '../styles/Aside';
+import useFriends from 'src/hooks/useFriends';
+import UserAbout from 'src/components/UserAbout';
 
 const UserContent = styled.div`
   display: flex;
@@ -45,7 +45,7 @@ function UserProfile() {
     friendCount,
     friendshipStatus,
   } = useFriends(userId);
-  
+
   useEffect(() => {
     setUser(null);
     setUserLoading(true);
@@ -64,10 +64,7 @@ function UserProfile() {
       />
       <UserContent>
         <Aside>
-          <UserBio
-            bio={user?.bio}
-            userLoading={userLoading}
-          />
+          <UserAbout bio={user?.bio} userLoading={userLoading} />
           <FriendList
             friends={friends}
             friendsLoading={friendsLoading}
@@ -76,7 +73,7 @@ function UserProfile() {
             loadNextFriendsPage={loadNextFriendsPage}
           />
         </Aside>
-        <PostList userId={userId}/>
+        <PostList userId={userId} />
       </UserContent>
     </UserProfileMain>
   );
