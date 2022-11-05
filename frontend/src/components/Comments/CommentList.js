@@ -20,25 +20,28 @@ const LoadMoreCommentsButton = styled.button`
   width: 100%;
   font-size: 0.8rem;
   font-weight: 700;
-
-  // adjust sizing and positioning so that hover box-shadow takes whole width
-  width: calc(100% + 32px);
-  height: calc(1.6em + 32px);
   position: relative;
-  margin: 0 0 -32px;
-  right: 16px;
-  bottom: 16px;
-  border-radius: 8px;
-  
-  transition: box-shadow 0.3s;
+  margin-top: -16px;
+
+  ::before {
+    position: absolute;
+    width: calc(100% + 32px);
+    height: calc(1.6em + 32px);
+    right: -16px;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+    content: "";
+  }
 
   img {
     width: 20px;
     height: auto;
   }
-  
+
   :hover {
-    box-shadow: inset 0px -40px 40px -40px var(--color-orange);
+    ::before {
+      box-shadow: inset 0px -10px 10px -10px var(--color-orange);
+    }
   }
 `;
 
@@ -58,29 +61,21 @@ function CommentList({
     }
   }, [commentListVisible, commentPageNumber, loadNextCommentPage]);
 
-  if(!commentListVisible) return null;
+  if (!commentListVisible) return null;
 
   return (
     <CommentListContainer>
       <CommentForm postId={postId} setComments={setComments} />
-      {
-        comments.map((comment) => 
-          <Comment key={comment._id} comment={comment} />
-        )
-      }
-      {
-        commentsLoading && <Loading transparent positionStatic />
-      }
-      {
-        hasNextCommentPage && !commentsLoading &&
+      {comments.map((comment) => (
+        <Comment key={comment._id} comment={comment} />
+      ))}
+      {commentsLoading && <Loading transparent positionStatic />}
+      {hasNextCommentPage && !commentsLoading && (
         <LoadMoreCommentsButton onClick={loadNextCommentPage}>
           <p>Show more</p>
-          <img
-            alt="Show more comments"
-            src={EXPAND_ICON}
-          />
+          <img alt="Show more comments" src={EXPAND_ICON} />
         </LoadMoreCommentsButton>
-      }
+      )}
     </CommentListContainer>
   );
 }
