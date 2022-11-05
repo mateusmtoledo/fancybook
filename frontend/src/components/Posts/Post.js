@@ -8,7 +8,11 @@ import LikeCounter from "../Likes/LikeCounter";
 import CommentCounter from "../Comments/CommentCounter";
 import CommentButton from "../Comments/CommentButton";
 import CommentList from "../Comments/CommentList";
-import { PostContainer, PostStatsContainer, ButtonsContainer } from "src/styles/Post";
+import {
+  PostContainer,
+  PostStatsContainer,
+  ButtonsContainer,
+} from "src/styles/Post";
 
 function Post({ post }) {
   const [likeListVisible, setLikeListVisible] = useState(false);
@@ -41,11 +45,10 @@ function Post({ post }) {
       <UserDisplayInfo
         user={post.author}
         postDate={post.date}
+        avatarSize="36px"
         bold
       />
-      <p>
-        {post.text}
-      </p>
+      <p>{post.text}</p>
       <hr />
       <PostStatsContainer>
         <LikeCounter
