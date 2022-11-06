@@ -1,13 +1,19 @@
-import { useContext } from "react";
-import { useState } from "react";
-import api from "../../adapters/api";
-import { UserContext } from "../../contexts/UserContext";
-import Form from "../../styles/Form";
-import { ButtonsContainer, CancelButton, FormContainer, InputContainer, SubmitButton } from "../../styles/AccountManagement";
-import Input from "../Input";
-import Modal from "../Modal";
-import { ToastContext } from "src/contexts/ToastContext";
-import { useOutletContext } from "react-router-dom";
+import { useContext } from 'react';
+import { useState } from 'react';
+import api from '../../adapters/api';
+import { UserContext } from '../../contexts/UserContext';
+import Form from '../../styles/Form';
+import {
+  ButtonsContainer,
+  CancelButton,
+  FormContainer,
+  InputContainer,
+  SubmitButton,
+} from '../../styles/AccountManagement';
+import Input from '../Input';
+import Modal from '../Modal';
+import { ToastContext } from 'src/contexts/ToastContext';
+import { GlobalLoadingContext } from 'src/contexts/GlobalLoadingContext';
 
 function ChangePasswordForm({ setFormVisible }) {
   const { setUser } = useContext(UserContext);
@@ -15,7 +21,7 @@ function ChangePasswordForm({ setFormVisible }) {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [errors, setErrors] = useState(null);
-  const { setLoading } = useOutletContext();
+  const { setGlobalLoading } = useContext(GlobalLoadingContext);
   const { sendNotification } = useContext(ToastContext);
 
   async function handleSubmit(event) {
@@ -23,23 +29,28 @@ function ChangePasswordForm({ setFormVisible }) {
     if (newPassword !== confirmNewPassword) {
       setErrors({
         confirmNewPassword: {
-          msg: 'Passwords don\'t match',
+          msg: "Passwords don't match",
         },
       });
       return;
     }
     setErrors(null);
-    setLoading(true);
+    setGlobalLoading(true);
     try {
-      const newUser = (await api.put(`/users/me/password`, { password, newPassword })).data.user;
+      const newUser = (
+        await api.put(`/users/me/password`, { password, newPassword })
+      ).data.user;
       setUser(newUser);
       setFormVisible(false);
-      sendNotification({ type: 'success',  text: 'Password successfully updated!' });
+      sendNotification({
+        type: 'success',
+        text: 'Password successfully updated!',
+      });
     } catch (err) {
       const { invalidFields } = err.response.data;
       invalidFields && setErrors(invalidFields);
     }
-    setLoading(false);
+    setGlobalLoading(false);
   }
 
   return (
@@ -77,15 +88,10 @@ function ChangePasswordForm({ setFormVisible }) {
             />
           </InputContainer>
           <ButtonsContainer>
-            <CancelButton
-              type="button"
-              onClick={() => setFormVisible(false)}
-            >
-                CANCEL
+            <CancelButton type="button" onClick={() => setFormVisible(false)}>
+              CANCEL
             </CancelButton>
-            <SubmitButton>
-              SUBMIT
-            </SubmitButton>
+            <SubmitButton>SUBMIT</SubmitButton>
           </ButtonsContainer>
         </Form>
       </FormContainer>

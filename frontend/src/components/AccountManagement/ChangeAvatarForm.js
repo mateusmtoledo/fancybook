@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { GlobalLoadingContext } from 'src/contexts/GlobalLoadingContext';
 import { ToastContext } from 'src/contexts/ToastContext';
 import {
   ButtonsContainer,
@@ -32,13 +32,13 @@ function AvatarForm({ setFormVisible }) {
   const { user, setUser } = useContext(UserContext);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
-  const { setLoading } = useOutletContext();
+  const { setGlobalLoading } = useContext(GlobalLoadingContext);
   const { sendNotification } = useContext(ToastContext);
 
   async function handleSubmit(event) {
     event.preventDefault();
     if (error) return;
-    setLoading(true);
+    setGlobalLoading(true);
     try {
       const base64img = await getBase64(file);
       const response = await api.put('/users/me/avatar', {
@@ -58,7 +58,7 @@ function AvatarForm({ setFormVisible }) {
       }
       console.log(err);
     }
-    setLoading(false);
+    setGlobalLoading(false);
   }
 
   // FIXME avatar form throwing error on mount on user profile page
