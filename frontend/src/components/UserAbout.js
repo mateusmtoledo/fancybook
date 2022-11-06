@@ -13,12 +13,13 @@ const UserAboutContainer = styled(Card)`
   }
   h3 {
     font-size: 1.4rem;
+    border-bottom: 1px solid var(--color-gray-dark);
+    padding-bottom: 8px;
     margin-bottom: 8px;
   }
   h4 {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-bottom: 4px;
-    font-weight: normal;
   }
   p {
     font-size: 0.9rem;

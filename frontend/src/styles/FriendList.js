@@ -9,6 +9,9 @@ export const FriendListContainer = styled(Card)`
   h3 {
     font-family: 'Outfit', sans-serif;
     font-size: 1.4rem;
+    border-bottom: 1px solid var(--color-gray-dark);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
   }
 
   @media (max-width: 650px) {
