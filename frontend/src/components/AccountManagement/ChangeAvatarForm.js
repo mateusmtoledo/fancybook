@@ -61,7 +61,6 @@ function AvatarForm({ setFormVisible }) {
     setGlobalLoading(false);
   }
 
-  // FIXME fallback image not showing up on error
   return (
     <Modal setModalVisible={() => setFormVisible(false)}>
       <FormContainer>
@@ -69,9 +68,15 @@ function AvatarForm({ setFormVisible }) {
           <Avatar
             src={file ? URL.createObjectURL(file) : user.avatar}
             onError={(event) => {
-              setError('Invalid image file');
               if (event.target.src !== user.avatar) {
+                setError('Invalid image file');
                 event.target.src = user.avatar;
+              } else if (
+                event.target.src !==
+                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+              ) {
+                event.target.src =
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
               }
             }}
             alt="Avatar preview"
