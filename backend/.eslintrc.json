@@ -1,15 +1,13 @@
 {
   "env": {
-      "browser": true,
-      "commonjs": true,
-      "es2021": true,
-      "jest/globals": true
+    "browser": true,
+    "commonjs": true,
+    "es2021": true,
+    "jest/globals": true
   },
-  "extends": [
-      "airbnb-base"
-  ],
+  "extends": ["airbnb-base", "prettier"],
   "parserOptions": {
-      "ecmaVersion": "latest"
+    "ecmaVersion": "latest"
   },
   "rules": {
     "no-console": "off",
@@ -17,10 +15,7 @@
     "no-underscore-dangle": [
       "error",
       {
-        "allow": [
-          "_id",
-          "__v"
-        ]
+        "allow": ["_id", "__v"]
       }
     ]
   },

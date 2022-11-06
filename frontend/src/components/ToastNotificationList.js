@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import ToastNotification from "./ToastNotification";
+import styled from 'styled-components';
+import ToastNotification from './ToastNotification';
 import ReactDOM from 'react-dom';
-import { useContext } from "react";
-import { ToastContext } from "../contexts/ToastContext";
+import { useContext } from 'react';
+import { ToastContext } from '../contexts/ToastContext';
 
 const ToastNotificationListContainer = styled.div`
   background: none;
@@ -24,18 +24,17 @@ const ToastNotificationListContainer = styled.div`
   }
 `;
 
-function ToastNotificationList () {
+function ToastNotificationList() {
   const { notifications } = useContext(ToastContext);
 
-  return (ReactDOM.createPortal(
+  return ReactDOM.createPortal(
     <ToastNotificationListContainer>
-      {
-        notifications.map((notification) => (
-          <ToastNotification {...notification} />
-        ))
-      }
-    </ToastNotificationListContainer>
-  , document.getElementById('toast')));
+      {notifications.map((notification) => (
+        <ToastNotification {...notification} />
+      ))}
+    </ToastNotificationListContainer>,
+    document.getElementById('toast'),
+  );
 }
 
 export default ToastNotificationList;

@@ -1,6 +1,9 @@
-import { InfoList, AccountManagementSection } from "../../styles/AccountManagement";
-import EditableInfo from "./EditableInfo";
-import ChangePasswordForm from "./ChangePasswordForm";
+import {
+  InfoList,
+  AccountManagementSection,
+} from '../../styles/AccountManagement';
+import EditableInfo from './EditableInfo';
+import ChangePasswordForm from './ChangePasswordForm';
 
 function Security() {
   return (

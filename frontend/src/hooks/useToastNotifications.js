@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 function useToastNotifications() {
@@ -11,7 +11,9 @@ function useToastNotifications() {
       duration: (duration / 1000).toString() + 's',
     };
     setTimeout(() => {
-      setNotifications((prev) => (prev.filter((item) => item !== newNotification)));
+      setNotifications((prev) =>
+        prev.filter((item) => item !== newNotification),
+      );
     }, duration);
     setNotifications((previous) => [...previous, newNotification]);
   }

@@ -1,11 +1,17 @@
-import InteractionButton from "../../styles/InteractionButton";
-import { ReactComponent as  LikeIcon } from "../../img/thumbs-up.svg";
-import api from "../../adapters/api";
-import { useContext } from "react";
-import { UserContext } from "src/contexts/UserContext";
-import { ToastContext } from "src/contexts/ToastContext";
+import InteractionButton from '../../styles/InteractionButton';
+import { ReactComponent as LikeIcon } from '../../img/thumbs-up.svg';
+import api from '../../adapters/api';
+import { useContext } from 'react';
+import { UserContext } from 'src/contexts/UserContext';
+import { ToastContext } from 'src/contexts/ToastContext';
 
-function LikeButton({ postId, userHasLiked, setUserHasLiked, setLikes, setLikeCount }) {
+function LikeButton({
+  postId,
+  userHasLiked,
+  setUserHasLiked,
+  setLikes,
+  setLikeCount,
+}) {
   const { user } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
 
@@ -33,10 +39,7 @@ function LikeButton({ postId, userHasLiked, setUserHasLiked, setLikes, setLikeCo
   }
 
   return (
-    <InteractionButton
-      onClick={handleClick}
-      isActive={userHasLiked}
-    >
+    <InteractionButton onClick={handleClick} isActive={userHasLiked}>
       <LikeIcon />
       <p>{userHasLiked ? 'Liked' : 'Like'}</p>
     </InteractionButton>

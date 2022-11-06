@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Loading from "../Loading";
-import SearchResult from "./SearchResult";
-import USER_ICON from "../../img/user.svg";
+import styled from 'styled-components';
+import Loading from '../Loading';
+import SearchResult from './SearchResult';
+import USER_ICON from '../../img/user.svg';
 
 const StyledSearchResultsList = styled.div`
   position: absolute;
@@ -12,7 +12,8 @@ const StyledSearchResultsList = styled.div`
   width: 100%;
   left: 0;
   border-radius: 0 0 16px 16px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 14px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px,
+    rgba(0, 0, 0, 0.3) 0px 7px 14px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   min-height: 48px;
 
   .results-type {
@@ -41,25 +42,23 @@ const NoResultsMessage = styled.p`
 function SearchResultsList({ searchResults, searchLoading }) {
   return (
     <StyledSearchResultsList>
-      {
-        searchLoading
-        ? <Loading transparent />
-        : searchResults.length
-        ? <>
-            <div className="results-type">
-              <img src={USER_ICON} alt="Users" />
-              <h3>Users</h3>
-            </div>
-            <div className="results-list">
-              {
-                searchResults.map((user) =>
-                  <SearchResult key={user._id} user={user} />
-                )
-              }
-            </div>
-          </>
-        : <NoResultsMessage>No results found</NoResultsMessage>
-      }
+      {searchLoading ? (
+        <Loading transparent />
+      ) : searchResults.length ? (
+        <>
+          <div className="results-type">
+            <img src={USER_ICON} alt="Users" />
+            <h3>Users</h3>
+          </div>
+          <div className="results-list">
+            {searchResults.map((user) => (
+              <SearchResult key={user._id} user={user} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <NoResultsMessage>No results found</NoResultsMessage>
+      )}
     </StyledSearchResultsList>
   );
 }

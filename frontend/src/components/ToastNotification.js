@@ -1,14 +1,14 @@
-import { useMemo } from "react";
-import styled from "styled-components";
-import Card from "../styles/Card";
-import WARNING_ICON from "../img/warning.svg";
-import ERROR_ICON from "../img/error-circle.svg";
-import SUCCESS_ICON from "../img/check-circle.svg";
-import INFO_ICON from "../img/info-circle.svg";
+import { useMemo } from 'react';
+import styled from 'styled-components';
+import Card from '../styles/Card';
+import WARNING_ICON from '../img/warning.svg';
+import ERROR_ICON from '../img/error-circle.svg';
+import SUCCESS_ICON from '../img/check-circle.svg';
+import INFO_ICON from '../img/info-circle.svg';
 
 function pickColor(type) {
   const result = {};
-  switch(type) {
+  switch (type) {
     case 'success':
       result.backgroundColor = '#4ba155';
       result.icon = SUCCESS_ICON;
@@ -43,7 +43,7 @@ const ToastContainer = styled(Card)`
   grid-auto-rows: max-content 1fr;
   gap: 4px 16px;
   overflow: hidden;
-  
+
   img {
     grid-row: span 2;
   }
@@ -81,12 +81,7 @@ function ToastNotification({ type, text, duration, ...props }) {
 
   return (
     <ToastContainer {...props} bgColor={properties.backgroundColor}>
-      <img
-        src={properties.icon}
-        alt={type}
-        width="48px"
-        height="48px"
-      />
+      <img src={properties.icon} alt={type} width="48px" height="48px" />
       <ToastTitle>{properties.title}</ToastTitle>
       <p>{text}</p>
       <ProgressBar />

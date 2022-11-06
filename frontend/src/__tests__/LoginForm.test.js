@@ -1,25 +1,21 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import '@testing-library/jest-dom'
-import userEvent from "@testing-library/user-event";
-import { UserContext } from "../contexts/UserContext";
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
+import { UserContext } from '../contexts/UserContext';
 import Login from '../pages/Login';
 import api from '../adapters/api';
-import { ToastContext } from "src/contexts/ToastContext";
-import ReactDOM from "react-dom";
+import { ToastContext } from 'src/contexts/ToastContext';
+import ReactDOM from 'react-dom';
 
 jest.mock('../adapters/api', () => {
   return {
     post: jest.fn().mockResolvedValue(),
-  }
+  };
 });
 
 jest.mock('react-router-dom', () => ({
   useNavigate: () => jest.fn(),
-  Link: ({children}) => (
-    <>
-      {children}
-    </>
-  ),
+  Link: ({ children }) => <>{children}</>,
 }));
 
 const loginMock = jest.fn();
@@ -38,7 +34,6 @@ beforeEach(() => {
   });
 });
 
-
 describe('Login form', () => {
   api.post.mockResolvedValue({
     data: {
@@ -53,13 +48,15 @@ describe('Login form', () => {
   it('renders inputs', () => {
     render(
       <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-        <UserContext.Provider value={{
-          user: null,
-          login: loginMock,
-        }}>
+        <UserContext.Provider
+          value={{
+            user: null,
+            login: loginMock,
+          }}
+        >
           <Login />
         </UserContext.Provider>
-      </ToastContext.Provider>
+      </ToastContext.Provider>,
     );
     const emailInput = screen.getByPlaceholderText(/email/i);
     expect(emailInput).toBeInTheDocument();
@@ -72,13 +69,15 @@ describe('Login form', () => {
   it('calls api with correct arguments', async () => {
     render(
       <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-        <UserContext.Provider value={{
-          user: null,
-          login: loginMock,
-        }}>
+        <UserContext.Provider
+          value={{
+            user: null,
+            login: loginMock,
+          }}
+        >
           <Login />
         </UserContext.Provider>
-      </ToastContext.Provider>
+      </ToastContext.Provider>,
     );
     const emailInput = screen.getByPlaceholderText(/email/i);
     const passwordInput = screen.getByPlaceholderText(/password/i);

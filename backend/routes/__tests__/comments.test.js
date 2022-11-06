@@ -13,9 +13,7 @@ beforeEach(async () => {
 
 describe('comments route GET method', () => {
   it('requires authentication', async () => {
-    await request(app)
-      .get(`/posts/${fakePosts[0]._id}/comments`)
-      .expect(401);
+    await request(app).get(`/posts/${fakePosts[0]._id}/comments`).expect(401);
   });
 
   it('sends comments and count as response', async () => {
@@ -47,9 +45,7 @@ describe('comments route GET method', () => {
 
 describe('comments route POST method', () => {
   it('requires authentication', async () => {
-    await request(app)
-      .post(`/posts/${fakePosts[0]._id}/comments`)
-      .expect(401);
+    await request(app).post(`/posts/${fakePosts[0]._id}/comments`).expect(401);
   });
 
   it('adds post to the database', async () => {

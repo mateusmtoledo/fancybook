@@ -1,9 +1,9 @@
-import { useContext } from "react";
-import { useState } from "react";
-import styled from "styled-components";
-import { UserContext } from "../../contexts/UserContext";
-import EDIT_ICON from "../../img/edit.svg";
-import Avatar from "../Avatar";
+import { useContext } from 'react';
+import { useState } from 'react';
+import styled from 'styled-components';
+import { UserContext } from '../../contexts/UserContext';
+import EDIT_ICON from '../../img/edit.svg';
+import Avatar from '../Avatar';
 
 const EditableInfoButton = styled.button`
   display: flex;
@@ -15,21 +15,21 @@ const EditableInfoButton = styled.button`
   font-size: 0.9rem;
   font-family: 'Outfit';
   :hover {
-    background-color: #FFFFFF0A;
+    background-color: #ffffff0a;
   }
 `;
 
 const FieldName = styled.p`
   font-weight: 700;
   width: 70px;
-`
+`;
 
 const FieldValue = styled.p`
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 
 function EditableInfo({ fieldName, avatar, fieldValue, Form }) {
   const { user } = useContext(UserContext);
@@ -38,10 +38,11 @@ function EditableInfo({ fieldName, avatar, fieldValue, Form }) {
   return (
     <EditableInfoButton onClick={() => setFormVisible(true)}>
       <FieldName>{fieldName}</FieldName>
-      <FieldValue as={avatar ? 'div' : 'p'}>{avatar ? <Avatar size="64px" user={user} /> : fieldValue}</FieldValue>
+      <FieldValue as={avatar ? 'div' : 'p'}>
+        {avatar ? <Avatar size="64px" user={user} /> : fieldValue}
+      </FieldValue>
       <img width="20px" src={EDIT_ICON} alt="Edit" />
-      {formVisible &&
-        <Form setFormVisible={setFormVisible} />}
+      {formVisible && <Form setFormVisible={setFormVisible} />}
     </EditableInfoButton>
   );
 }

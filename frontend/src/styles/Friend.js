@@ -1,5 +1,5 @@
-import Avatar from "src/components/Avatar";
-import styled from "styled-components";
+import Avatar from 'src/components/Avatar';
+import styled from 'styled-components';
 
 export const FriendAvatar = styled(Avatar)`
   border-radius: 8px;

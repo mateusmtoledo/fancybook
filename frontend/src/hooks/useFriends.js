@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
-import api from "src/adapters/api";
-import getUniqueEntriesById from "src/utils/getUniqueEntriesById";
+import { useState } from 'react';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
+import api from 'src/adapters/api';
+import getUniqueEntriesById from 'src/utils/getUniqueEntriesById';
 
 function useFriends(userId) {
   const [friends, setFriends] = useState([]);
@@ -17,7 +17,7 @@ function useFriends(userId) {
   const loadNextFriendsPage = useCallback(() => {
     setFriendsPageNumber((previous) => previous + 1);
   }, []);
-  
+
   useEffect(() => {
     setFriends([]);
     setFriendsPageNumber(1);
@@ -25,17 +25,21 @@ function useFriends(userId) {
     setFriendCount(0);
     setHasNextFriendsPage(false);
   }, [userId]);
-  
+
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
     setFriendsLoading(true);
-    api.get(uri, { params: { page: friendsPageNumber }, signal })
+    api
+      .get(uri, { params: { page: friendsPageNumber }, signal })
       .then((response) => {
         const { data } = response;
         setFriendsLoading(false);
         if (friendsPageNumber === 1) setFriends(data.friends);
-        else setFriends((previousFriends) => getUniqueEntriesById([...previousFriends, ...data.friends]));
+        else
+          setFriends((previousFriends) =>
+            getUniqueEntriesById([...previousFriends, ...data.friends]),
+          );
         // setFriends(data.friends);
         setFriendshipStatus(data.friendshipStatus);
         setFriendCount(data.friendCount);

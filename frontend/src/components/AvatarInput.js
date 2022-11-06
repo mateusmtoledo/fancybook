@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import { useState } from "react";
-import { UserContext } from "../contexts/UserContext";
-import Avatar from "./Avatar";
-import AvatarForm from "./AccountManagement/ChangeAvatarForm";
-import ADD_PHOTO_ICON from "../img/add-photo.svg";
-import styled from "styled-components";
+import { useContext } from 'react';
+import { useState } from 'react';
+import { UserContext } from '../contexts/UserContext';
+import Avatar from './Avatar';
+import AvatarForm from './AccountManagement/ChangeAvatarForm';
+import ADD_PHOTO_ICON from '../img/add-photo.svg';
+import styled from 'styled-components';
 
 const AvatarInputContainer = styled.div`
   position: relative;
@@ -42,19 +42,9 @@ function AvatarInput({ size }) {
         type="button"
         onClick={() => setFormVisible(true)}
       >
-        <img
-          src={ADD_PHOTO_ICON}
-          alt="Add"
-          width="18px"
-          height="18px"
-        />
+        <img src={ADD_PHOTO_ICON} alt="Add" width="18px" height="18px" />
       </AddPhotoButton>
-      {
-        formVisible &&
-        <AvatarForm
-          setFormVisible={setFormVisible}
-        />
-      }
+      {formVisible && <AvatarForm setFormVisible={setFormVisible} />}
     </AvatarInputContainer>
   );
 }

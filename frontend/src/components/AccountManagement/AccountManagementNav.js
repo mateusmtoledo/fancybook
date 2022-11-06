@@ -1,7 +1,7 @@
-import { Link, useLocation } from "react-router-dom";
-import styled from "styled-components";
-import { ReactComponent as BADGE_ICON } from "../../img/badge.svg";
-import { ReactComponent as LOCK_ICON } from "../../img/lock.svg";
+import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import { ReactComponent as BADGE_ICON } from '../../img/badge.svg';
+import { ReactComponent as LOCK_ICON } from '../../img/lock.svg';
 
 const AccountManagementNavContainer = styled.nav`
   height: max-content;
@@ -36,10 +36,13 @@ const NavItemContainer = styled.li`
   font-size: 1rem;
   border-radius: 8px;
   padding: 8px 16px;
-  background-color: ${(props) => props.isActive ? 'var(--color-brown-dark)' : null};
-  color: ${(props) => props.isActive ? 'var(--color-orange)' : 'var(--color-white)'};
+  background-color: ${(props) =>
+    props.isActive ? 'var(--color-brown-dark)' : null};
+  color: ${(props) =>
+    props.isActive ? 'var(--color-orange)' : 'var(--color-white)'};
   svg {
-    fill: ${(props) => props.isActive ? 'var(--color-orange)' : 'var(--color-white)'};
+    fill: ${(props) =>
+      props.isActive ? 'var(--color-orange)' : 'var(--color-white)'};
     width: 30px;
     height: auto;
   }
@@ -56,7 +59,7 @@ function NavItem({ uri, IconComponent, itemName }) {
         <p>{itemName}</p>
       </StyledLink>
     </NavItemContainer>
-  )
+  );
 }
 
 function AccountManagementNav() {

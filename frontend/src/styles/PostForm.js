@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Card from "./Card";
+import styled from 'styled-components';
+import Card from './Card';
 
 export const ErrorMessage = styled.p`
   color: red;

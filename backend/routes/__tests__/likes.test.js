@@ -15,9 +15,7 @@ beforeEach(async () => {
 
 describe('likes router GET method', () => {
   it('requires authentication', async () => {
-    await request(app)
-      .get('/posts/6324d197ac8a1ce8ba3ae615/likes')
-      .expect(401);
+    await request(app).get('/posts/6324d197ac8a1ce8ba3ae615/likes').expect(401);
   });
 
   it('sends list of users who liked the post as response', async () => {
@@ -71,16 +69,22 @@ describe('likes router DELETE method', () => {
   });
 
   it('removes like from post', async () => {
-    expect(await Like
-      .findOne({ post: '6324d197ac8a1ce8ba3ae614', author: fakeUsers[0]._id }))
-      .toBeTruthy();
+    expect(
+      await Like.findOne({
+        post: '6324d197ac8a1ce8ba3ae614',
+        author: fakeUsers[0]._id,
+      }),
+    ).toBeTruthy();
     await request(app)
       .delete('/posts/6324d197ac8a1ce8ba3ae614/likes')
       .auth(fakeUsers[0].authToken, { type: 'bearer' })
       .expect(200);
-    expect(await Like
-      .findOne({ post: '6324d197ac8a1ce8ba3ae614', author: fakeUsers[0]._id }))
-      .toBeFalsy();
+    expect(
+      await Like.findOne({
+        post: '6324d197ac8a1ce8ba3ae614',
+        author: fakeUsers[0]._id,
+      }),
+    ).toBeFalsy();
   });
 
   it('responds with 400 if user has not liked the post', async () => {

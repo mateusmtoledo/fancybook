@@ -6,7 +6,10 @@ const router = express.Router();
 
 router.get(
   '/redirect',
-  passport.authenticate('google', { failureRedirect: '/login/google', failureMessage: true }),
+  passport.authenticate('google', {
+    failureRedirect: '/login/google',
+    failureMessage: true,
+  }),
   async (req, res, next) => {
     try {
       const token = await jwt.sign(req.user.toJSON(), process.env.JWT_SECRET);
@@ -17,11 +20,11 @@ router.get(
   },
 );
 
-router.get('/', passport.authenticate('google', {
-  scope: [
-    'profile',
-    'email',
-  ],
-}));
+router.get(
+  '/',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+  }),
+);
 
 module.exports = router;

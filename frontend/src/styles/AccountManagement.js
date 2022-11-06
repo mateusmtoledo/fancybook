@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Card from "./Card";
+import styled from 'styled-components';
+import Card from './Card';
 
 export const AccountManagementContainer = styled.div`
   display: flex;
@@ -7,7 +7,10 @@ export const AccountManagementContainer = styled.div`
   gap: 32px;
   flex: 1;
   min-width: 0;
-  h2, h3, h4, h5 {
+  h2,
+  h3,
+  h4,
+  h5 {
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
   }
@@ -30,14 +33,14 @@ export const AccountManagementSection = styled(Card.withComponent('section'))`
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  flex-direction: ${(props) => props.column ? 'column' : 'row'};
+  flex-direction: ${(props) => (props.column ? 'column' : 'row')};
   width: 100%;
   gap: 8px;
   align-items: center;
   justify-content: flex-end;
 
   > button {
-    width: ${(props) => props.column ? '100%' : null};
+    width: ${(props) => (props.column ? '100%' : null)};
   }
 `;
 

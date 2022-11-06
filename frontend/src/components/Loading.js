@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledLoading = styled.div`
   display: inline-block;
@@ -57,23 +57,30 @@ const StyledLoading = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: ${props => props.window ? '100vw' : '100%'};
-  height: ${props => props.window ? '100vh' : props.positionStatic ? 'max-content' : '100%'};
-  position: ${props => props.window ? 'fixed' : props.positionStatic ? 'static' : 'absolute'};
+  width: ${(props) => (props.window ? '100vw' : '100%')};
+  height: ${(props) =>
+    props.window ? '100vh' : props.positionStatic ? 'max-content' : '100%'};
+  position: ${(props) =>
+    props.window ? 'fixed' : props.positionStatic ? 'static' : 'absolute'};
   border-radius: inherit;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.transparent ? '#00000000' : 'var(--color-brown-dark)'};
+  background-color: ${(props) =>
+    props.transparent ? '#00000000' : 'var(--color-brown-dark)'};
   opacity: 90%;
   z-index: 1;
 `;
 
 function Loading({ window, transparent, positionStatic }) {
   return (
-    <Wrapper window={window} transparent={transparent} positionStatic={positionStatic}>
+    <Wrapper
+      window={window}
+      transparent={transparent}
+      positionStatic={positionStatic}
+    >
       <StyledLoading>
         <div></div>
         <div></div>

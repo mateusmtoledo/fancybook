@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Avatar from "../Avatar";
-import { getDateString } from "../../adapters/dateFormatter";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import Avatar from '../Avatar';
+import { getDateString } from '../../adapters/dateFormatter';
+import { Link } from 'react-router-dom';
 
 const CommentContainer = styled.li`
   display: grid;

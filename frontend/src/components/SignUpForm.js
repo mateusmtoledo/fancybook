@@ -1,13 +1,13 @@
-import { useContext } from "react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ToastContext } from "src/contexts/ToastContext";
-import styled from "styled-components";
-import api from "../adapters/api";
-import Card from "../styles/Card";
-import Form from "../styles/Form";
-import GlobalLoading from "./GlobalLoading";
-import Input from "./Input";
+import { useContext } from 'react';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContext } from 'src/contexts/ToastContext';
+import styled from 'styled-components';
+import api from '../adapters/api';
+import Card from '../styles/Card';
+import Form from '../styles/Form';
+import GlobalLoading from './GlobalLoading';
+import Input from './Input';
 
 const StyledSignUpForm = styled.div`
   max-width: 435px;
@@ -43,7 +43,7 @@ function SignUp() {
     if (password !== confirmPassword) {
       setErrors({
         confirmPassword: {
-          msg: 'Passwords don\'t match',
+          msg: "Passwords don't match",
         },
       });
       return;
@@ -127,11 +127,10 @@ function SignUp() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             error={errors?.confirmPassword?.msg}
           />
-          <input
-            type="submit"
-            value="Sign up"
-          />
-          <p>Already registered? <Link to="/">Sign in</Link></p>
+          <input type="submit" value="Sign up" />
+          <p>
+            Already registered? <Link to="/">Sign in</Link>
+          </p>
         </Form>
       </Card>
     </StyledSignUpForm>

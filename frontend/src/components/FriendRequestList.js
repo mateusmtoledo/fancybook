@@ -1,9 +1,9 @@
-import FriendRequest from "../components/FriendRequest";
-import styled from "styled-components";
-import { useState } from "react";
-import { useEffect } from "react";
-import api from "src/adapters/api";
-import FriendRequestSkeleton from "./Skeletons/FriendRequestSkeleton";
+import FriendRequest from '../components/FriendRequest';
+import styled from 'styled-components';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import api from 'src/adapters/api';
+import FriendRequestSkeleton from './Skeletons/FriendRequestSkeleton';
 
 const FriendRequestListContainer = styled.div`
   width: 100%;
@@ -37,21 +37,18 @@ function FriendRequestList() {
     <FriendRequestListContainer>
       <h2>Friend Requests</h2>
       <FriendRequests>
-        {
-          loading
-          ? new Array(12).fill().map((_, i) => (
-            <FriendRequestSkeleton key={i} />
+        {loading ? (
+          new Array(12).fill().map((_, i) => <FriendRequestSkeleton key={i} />)
+        ) : friendRequests.length ? (
+          friendRequests.map((friendRequest) => (
+            <FriendRequest
+              key={friendRequest._id}
+              friendRequest={friendRequest}
+            />
           ))
-          : friendRequests.length
-          ?
-            friendRequests.map((friendRequest) =>
-              <FriendRequest
-                key={friendRequest._id}
-                friendRequest={friendRequest}
-              />
-            )
-          : <p>No friend requests</p>
-        }
+        ) : (
+          <p>No friend requests</p>
+        )}
       </FriendRequests>
     </FriendRequestListContainer>
   );

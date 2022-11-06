@@ -16,14 +16,9 @@ router.get('/', async (req, res, next) => {
     },
   };
   try {
-    const [
-      userHasLiked,
-      likes,
-    ] = await Promise.all([
-      await Like
-        .exists({ post: postId, author: req.user._id }),
-      await Like
-        .paginate({ post: postId }, paginateOptions),
+    const [userHasLiked, likes] = await Promise.all([
+      await Like.exists({ post: postId, author: req.user._id }),
+      await Like.paginate({ post: postId }, paginateOptions),
     ]);
     res.json({
       userHasLiked,
@@ -39,8 +34,10 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   const { postId } = req.params;
   try {
-    const userHasLiked = await Like
-      .exists({ post: postId, author: req.user._id });
+    const userHasLiked = await Like.exists({
+      post: postId,
+      author: req.user._id,
+    });
     if (userHasLiked) {
       const err = new Error('User has already liked this post');
       err.statusCode = 400;
@@ -62,8 +59,10 @@ router.post('/', async (req, res, next) => {
 router.delete('/', async (req, res, next) => {
   const { postId } = req.params;
   try {
-    const deleted = await Like
-      .findOneAndDelete({ post: postId, author: req.user._id });
+    const deleted = await Like.findOneAndDelete({
+      post: postId,
+      author: req.user._id,
+    });
     if (!deleted) {
       const err = new Error('User has not liked post');
       err.statusCode = 400;

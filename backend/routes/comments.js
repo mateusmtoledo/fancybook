@@ -29,7 +29,10 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', [
-  body('text', 'Comment must have at least 3 characters').trim().isLength({ min: 3 }).escape(),
+  body('text', 'Comment must have at least 3 characters')
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -46,7 +49,10 @@ router.post('/', [
         author: req.user._id,
         text: req.body.text,
       }).save();
-      await savedComment.populate('author', 'avatar firstName lastName fullName');
+      await savedComment.populate(
+        'author',
+        'avatar firstName lastName fullName',
+      );
       res.json({
         comment: savedComment,
       });

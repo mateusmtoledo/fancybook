@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import Card from "../../styles/Card";
-import Like from "./Like";
-import X_ICON from "../../img/x.svg";
-import React, { useCallback, useRef } from "react";
-import Modal from "../Modal";
-import { useEffect } from "react";
-import Loading from "../Loading";
+import styled from 'styled-components';
+import Card from '../../styles/Card';
+import Like from './Like';
+import X_ICON from '../../img/x.svg';
+import React, { useCallback, useRef } from 'react';
+import Modal from '../Modal';
+import { useEffect } from 'react';
+import Loading from '../Loading';
 
 const LikeListContainer = styled(Card)`
   width: 400px;
@@ -18,12 +18,12 @@ const LikeListContainer = styled(Card)`
   h2 {
     font-family: 'Outfit', sans-serif;
   }
-  
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     img {
       display: block;
     }
@@ -52,18 +52,28 @@ const LikeListContainer = styled(Card)`
   }
 `;
 
-function LikeList({ likes, likeListVisible, setLikeListVisible, likePageNumber, hasNextLikePage, loadNextLikePage, likesLoading }) {
+function LikeList({
+  likes,
+  likeListVisible,
+  setLikeListVisible,
+  likePageNumber,
+  hasNextLikePage,
+  loadNextLikePage,
+  likesLoading,
+}) {
   const observer = useRef();
 
-  const lastLikeRef = useCallback((node) => {
-    if (likesLoading) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasNextLikePage)
-        loadNextLikePage();
-    });
-    if (node) observer.current.observe(node);
-  }, [loadNextLikePage, hasNextLikePage, likesLoading]);
+  const lastLikeRef = useCallback(
+    (node) => {
+      if (likesLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextLikePage) loadNextLikePage();
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loadNextLikePage, hasNextLikePage, likesLoading],
+  );
 
   useEffect(() => {
     if (likeListVisible && likePageNumber === 0) {
@@ -88,15 +98,14 @@ function LikeList({ likes, likeListVisible, setLikeListVisible, likePageNumber, 
           </button>
         </div>
         <ul className="likes">
-          {
-            likes.map((like, index) => {
-              if (index + 1 === likes.length) {
-                return <Like ref={lastLikeRef} key={like._id} author={like.author} />
-              }
-              return <Like key={like._id} author={like.author} />
+          {likes.map((like, index) => {
+            if (index + 1 === likes.length) {
+              return (
+                <Like ref={lastLikeRef} key={like._id} author={like.author} />
+              );
             }
-            )
-          }
+            return <Like key={like._id} author={like.author} />;
+          })}
           {likesLoading && <Loading transparent positionStatic />}
         </ul>
       </LikeListContainer>

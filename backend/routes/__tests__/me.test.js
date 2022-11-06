@@ -18,7 +18,9 @@ describe('PUT /avatar', () => {
       .send({ avatar: 'base64string' })
       .expect(200)
       .expect((response) => {
-        expect(response.body.user.avatar).toBe('https://someurl.com/w_256,h_256,c_fill/path/image.png');
+        expect(response.body.user.avatar).toBe(
+          'https://someurl.com/w_256,h_256,c_fill/path/image.png',
+        );
       });
   });
 });

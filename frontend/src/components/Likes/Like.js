@@ -1,5 +1,5 @@
-import React from "react";
-import UserDisplayInfo from "../UserDisplayInfo";
+import React from 'react';
+import UserDisplayInfo from '../UserDisplayInfo';
 
 const Like = React.forwardRef(function ({ author }, ref) {
   return (

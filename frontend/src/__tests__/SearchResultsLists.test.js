@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SearchResultsList from "../components/Header/SearchResultsList";
-import { MemoryRouter } from "react-router-dom";
+import SearchResultsList from '../components/Header/SearchResultsList';
+import { MemoryRouter } from 'react-router-dom';
 
 const searchResults = [
   {
@@ -25,7 +25,7 @@ describe('SearchResultsList', () => {
     render(
       <MemoryRouter>
         <SearchResultsList searchResults={searchResults} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     const johnsAvatar = screen.getByAltText(/john's avatar/i);

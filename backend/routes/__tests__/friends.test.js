@@ -15,7 +15,7 @@ describe('friends route', () => {
         .expect(401);
     });
 
-    it('does not send user\'s requests to other users', async () => {
+    it("does not send user's requests to other users", async () => {
       await request(app)
         .get(`/users/${fakeUsers[2]._id}/friends`)
         .auth(fakeUsers[0].authToken, { type: 'bearer' })
@@ -26,7 +26,7 @@ describe('friends route', () => {
         });
     });
 
-    it('sends user\'s requests on /me route', async () => {
+    it("sends user's requests on /me route", async () => {
       await request(app)
         .get('/users/me/friend-requests')
         .auth(fakeUsers[0].authToken, { type: 'bearer' })
@@ -45,9 +45,9 @@ describe('friends route', () => {
         .auth(requesterUser.authToken, { type: 'bearer' })
         .expect(200);
       recipientUser = await User.findById(recipientUser);
-      const usersFriendship = recipientUser
-        .friendList
-        .find((friendship) => friendship.user.equals(requesterUser._id));
+      const usersFriendship = recipientUser.friendList.find((friendship) =>
+        friendship.user.equals(requesterUser._id),
+      );
       expect(usersFriendship.status).toBe('pending');
     });
   });
@@ -59,8 +59,11 @@ describe('friends route', () => {
         .auth(fakeUsers[0].authToken, { type: 'bearer' })
         .expect(200);
       const user = await User.findById(fakeUsers[0]._id);
-      expect(user.friendList
-        .find((friendship) => friendship.user.equals(fakeUsers[1]._id)).status).toBe('friends');
+      expect(
+        user.friendList.find((friendship) =>
+          friendship.user.equals(fakeUsers[1]._id),
+        ).status,
+      ).toBe('friends');
     });
   });
 
@@ -72,8 +75,11 @@ describe('friends route', () => {
         .expect(200);
       const user = await User.findById(fakeUsers[0]._id);
       expect(user.friendList.length).toBe(3);
-      expect(user.friendList
-        .some((friendship) => friendship.user.equals(fakeUsers[1]._id))).toBe(false);
+      expect(
+        user.friendList.some((friendship) =>
+          friendship.user.equals(fakeUsers[1]._id),
+        ),
+      ).toBe(false);
     });
   });
 });

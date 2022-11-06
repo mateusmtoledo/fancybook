@@ -1,6 +1,10 @@
 const express = require('express');
 const User = require('../models/User');
-const { sendFriendRequest, acceptFriendRequest, removeFriend } = require('../utils/friendsManagement');
+const {
+  sendFriendRequest,
+  acceptFriendRequest,
+  removeFriend,
+} = require('../utils/friendsManagement');
 
 const router = express.Router({ mergeParams: true });
 
@@ -8,7 +12,10 @@ router.get('/', async (req, res, next) => {
   const { userId } = req.params;
   const projection = 'firstName lastName fullName avatar';
   try {
-    const user = await User.findById(userId)?.populate('friendList.user', projection);
+    const user = await User.findById(userId)?.populate(
+      'friendList.user',
+      projection,
+    );
     if (!user) {
       const err = new Error('User not found');
       err.statusCode = 404;
@@ -17,13 +24,12 @@ router.get('/', async (req, res, next) => {
     const page = Number(req.query.page) >= 1 ? Number(req.query.page) : 1;
     const friendshipStatus = req.user._id.equals(userId)
       ? undefined
-      : req.user.friendList.find(
-        (friendship) => friendship.user._id.equals(user._id),
-      )?.status || null;
+      : req.user.friendList.find((friendship) =>
+          friendship.user._id.equals(user._id),
+        )?.status || null;
     const usersFriends = user
       .toObject()
-      .friendList
-      .filter((friendship) => friendship.status === 'friends');
+      .friendList.filter((friendship) => friendship.status === 'friends');
     const friendCount = usersFriends.length;
     const friends = usersFriends
       .slice((page - 1) * 6, page * 6)
@@ -32,7 +38,7 @@ router.get('/', async (req, res, next) => {
       friends,
       friendshipStatus,
       friendCount,
-      hasNextFriendsPage: (page * 6) < friendCount,
+      hasNextFriendsPage: page * 6 < friendCount,
     });
   } catch (err) {
     next(err);

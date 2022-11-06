@@ -6,14 +6,15 @@ const avatars = require('./avatars.json');
 
 exports.generateRandomUser = (avatarIndex) => {
   const _id = mongoose.Types.ObjectId();
-  const avatar = avatars[avatarIndex || Math.floor(Math.random() * avatars.length)];
+  const avatar =
+    avatars[avatarIndex || Math.floor(Math.random() * avatars.length)];
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
-  const username = (`${firstName} ${lastName}`).split(' ').join('').toLowerCase();
+  const username = `${firstName} ${lastName}`.split(' ').join('').toLowerCase();
   const email = `${username}@fancybook.com`;
   const password = bcrypt.hashSync(username, 10);
   const friendList = [];
-  return ({
+  return {
     _id,
     firstName,
     lastName,
@@ -23,7 +24,7 @@ exports.generateRandomUser = (avatarIndex) => {
     email,
     password,
     sample: true,
-  });
+  };
 };
 
 exports.generateRandomPost = (authorId) => ({
@@ -36,11 +37,15 @@ exports.generateRandomComment = (authorId, postId, postDate) => ({
   author: authorId,
   post: postId,
   text: faker.lorem.lines(),
-  date: Math.floor(Math.random() * (Date.now() - postDate.getTime()) + postDate.getTime()),
+  date: Math.floor(
+    Math.random() * (Date.now() - postDate.getTime()) + postDate.getTime(),
+  ),
 });
 
 exports.generateLike = (userId, postId, postDate) => ({
   author: userId,
   post: postId,
-  date: Math.floor(Math.random() * (Date.now() - postDate.getTime()) + postDate.getTime()),
+  date: Math.floor(
+    Math.random() * (Date.now() - postDate.getTime()) + postDate.getTime(),
+  ),
 });

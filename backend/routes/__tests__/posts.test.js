@@ -14,9 +14,7 @@ beforeEach(async () => {
 
 describe('/posts GET method', () => {
   it('requires authentication', async () => {
-    await request(app)
-      .get('/posts')
-      .expect(401);
+    await request(app).get('/posts').expect(401);
   });
 
   it('only sends posts created by friends', async () => {
@@ -33,9 +31,7 @@ describe('/posts GET method', () => {
 
 describe('/posts POST method', () => {
   it('requires authentication', async () => {
-    await request(app)
-      .post('/posts')
-      .expect(401);
+    await request(app).post('/posts').expect(401);
   });
 
   it('saves post in the database', async () => {

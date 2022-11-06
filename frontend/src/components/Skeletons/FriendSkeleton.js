@@ -1,6 +1,6 @@
-import Skeleton from "react-loading-skeleton";
-import { FriendContainer } from "src/styles/Friend";
-import styled from "styled-components";
+import Skeleton from 'react-loading-skeleton';
+import { FriendContainer } from 'src/styles/Friend';
+import styled from 'styled-components';
 
 const AvatarSkeleton = styled(Skeleton)`
   border-radius: 8px;
@@ -15,7 +15,9 @@ function FriendSkeleton({ friend }) {
     <div>
       <FriendContainer>
         <AvatarSkeleton />
-        <p><Skeleton /></p>
+        <p>
+          <Skeleton />
+        </p>
       </FriendContainer>
     </div>
   );

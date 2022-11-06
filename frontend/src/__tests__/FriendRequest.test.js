@@ -1,17 +1,17 @@
-import FriendRequest from "../components/FriendRequest";
-import { render, screen } from "@testing-library/react";
+import FriendRequest from '../components/FriendRequest';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { UserContext } from "../contexts/UserContext";
-import userEvent from "@testing-library/user-event";
-import api from "../adapters/api";
-import { MemoryRouter } from "react-router-dom";
-import { ToastContext } from "src/contexts/ToastContext";
+import { UserContext } from '../contexts/UserContext';
+import userEvent from '@testing-library/user-event';
+import api from '../adapters/api';
+import { MemoryRouter } from 'react-router-dom';
+import { ToastContext } from 'src/contexts/ToastContext';
 
 jest.mock('../adapters/api', () => {
   return {
     put: jest.fn(),
     delete: jest.fn(),
-  }
+  };
 });
 
 const user = {
@@ -20,7 +20,7 @@ const user = {
   lastName: 'Doe',
   fullName: 'John Doe',
   avatar: 'https://someurl/john.png',
-}
+};
 
 const friendRequest = {
   _id: 'janesid',
@@ -28,20 +28,18 @@ const friendRequest = {
   lastName: 'Doe',
   fullName: 'Jane Doe',
   avatar: 'https://someurl/jane.png',
-}
+};
 
 describe('FriendRequest', () => {
-  it('renders requesting user\'s name and avatar', () => {
+  it("renders requesting user's name and avatar", () => {
     render(
       <UserContext.Provider value={{ user }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
           <MemoryRouter>
-            <FriendRequest
-              friendRequest={friendRequest}
-            />
+            <FriendRequest friendRequest={friendRequest} />
           </MemoryRouter>
         </ToastContext.Provider>
-      </UserContext.Provider>
+      </UserContext.Provider>,
     );
     const requesterName = screen.getByText(/jane doe/i);
     const requesterAvatar = screen.getByAltText(/jane's avatar/i);
@@ -54,12 +52,10 @@ describe('FriendRequest', () => {
       <MemoryRouter>
         <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-            <FriendRequest
-              friendRequest={friendRequest}
-            />
+            <FriendRequest friendRequest={friendRequest} />
           </ToastContext.Provider>
         </UserContext.Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const acceptButton = screen.getByText(/accept/i);
     const declineButton = screen.getByText(/decline/i);
@@ -74,12 +70,10 @@ describe('accept button', () => {
       <MemoryRouter>
         <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-            <FriendRequest
-              friendRequest={friendRequest}
-            />
+            <FriendRequest friendRequest={friendRequest} />
           </ToastContext.Provider>
         </UserContext.Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const acceptButton = screen.getByText(/accept/i);
     userEvent.click(acceptButton);
@@ -93,12 +87,10 @@ describe('decline button', () => {
       <MemoryRouter>
         <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-            <FriendRequest
-              friendRequest={friendRequest}
-            />
+            <FriendRequest friendRequest={friendRequest} />
           </ToastContext.Provider>
         </UserContext.Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const declineButton = screen.getByText(/decline/i);
     userEvent.click(declineButton);

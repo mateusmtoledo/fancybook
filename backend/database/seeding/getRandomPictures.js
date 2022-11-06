@@ -14,7 +14,9 @@ const avatars = [];
 const promises = [];
 
 for (let i = 0; i < 100; i += 1) {
-  const avatar = `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/198/198`;
+  const avatar = `https://picsum.photos/id/${Math.floor(
+    Math.random() * 1000,
+  )}/198/198`;
   promises.push(
     cloudinary.uploader
       .upload(avatar, {
@@ -37,11 +39,15 @@ for (let i = 0; i < 100; i += 1) {
 
 Promise.all(promises)
   .then(() => {
-    fs.writeFile('database/seeding/avatars.json', JSON.stringify(avatars), (error) => {
-      if (error) {
-        throw error;
-      }
-    });
+    fs.writeFile(
+      'database/seeding/avatars.json',
+      JSON.stringify(avatars),
+      (error) => {
+        if (error) {
+          throw error;
+        }
+      },
+    );
     console.log('Done');
   })
   .catch((err) => {

@@ -1,10 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { UserContext } from "../../contexts/UserContext";
-import Card from "../../styles/Card";
-import Avatar from "../Avatar";
-import LOGOUT_ICON from "../../img/log-out.svg";
-import { Link, useLocation } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { UserContext } from '../../contexts/UserContext';
+import Card from '../../styles/Card';
+import Avatar from '../Avatar';
+import LOGOUT_ICON from '../../img/log-out.svg';
+import { Link, useLocation } from 'react-router-dom';
 
 const UserMenuDropdown = styled(Card)`
   display: flex;
@@ -91,7 +91,7 @@ const RightSideContent = styled.div`
     max-width: 100%;
     min-width: 0;
   }
-`
+`;
 
 const UserMenuContainer = styled.div`
   position: relative;
@@ -127,8 +127,7 @@ function UserMenu() {
       >
         <Avatar user={user} size="36px" />
       </button>
-      {
-        userMenuVisible &&
+      {userMenuVisible && (
         <UserMenuDropdown>
           <Link to={`/user/${user._id}`}>
             <CurrentUser>
@@ -140,9 +139,7 @@ function UserMenu() {
             </CurrentUser>
           </Link>
           <Link to="/account-management">
-            <ManageAccountButton>
-              Manage your account
-            </ManageAccountButton>
+            <ManageAccountButton>Manage your account</ManageAccountButton>
           </Link>
           <hr />
           <LogoutButton onClick={() => logout()}>
@@ -150,7 +147,7 @@ function UserMenu() {
             <p>Sign out</p>
           </LogoutButton>
         </UserMenuDropdown>
-      }
+      )}
     </UserMenuContainer>
   );
 }

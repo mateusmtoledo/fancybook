@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Card from "./Card";
+import styled from 'styled-components';
+import Card from './Card';
 
 export const UserInfoContainer = styled(Card)`
   width: 100%;
@@ -20,7 +20,7 @@ export const BasicUserInfo = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 16px;
-  background: ${props => `url(${props.coverPhoto}),
+  background: ${(props) => `url(${props.coverPhoto}),
     url('https://images.pexels.com/photos/706498/pexels-photo-706498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')`};
   background-position: center;
   height: 220px;
@@ -38,13 +38,13 @@ export const BasicUserInfo = styled.div`
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2; 
+    line-clamp: 2;
     -webkit-box-orient: vertical;
   }
-  
+
   @media (max-width: 650px) {
     padding: 8px 16px;
-    img[alt$="avatar"] {
+    img[alt$='avatar'] {
       width: 104px;
       height: 104px;
     }
@@ -55,7 +55,7 @@ export const BasicUserInfo = styled.div`
 
   @media (max-width: 450px) {
     padding: 4px 8px;
-    img[alt$="avatar"] {
+    img[alt$='avatar'] {
       width: 84px;
       height: 84px;
     }

@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import Form from "../styles/Form";
-import GOOGLE_SIGN_IN from "../img/google-sign-in.png";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import { UserContext } from "../contexts/UserContext";
-import api from "../adapters/api";
-import Input from "./Input";
-import GlobalLoading from "./GlobalLoading";
-import { ToastContext } from "src/contexts/ToastContext";
+import styled from 'styled-components';
+import Form from '../styles/Form';
+import GOOGLE_SIGN_IN from '../img/google-sign-in.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { UserContext } from '../contexts/UserContext';
+import api from '../adapters/api';
+import Input from './Input';
+import GlobalLoading from './GlobalLoading';
+import { ToastContext } from 'src/contexts/ToastContext';
 
 const GoogleSignIn = styled.button`
   margin: 0 auto;
@@ -55,11 +55,11 @@ function LoginForm() {
     event.preventDefault();
     setLoading(true);
     try {
-      const response = await api.post('/login', {email, password});
+      const response = await api.post('/login', { email, password });
       localStorage.setItem('token', response.data.token);
       await login();
       navigate('/');
-    } catch(err) {
+    } catch (err) {
       const { invalidFields } = err?.response?.data;
       if (invalidFields) {
         setErrors(invalidFields);
@@ -95,10 +95,7 @@ function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
           error={errors?.password?.msg}
         />
-        <input
-          type="submit"
-          value="Sign in"
-        />
+        <input type="submit" value="Sign in" />
       </Form>
       <p className="small-text">OR</p>
       <GoogleSignIn>
@@ -106,7 +103,9 @@ function LoginForm() {
           <img src={GOOGLE_SIGN_IN} alt="Sign in with Google" />
         </a>
       </GoogleSignIn>
-      <p>Not registered? <Link to="/sign-up">Create account</Link></p>
+      <p>
+        Not registered? <Link to="/sign-up">Create account</Link>
+      </p>
     </LoginContainer>
   );
 }

@@ -1,10 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import '@testing-library/jest-dom'
-import userEvent from "@testing-library/user-event";
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import api from '../adapters/api';
 import SignUpForm from '../components/SignUpForm';
-import { MemoryRouter } from "react-router-dom";
-import { ToastContext } from "src/contexts/ToastContext";
+import { MemoryRouter } from 'react-router-dom';
+import { ToastContext } from 'src/contexts/ToastContext';
 import ReactDOM from 'react-dom';
 
 jest.mock('react-router-dom', () => ({
@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => ({
 jest.mock('../adapters/api', () => {
   return {
     post: jest.fn(),
-  }
+  };
 });
 
 beforeEach(() => {
@@ -31,7 +31,7 @@ describe('SignUp', () => {
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
           <SignUpForm />
         </ToastContext.Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const firstName = screen.getByPlaceholderText(/first name/i);
     expect(firstName).toBeInTheDocument();
@@ -53,7 +53,7 @@ describe('SignUp', () => {
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
           <SignUpForm />
         </ToastContext.Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const firstName = screen.getByPlaceholderText(/first name/i);
     userEvent.type(firstName, 'John');
@@ -67,11 +67,13 @@ describe('SignUp', () => {
     userEvent.type(confirmPassword, 'johndoe123');
     const submitButton = screen.getByDisplayValue(/sign up/i);
     userEvent.click(submitButton);
-    await waitFor(() => expect(api.post).toBeCalledWith('/sign-up', {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'johndoe@fancybook.com',
-      password: 'johndoe123',
-    }));
+    await waitFor(() =>
+      expect(api.post).toBeCalledWith('/sign-up', {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'johndoe@fancybook.com',
+        password: 'johndoe123',
+      }),
+    );
   });
 });

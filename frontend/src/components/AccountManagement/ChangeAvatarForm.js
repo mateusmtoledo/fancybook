@@ -61,7 +61,6 @@ function AvatarForm({ setFormVisible }) {
     setGlobalLoading(false);
   }
 
-  // FIXME avatar form throwing error on mount on user profile page
   // FIXME fallback image not showing up on error
   return (
     <Modal setModalVisible={() => setFormVisible(false)}>

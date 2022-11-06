@@ -1,14 +1,14 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { ToastContext } from "src/contexts/ToastContext";
-import styled from "styled-components";
-import api from "../../adapters/api";
-import { UserContext } from "../../contexts/UserContext";
-import Form from "../../styles/Form";
-import { ErrorMessage } from "../../styles/PostForm";
-import Avatar from "../Avatar";
-import Loading from "../Loading";
-import VariableHeightTextInput from "../VariableHeightTextInput";
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ToastContext } from 'src/contexts/ToastContext';
+import styled from 'styled-components';
+import api from '../../adapters/api';
+import { UserContext } from '../../contexts/UserContext';
+import Form from '../../styles/Form';
+import { ErrorMessage } from '../../styles/PostForm';
+import Avatar from '../Avatar';
+import Loading from '../Loading';
+import VariableHeightTextInput from '../VariableHeightTextInput';
 
 const CommentFormContainer = styled(Form)`
   position: relative;
@@ -52,7 +52,7 @@ function CommentForm({ postId, setComments }) {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const { sendNotification } = useContext(ToastContext);
-  
+
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
@@ -95,7 +95,7 @@ function CommentForm({ postId, setComments }) {
           />
           {errors?.text && <ErrorMessage>{errors.text.msg}</ErrorMessage>}
         </div>
-        { buttonsVisible &&
+        {buttonsVisible && (
           <CommentButtons>
             <CancelCommentButton
               type="button"
@@ -107,11 +107,9 @@ function CommentForm({ postId, setComments }) {
             >
               CANCEL
             </CancelCommentButton>
-            <SubmitCommentButton>
-              SUBMIT
-            </SubmitCommentButton>
+            <SubmitCommentButton>SUBMIT</SubmitCommentButton>
           </CommentButtons>
-        }
+        )}
       </CommentInputs>
     </CommentFormContainer>
   );

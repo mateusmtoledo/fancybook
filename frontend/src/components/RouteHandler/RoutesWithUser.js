@@ -1,15 +1,13 @@
-import { Route, Routes } from "react-router-dom";
-import Home from "../../pages/Home";
-import AccountManagement from "../../pages/AccountManagement";
-import UserProfile from "../../pages/UserProfile";
-import Header from "../Header/Header";
-import PersonalInfo from "../AccountManagement/PersonalInfo";
-import Security from "../AccountManagement/Security";
-import Friends from "src/pages/Friends";
+import { Route, Routes } from 'react-router-dom';
+import Home from '../../pages/Home';
+import AccountManagement from '../../pages/AccountManagement';
+import UserProfile from '../../pages/UserProfile';
+import Header from '../Header/Header';
+import PersonalInfo from '../AccountManagement/PersonalInfo';
+import Security from '../AccountManagement/Security';
+import Friends from 'src/pages/Friends';
 
 function RoutesWithUser() {
-
-
   return (
     <>
       <Header />
@@ -23,7 +21,7 @@ function RoutesWithUser() {
         </Route>
       </Routes>
     </>
-  )
+  );
 }
 
 export default RoutesWithUser;

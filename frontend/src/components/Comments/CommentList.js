@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import styled from "styled-components";
-import Comment from "./Comment";
-import CommentForm from "./CommentForm";
-import EXPAND_ICON from "../../img/expand-down.svg";
-import Loading from "../Loading";
+import { useEffect } from 'react';
+import styled from 'styled-components';
+import Comment from './Comment';
+import CommentForm from './CommentForm';
+import EXPAND_ICON from '../../img/expand-down.svg';
+import Loading from '../Loading';
 
 const CommentListContainer = styled.ul`
   display: flex;
@@ -30,7 +30,7 @@ const LoadMoreCommentsButton = styled.button`
     right: -16px;
     border-radius: 8px;
     transition: box-shadow 0.3s;
-    content: "";
+    content: '';
   }
 
   img {

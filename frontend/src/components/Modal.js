@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import styled from "styled-components";
-import ReactDOM from "react-dom";
+import { useEffect } from 'react';
+import styled from 'styled-components';
+import ReactDOM from 'react-dom';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -18,19 +18,22 @@ const ModalOverlay = styled.div`
 const ModalContainer = styled.div`
   max-width: 100vw;
   padding: 8px;
-`
+`;
 
-function Modal({ setModalVisible, children, portalElementId, ...props}) {
+function Modal({ setModalVisible, children, portalElementId, ...props }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    return () => document.body.style.overflow = 'auto';
+    return () => (document.body.style.overflow = 'auto');
   }, []);
 
   return ReactDOM.createPortal(
-    <ModalOverlay {...props} onClick={(e) => {
-      e.stopPropagation();
-      setModalVisible(false);
-    }}>
+    <ModalOverlay
+      {...props}
+      onClick={(e) => {
+        e.stopPropagation();
+        setModalVisible(false);
+      }}
+    >
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         {children}
       </ModalContainer>

@@ -1,11 +1,14 @@
-import { InfoList, AccountManagementSection } from "../../styles/AccountManagement";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
-import EditableInfo from "./EditableInfo";
-import ChangeNameForm from "./ChangeNameForm";
-import ChangeBioForm from "./ChangeBioForm";
-import ChangeEmailForm from "./ChangeEmailForm";
-import AvatarForm from "./ChangeAvatarForm";
+import {
+  InfoList,
+  AccountManagementSection,
+} from '../../styles/AccountManagement';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
+import EditableInfo from './EditableInfo';
+import ChangeNameForm from './ChangeNameForm';
+import ChangeBioForm from './ChangeBioForm';
+import ChangeEmailForm from './ChangeEmailForm';
+import AvatarForm from './ChangeAvatarForm';
 
 function PersonalInfo() {
   const { user } = useContext(UserContext);
@@ -19,10 +22,18 @@ function PersonalInfo() {
             <EditableInfo fieldName="Photo" avatar Form={AvatarForm} />
           </li>
           <li>
-            <EditableInfo fieldName="Name" fieldValue={user.fullName} Form={ChangeNameForm} />
+            <EditableInfo
+              fieldName="Name"
+              fieldValue={user.fullName}
+              Form={ChangeNameForm}
+            />
           </li>
           <li>
-            <EditableInfo fieldName="Bio" fieldValue={user.bio} Form={ChangeBioForm} />
+            <EditableInfo
+              fieldName="Bio"
+              fieldValue={user.bio}
+              Form={ChangeBioForm}
+            />
           </li>
         </InfoList>
       </AccountManagementSection>
@@ -30,7 +41,11 @@ function PersonalInfo() {
         <h3>Contact Info</h3>
         <InfoList>
           <li>
-            <EditableInfo fieldName="Email" fieldValue={user.email} Form={ChangeEmailForm} />
+            <EditableInfo
+              fieldName="Email"
+              fieldValue={user.email}
+              Form={ChangeEmailForm}
+            />
           </li>
         </InfoList>
       </AccountManagementSection>

@@ -3,12 +3,17 @@ const User = require('../../models/User');
 const Comment = require('../../models/Comment');
 const Like = require('../../models/Like');
 const {
-  generateRandomUser, generateRandomPost, generateRandomComment, generateLike,
+  generateRandomUser,
+  generateRandomPost,
+  generateRandomComment,
+  generateLike,
 } = require('./fakeDataGenerator');
 require('../config/mongoSetup');
 
 function createUsers(numberOfUsers) {
-  return new Array(numberOfUsers).fill(null).map((_, i) => generateRandomUser(i));
+  return new Array(numberOfUsers)
+    .fill(null)
+    .map((_, i) => generateRandomUser(i));
 }
 
 function savePosts(users) {
@@ -99,10 +104,7 @@ async function seedDatabase(numberOfUsers) {
     savePosts(users),
     saveUsersWithRandomFriends(users),
   ]);
-  await Promise.all([
-    saveComments(users, posts),
-    setRandomLikes(users, posts),
-  ]);
+  await Promise.all([saveComments(users, posts), setRandomLikes(users, posts)]);
   console.log('Done');
 }
 

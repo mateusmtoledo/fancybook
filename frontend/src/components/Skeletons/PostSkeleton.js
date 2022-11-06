@@ -3,8 +3,16 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { CommentCounterContainer } from 'src/styles/CommentCounter';
 import InteractionButton from 'src/styles/InteractionButton';
 import { LikeCounterStyled } from 'src/styles/LikeCounter';
-import { ButtonsContainer, PostContainer, PostStatsContainer } from 'src/styles/Post';
-import { AuthorName, PostDate, UserDisplayInfoLink } from 'src/styles/UserDisplayInfo';
+import {
+  ButtonsContainer,
+  PostContainer,
+  PostStatsContainer,
+} from 'src/styles/Post';
+import {
+  AuthorName,
+  PostDate,
+  UserDisplayInfoLink,
+} from 'src/styles/UserDisplayInfo';
 
 function PostSkeleton() {
   return (

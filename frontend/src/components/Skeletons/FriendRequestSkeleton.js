@@ -1,7 +1,7 @@
-import Skeleton from "react-loading-skeleton";
-import { Button, ButtonsContainer } from "src/styles/AccountManagement";
-import Card from "src/styles/Card";
-import styled from "styled-components";
+import Skeleton from 'react-loading-skeleton';
+import { Button, ButtonsContainer } from 'src/styles/AccountManagement';
+import Card from 'src/styles/Card';
+import styled from 'styled-components';
 
 const FriendRequestContainer = styled(Card)`
   display: flex;
@@ -56,8 +56,10 @@ function FriendRequestSkeleton() {
             bottom: '2px',
           }}
         />
-        </AvatarSkeleton>
-      <p><Skeleton width="120px" height="20px" /></p>
+      </AvatarSkeleton>
+      <p>
+        <Skeleton width="120px" height="20px" />
+      </p>
       <ButtonsContainer column>
         <ButtonSkeleton>
           <Skeleton width="100%" height="100%" />

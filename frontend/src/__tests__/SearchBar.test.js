@@ -1,14 +1,14 @@
-import { render, screen } from "@testing-library/react";
-import '@testing-library/jest-dom'
-import userEvent from "@testing-library/user-event";
-import api from "../adapters/api";
-import SearchBar from "../components/Header/SearchBar";
-import { MemoryRouter } from "react-router-dom";
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
+import api from '../adapters/api';
+import SearchBar from '../components/Header/SearchBar';
+import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('../adapters/api', () => {
   return {
     get: jest.fn(),
-  }
+  };
 });
 
 beforeEach(() => {
@@ -21,9 +21,9 @@ beforeEach(() => {
           lastName: 'Doe',
           fullName: 'John Doe',
           avatar: 'https://someurl/john.png',
-        }
+        },
       ],
-    }
+    },
   });
 });
 
@@ -32,11 +32,11 @@ jest.useFakeTimers();
 document.addEventListener = jest.fn();
 
 describe('SearchBar', () => {
-  it('accepts user\'s input', () => {
+  it("accepts user's input", () => {
     render(
       <MemoryRouter>
         <SearchBar />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const searchInput = screen.getByRole('textbox');
     userEvent.type(searchInput, 'john');
@@ -47,11 +47,11 @@ describe('SearchBar', () => {
     render(
       <MemoryRouter>
         <SearchBar />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const searchInput = screen.getByRole('textbox');
     userEvent.type(searchInput, 'john');
-    jest.runAllTimers()
+    jest.runAllTimers();
     await screen.findByText('John Doe');
     expect(api.get).toBeCalledWith('/users?search=john');
   });

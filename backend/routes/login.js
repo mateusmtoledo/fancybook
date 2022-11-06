@@ -14,7 +14,10 @@ router.post(
   '/',
   [
     body('email', 'Email is required').trim().isLength({ min: 1 }).escape(),
-    body('password', 'Password is required').trim().isLength({ min: 1 }).escape(),
+    body('password', 'Password is required')
+      .trim()
+      .isLength({ min: 1 })
+      .escape(),
   ],
   (req, res, next) => {
     const errors = validationResult.withDefaults({

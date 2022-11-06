@@ -1,25 +1,25 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../../contexts/UserContext";
-import Avatar from "../Avatar";
+import { useContext, useState } from 'react';
+import { UserContext } from '../../contexts/UserContext';
+import Avatar from '../Avatar';
 import SEND_ICON from '../../img/send.svg';
-import api from "../../adapters/api";
-import VariableHeightTextInput from "../VariableHeightTextInput";
-import { Link } from "react-router-dom";
-import { ErrorMessage, PostFormContainer } from "../../styles/PostForm";
-import Form from "../../styles/Form";
-import PostFormSkeleton from "../Skeletons/PostFormSkeleton";
-import Loading from "../Loading";
-import { ToastContext } from "src/contexts/ToastContext";
+import api from '../../adapters/api';
+import VariableHeightTextInput from '../VariableHeightTextInput';
+import { Link } from 'react-router-dom';
+import { ErrorMessage, PostFormContainer } from '../../styles/PostForm';
+import Form from '../../styles/Form';
+import PostFormSkeleton from '../Skeletons/PostFormSkeleton';
+import Loading from '../Loading';
+import { ToastContext } from 'src/contexts/ToastContext';
 
 function PostForm({ postsLoading, setPosts }) {
   const { user } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
-  
+
   const [text, setText] = useState('');
   const [formLoading, setFormLoading] = useState(false);
   const [errors, setErrors] = useState(null);
 
-  if (postsLoading) return <PostFormSkeleton /> 
+  if (postsLoading) return <PostFormSkeleton />;
 
   async function submitPost(event) {
     event.preventDefault();
@@ -45,14 +45,11 @@ function PostForm({ postsLoading, setPosts }) {
 
   return (
     <PostFormContainer>
-      { formLoading && <Loading />}
+      {formLoading && <Loading />}
       <Form onSubmit={submitPost}>
         <div className="post-text">
           <Link to={`/user/${user._id}`}>
-            <Avatar
-              user={user}
-              size="36px"
-            />
+            <Avatar user={user} size="36px" />
           </Link>
           <div className="user-input">
             <VariableHeightTextInput
@@ -68,12 +65,7 @@ function PostForm({ postsLoading, setPosts }) {
         <hr />
         <div className="actions">
           <button>
-            <img
-              alt="Send post"
-              src={SEND_ICON}
-              width="32px"
-              height="32px"
-            />
+            <img alt="Send post" src={SEND_ICON} width="32px" height="32px" />
           </button>
         </div>
       </Form>

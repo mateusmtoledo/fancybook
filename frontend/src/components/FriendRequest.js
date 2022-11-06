@@ -1,12 +1,16 @@
-import styled from "styled-components";
-import api from "../adapters/api";
-import { useContext } from "react";
-import Avatar from "./Avatar";
-import Card from "src/styles/Card";
-import { ButtonsContainer, CancelButton, SubmitButton } from "src/styles/AccountManagement";
-import { handleFriendshipError } from "./FriendshipButtons";
-import { ToastContext } from "src/contexts/ToastContext";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import api from '../adapters/api';
+import { useContext } from 'react';
+import Avatar from './Avatar';
+import Card from 'src/styles/Card';
+import {
+  ButtonsContainer,
+  CancelButton,
+  SubmitButton,
+} from 'src/styles/AccountManagement';
+import { handleFriendshipError } from './FriendshipButtons';
+import { ToastContext } from 'src/contexts/ToastContext';
+import { Link } from 'react-router-dom';
 
 const FriendRequestContainer = styled(Card)`
   display: flex;
@@ -39,7 +43,7 @@ const FriendRequestAvatar = styled(Avatar)`
   aspect-ratio: 1 / 1;
   height: min-content;
 `;
-  
+
 const AvatarContainer = styled(Link)`
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -59,33 +63,31 @@ function FriendRequest({ friendRequest }) {
         <FriendRequestAvatar user={friendRequest} />
       </AvatarContainer>
       <p>
-        <Link to={`/user/${friendRequest._id}`}>
-          {friendRequest.fullName}
-        </Link>
+        <Link to={`/user/${friendRequest._id}`}>{friendRequest.fullName}</Link>
       </p>
       <ButtonsContainer column>
-        <SubmitButton onClick={
-          async () => {
+        <SubmitButton
+          onClick={async () => {
             try {
-              await api
-                .put(`/users/${friendRequest._id.toString()}/friends`)
+              await api.put(`/users/${friendRequest._id.toString()}/friends`);
             } catch (err) {
               handleFriendshipError(err, sendNotification);
             }
-          }
-        }>
+          }}
+        >
           ACCEPT
         </SubmitButton>
-        <CancelButton onClick={
-          async () => {
+        <CancelButton
+          onClick={async () => {
             try {
-              await api
-                .delete(`/users/${friendRequest._id.toString()}/friends`)
+              await api.delete(
+                `/users/${friendRequest._id.toString()}/friends`,
+              );
             } catch (err) {
               handleFriendshipError(err, sendNotification);
             }
-          }
-        }>
+          }}
+        >
           DECLINE
         </CancelButton>
       </ButtonsContainer>

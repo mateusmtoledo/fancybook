@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import SearchBar from "./SearchBar";
-import UserMenu from "./UserMenu";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import SearchBar from './SearchBar';
+import UserMenu from './UserMenu';
 
 const StyledHeader = styled.header`
   background-color: var(--color-brown-dark);
@@ -48,7 +48,9 @@ function Header() {
       <div>
         <Link to="/">
           <h1 className="desktop">fancybook</h1>
-          <h1 title="fancybook" className="mobile">f</h1>
+          <h1 title="fancybook" className="mobile">
+            f
+          </h1>
         </Link>
         <SearchBar />
       </div>

@@ -24,11 +24,8 @@ describe('signUp route', () => {
   });
 
   it('adds user to database', async () => {
-    await request(app)
-      .post('/sign-up')
-      .send(userData);
-    await User
-      .findOne({ email: 'johndoe@fancybook.com' })
+    await request(app).post('/sign-up').send(userData);
+    await User.findOne({ email: 'johndoe@fancybook.com' })
       .select('+password')
       .then((user) => {
         expect(user).not.toBeNull();
@@ -43,16 +40,16 @@ describe('signUp route', () => {
       email: 'johndoe@fancybook.com',
       password: 'notjohndoe123',
     };
-    await request(app)
-      .post('/sign-up')
-      .send(userData);
+    await request(app).post('/sign-up').send(userData);
     await request(app)
       .post('/sign-up')
       .send(userWithSameEmail)
       .expect((response) => {
         expect(response.status).not.toBe(200);
       });
-    const usersWithGivenEmail = await User.find({ email: 'johndoe@fancybook.com' });
+    const usersWithGivenEmail = await User.find({
+      email: 'johndoe@fancybook.com',
+    });
     expect(usersWithGivenEmail.length).toBe(1);
   });
 });

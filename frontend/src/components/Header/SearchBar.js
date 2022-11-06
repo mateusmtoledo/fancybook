@@ -1,11 +1,11 @@
-import { useRef } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import styled from "styled-components";
-import api from "../../adapters/api";
-import SEARCH_ICON from "../../img/search.svg";
-import SearchResultsList from "./SearchResultsList";
+import { useRef } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import api from '../../adapters/api';
+import SEARCH_ICON from '../../img/search.svg';
+import SearchResultsList from './SearchResultsList';
 
 const StyledSearchBar = styled.div`
   background-color: var(--color-brown-light);
@@ -55,16 +55,16 @@ function SearchBar() {
         setSearchResults(users);
         setSearchLoading(false);
       }, 1000);
-      return (() => clearTimeout(timer));
+      return () => clearTimeout(timer);
     }
   }, [input]);
-  
+
   const searchBar = useRef(null);
   const [resultsVisible, setResultsVisible] = useState(false);
   useEffect(() => {
     function handleClickOut(event) {
       const path = event.composedPath();
-      if(!path.includes(searchBar.current)) {
+      if (!path.includes(searchBar.current)) {
         setResultsVisible(false);
       }
     }
@@ -91,14 +91,12 @@ function SearchBar() {
         autoComplete="off"
         onFocus={() => setResultsVisible(true)}
       />
-      {
-        resultsVisible && input
-        ? <SearchResultsList
-            searchResults={searchResults}
-            searchLoading={searchLoading}
-          />
-        : null
-      }
+      {resultsVisible && input ? (
+        <SearchResultsList
+          searchResults={searchResults}
+          searchLoading={searchLoading}
+        />
+      ) : null}
     </StyledSearchBar>
   );
 }

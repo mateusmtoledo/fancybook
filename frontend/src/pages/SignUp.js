@@ -1,7 +1,7 @@
-import Main from "../styles/Main";
-import SignUpForm from "../components/SignUpForm";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import Main from '../styles/Main';
+import SignUpForm from '../components/SignUpForm';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const SignUpContainer = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const HeroText = styled.p`
   margin-bottom: 8px;
   font-size: 1.4rem;
   align-self: flex-start;
-`
+`;
 
 const FancybookLogo = styled.h1`
   font-family: 'Cabin', sans-serif;

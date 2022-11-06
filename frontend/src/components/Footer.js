@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import GITHUB_ICON from "../img/github-icon.png";
+import styled from 'styled-components';
+import GITHUB_ICON from '../img/github-icon.png';
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -13,7 +13,7 @@ const GithubLink = styled.a`
   img {
     height: 24px;
   }
-  
+
   display: flex;
   gap: 8px;
   align-items: center;
@@ -21,14 +21,13 @@ const GithubLink = styled.a`
   color: var(--color-white);
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  
 `;
 
 function Footer() {
   return (
     <StyledFooter>
       <GithubLink href="https://github.com/mateusmtoledo">
-        <img alt="GitHub" src={GITHUB_ICON}/>
+        <img alt="GitHub" src={GITHUB_ICON} />
         <p>mateusmtoledo</p>
       </GithubLink>
     </StyledFooter>

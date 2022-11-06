@@ -5,7 +5,10 @@ const { Schema } = mongoose;
 
 const CommentSchema = new Schema({
   text: {
-    type: String, required: true, minLength: 3, maxLength: 2048,
+    type: String,
+    required: true,
+    minLength: 3,
+    maxLength: 2048,
   },
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   date: { type: Date, default: Date.now },

@@ -6,15 +6,23 @@ const cors = require('cors');
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.ORIGIN,
-}));
+app.use(
+  cors({
+    origin: process.env.ORIGIN,
+  }),
+);
 
 require('./database/config/mongoSetup');
 
 const session = require('express-session');
 
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
 
 const passport = require('passport');
 
@@ -26,6 +34,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// app.use((req, res, next) => {
+//   setTimeout(() => {
+//     next();
+//   }, 3000);
+// });
+
 const signUpRouter = require('./routes/signUp');
 const loginRouter = require('./routes/login');
 const usersRouter = require('./routes/users');
@@ -33,8 +47,16 @@ const postsRouter = require('./routes/posts');
 
 app.use('/sign-up', signUpRouter);
 app.use('/login', loginRouter);
-app.use('/users', passport.authenticate('jwt', { session: false }), usersRouter);
-app.use('/posts', passport.authenticate('jwt', { session: false }), postsRouter);
+app.use(
+  '/users',
+  passport.authenticate('jwt', { session: false }),
+  usersRouter,
+);
+app.use(
+  '/posts',
+  passport.authenticate('jwt', { session: false }),
+  postsRouter,
+);
 
 app.get('/', (req, res) => {
   res.send('Fancybook');

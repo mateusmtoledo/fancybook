@@ -1,11 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Form = styled.form`
   display: flex;
   width: 100%;
   flex-direction: column;
   gap: 16px;
-  ${(props) => props.center && `
+  ${(props) =>
+    props.center &&
+    `
     justify-content: center;
     align-items: center;
   `}
@@ -19,11 +21,11 @@ const Form = styled.form`
     border: 1px solid var(--color-gray-dark);
     padding: 12px 8px;
   }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="submit"] {
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  input[type='submit'] {
     font-size: 1rem;
     padding: 12px 8px;
     border-radius: 4px;
@@ -46,7 +48,7 @@ const Form = styled.form`
     font-weight: 700;
   }
 
-  input[type="submit"] {
+  input[type='submit'] {
     background-color: var(--color-orange);
     color: var(--color-white);
     font-weight: 700;

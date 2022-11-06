@@ -1,5 +1,5 @@
-import Form from "src/styles/Form";
-import { PostFormContainer } from "src/styles/PostForm";
+import Form from 'src/styles/Form';
+import { PostFormContainer } from 'src/styles/PostForm';
 import Skeleton from 'react-loading-skeleton';
 
 function PostFormSkeleton() {

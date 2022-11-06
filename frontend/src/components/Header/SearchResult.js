@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import Avatar from "../Avatar";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Avatar from '../Avatar';
 
 const StyledSearchResult = styled.div`
   border-bottom: 1px solid var(--color-gray-dark);
@@ -28,9 +28,7 @@ function SearchResult({ user }) {
   return (
     <StyledSearchResult>
       <Link to={`/user/${user._id}`}>
-        <Avatar
-          user={user}
-        />
+        <Avatar user={user} />
         <p>{user.fullName}</p>
       </Link>
     </StyledSearchResult>

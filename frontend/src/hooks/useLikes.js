@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { useCallback } from "react";
-import { useState } from "react";
-import getUniqueEntriesById from "src/utils/getUniqueEntriesById";
-import api from "../adapters/api";
+import { useEffect } from 'react';
+import { useCallback } from 'react';
+import { useState } from 'react';
+import getUniqueEntriesById from 'src/utils/getUniqueEntriesById';
+import api from '../adapters/api';
 
 function useLikes(postId, initialLikeCount, initialUserHasLiked) {
   const [likes, setLikes] = useState([]);
@@ -24,7 +24,9 @@ function useLikes(postId, initialLikeCount, initialUserHasLiked) {
     api.get(uri, { params: { page: likePageNumber } }).then((response) => {
       const { data } = response;
       // TODO implement better solution for pagination
-      setLikes((previousLikes) => getUniqueEntriesById([...previousLikes, ...data.likes]));
+      setLikes((previousLikes) =>
+        getUniqueEntriesById([...previousLikes, ...data.likes]),
+      );
       setHasNextLikePage(data.hasNextPage);
       setLikeCount(data.count);
       setUserHasLiked(data.userHasLiked);

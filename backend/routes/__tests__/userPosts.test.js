@@ -12,9 +12,7 @@ beforeEach(async () => {
 
 describe('userPosts route', () => {
   it('requires authentication', async () => {
-    await request(app)
-      .get(`/users/${fakeUsers[0]._id}/posts`)
-      .expect(401);
+    await request(app).get(`/users/${fakeUsers[0]._id}/posts`).expect(401);
   });
 
   it('only retrives posts from requested users', async () => {
