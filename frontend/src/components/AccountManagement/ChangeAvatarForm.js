@@ -1,14 +1,19 @@
-import { useContext } from "react";
-import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { ToastContext } from "src/contexts/ToastContext";
-import { ButtonsContainer, CancelButton, FormContainer, SubmitButton } from "src/styles/AccountManagement";
-import Form from "src/styles/Form";
-import { ErrorMessage } from "src/styles/PostForm";
-import api from "../../adapters/api";
-import { UserContext } from "../../contexts/UserContext";
-import Avatar from "../Avatar";
-import Modal from "../Modal";
+import { useContext } from 'react';
+import { useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import { ToastContext } from 'src/contexts/ToastContext';
+import {
+  ButtonsContainer,
+  CancelButton,
+  FormContainer,
+  SubmitButton,
+} from 'src/styles/AccountManagement';
+import Form from 'src/styles/Form';
+import { ErrorMessage } from 'src/styles/PostForm';
+import api from '../../adapters/api';
+import { UserContext } from '../../contexts/UserContext';
+import Avatar from '../Avatar';
+import Modal from '../Modal';
 
 function getBase64(file) {
   var reader = new FileReader();
@@ -29,7 +34,7 @@ function AvatarForm({ setFormVisible }) {
   const [error, setError] = useState(null);
   const { setLoading } = useOutletContext();
   const { sendNotification } = useContext(ToastContext);
-  
+
   async function handleSubmit(event) {
     event.preventDefault();
     if (error) return;
@@ -41,7 +46,10 @@ function AvatarForm({ setFormVisible }) {
       });
       setUser(response.data.user);
       setFormVisible(false);
-      sendNotification({ type: 'success',  text: 'Avatar successfully updated!' });
+      sendNotification({
+        type: 'success',
+        text: 'Avatar successfully updated!',
+      });
     } catch (err) {
       if (err.response) {
         if (err.response.status === 400) setError('Invalid image file');
@@ -53,6 +61,8 @@ function AvatarForm({ setFormVisible }) {
     setLoading(false);
   }
 
+  // FIXME avatar form throwing error on mount on user profile page
+  // FIXME fallback image not showing up on error
   return (
     <Modal setModalVisible={() => setFormVisible(false)}>
       <FormContainer>
@@ -61,7 +71,7 @@ function AvatarForm({ setFormVisible }) {
             src={file ? URL.createObjectURL(file) : user.avatar}
             onError={(event) => {
               setError('Invalid image file');
-              if(event.target.src !== user.avatar) {
+              if (event.target.src !== user.avatar) {
                 event.target.src = user.avatar;
               }
             }}
@@ -79,11 +89,8 @@ function AvatarForm({ setFormVisible }) {
           />
           {error && <ErrorMessage>{error}</ErrorMessage>}
           <ButtonsContainer>
-            <CancelButton
-              type="button"
-              onClick={() => setFormVisible(false)}
-            >
-                CANCEL
+            <CancelButton type="button" onClick={() => setFormVisible(false)}>
+              CANCEL
             </CancelButton>
             <SubmitButton>SUBMIT</SubmitButton>
           </ButtonsContainer>

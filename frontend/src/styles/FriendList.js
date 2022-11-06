@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Button } from "./AccountManagement";
-import Card from "./Card";
+import styled from 'styled-components';
+import { Button } from './AccountManagement';
+import Card from './Card';
 
 export const FriendListContainer = styled(Card)`
   display: flex;
@@ -48,9 +48,7 @@ export const NoFriends = styled.div`
   align-items: center;
   justify-content: center;
   margin: 32px 0;
-  font-weight: 700;
   gap: 8px;
-  opacity: 0.6;
 `;
 
 export const NextPageButton = styled(Button)`

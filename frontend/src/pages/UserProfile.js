@@ -14,7 +14,7 @@ import UserAbout from 'src/components/UserAbout';
 const UserContent = styled.div`
   display: flex;
   gap: 16px;
-  flex: 1;
+  max-height: max-content;
 
   @media (max-width: 650px) {
     // TODO improve friend list layout
