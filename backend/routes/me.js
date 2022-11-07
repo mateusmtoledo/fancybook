@@ -86,9 +86,9 @@ router.put('/name', [
 ]);
 
 router.put('/bio', [
-  body('bio', 'Bio should have a maximum of 155 characters')
+  body('bio', 'Bio should have a maximum of 2048 characters')
     .trim()
-    .isLength({ max: 155 })
+    .isLength({ max: 2048 })
     .escape(),
   async (req, res, next) => {
     const errors = validationResult(req);

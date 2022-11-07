@@ -7,7 +7,7 @@ const UserSchema = new Schema(
   {
     firstName: { type: String, required: true, maxLength: 35 },
     lastName: { type: String, maxLength: 35 },
-    bio: { type: String, maxLength: 155 },
+    bio: { type: String, maxLength: 2048 },
     gender: {
       type: String,
       enums: ['male', 'female'],
