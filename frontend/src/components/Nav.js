@@ -80,9 +80,14 @@ function Nav() {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/friends">
-            <img src={USERS_ICON} alt="Friends" width="40px" height="40px" />
-            <p>Friends</p>
+          <NavLink to="/friend-requests">
+            <img
+              src={USERS_ICON}
+              alt="Friend requests"
+              width="40px"
+              height="40px"
+            />
+            <p>Requests</p>
           </NavLink>
         </NavItem>
       </NavList>

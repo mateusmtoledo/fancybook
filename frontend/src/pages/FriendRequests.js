@@ -3,7 +3,7 @@ import Nav from 'src/components/Nav';
 import { Container } from 'src/styles/Home';
 import Main from 'src/styles/Main';
 
-function Friends() {
+function FriendRequests() {
   return (
     <Container>
       <Nav />
@@ -14,4 +14,4 @@ function Friends() {
   );
 }
 
-export default Friends;
+export default FriendRequests;
