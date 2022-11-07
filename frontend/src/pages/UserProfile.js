@@ -39,11 +39,14 @@ function UserProfile() {
 
   const {
     friends,
+    setFriends,
     friendsLoading,
     hasNextFriendsPage,
     loadNextFriendsPage,
     friendCount,
+    setFriendCount,
     friendshipStatus,
+    setFriendshipStatus,
   } = useFriends(userId);
 
   useEffect(() => {
@@ -61,6 +64,9 @@ function UserProfile() {
         user={user}
         userLoading={userLoading}
         friendshipStatus={friendshipStatus}
+        setFriendshipStatus={setFriendshipStatus}
+        setFriends={setFriends}
+        setFriendCount={setFriendCount}
       />
       <UserContent>
         <Aside>

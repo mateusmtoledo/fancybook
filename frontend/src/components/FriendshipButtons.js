@@ -4,8 +4,9 @@ import USER_X_ICON from '../img/user-x.svg';
 import USER_CHECK_ICON from '../img/user-check.svg';
 import USER_MINUS_ICON from '../img/user-minus.svg';
 import api from '../adapters/api';
-import { ToastContext } from '../contexts/ToastContext';
 import styled from 'styled-components';
+import Skeleton from 'react-loading-skeleton';
+import { UserContext } from 'src/contexts/UserContext';
 
 const ButtonStyled = styled.button`
   display: flex;
@@ -18,17 +19,23 @@ const ButtonStyled = styled.button`
   border-radius: 8px;
 `;
 
-export function handleFriendshipError(err, sendNotification) {
-  const message =
-    typeof err.response.data === 'string'
-      ? err.response.data
-      : 'Something went wrong';
-  sendNotification({ type: 'error', text: message });
+export function handleFriendshipError() {
+  // TODO implement better solution for pagination and for synchronizing data
+  window.location.reload(false);
 }
 
-function FriendshipButtons({ friendshipStatus, targetUserId }) {
-  // TODO friendship status refreshing
-  const { sendNotification } = useContext(ToastContext);
+function FriendshipButtons({
+  friendshipStatus,
+  setFriendshipStatus,
+  targetUserId,
+  setFriends,
+  setFriendCount,
+}) {
+  const { user } = useContext(UserContext);
+
+  if (friendshipStatus === 'loading') {
+    return <Skeleton width={110} height={32} borderRadius={8} />;
+  }
 
   if (friendshipStatus === undefined) return null;
 
@@ -36,10 +43,12 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
     return (
       <ButtonStyled
         onClick={async () => {
+          setFriendshipStatus('loading');
           try {
             await api.delete(`/users/${targetUserId}/friends`);
+            setFriendshipStatus(null);
           } catch (err) {
-            handleFriendshipError(err, sendNotification);
+            handleFriendshipError(err);
           }
         }}
       >
@@ -53,10 +62,12 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
       <>
         <ButtonStyled
           onClick={async () => {
+            setFriendshipStatus('loading');
             try {
               await api.delete(`/users/${targetUserId}/friends`);
+              setFriendshipStatus(null);
             } catch (err) {
-              handleFriendshipError(err, sendNotification);
+              handleFriendshipError(err);
             }
           }}
         >
@@ -65,10 +76,14 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
         </ButtonStyled>
         <ButtonStyled
           onClick={async () => {
+            setFriendshipStatus('loading');
             try {
               await api.put(`/users/${targetUserId}/friends`);
+              setFriendshipStatus('friends');
+              setFriends((previous) => [user, ...previous]);
+              setFriendCount((previous) => previous + 1);
             } catch (err) {
-              handleFriendshipError(err, sendNotification);
+              handleFriendshipError(err);
             }
           }}
         >
@@ -82,10 +97,16 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
     return (
       <ButtonStyled
         onClick={async () => {
+          setFriendshipStatus('loading');
           try {
             await api.delete(`/users/${targetUserId}/friends`);
+            setFriendshipStatus(null);
+            setFriends((previous) =>
+              previous.filter((friend) => friend._id !== user._id),
+            );
+            setFriendCount((previous) => previous - 1);
           } catch (err) {
-            handleFriendshipError(err, sendNotification);
+            handleFriendshipError(err);
           }
         }}
       >
@@ -97,10 +118,12 @@ function FriendshipButtons({ friendshipStatus, targetUserId }) {
   return (
     <ButtonStyled
       onClick={async () => {
+        setFriendshipStatus('loading');
         try {
           await api.post(`/users/${targetUserId}/friends`);
+          setFriendshipStatus('sent');
         } catch (err) {
-          handleFriendshipError(err, sendNotification);
+          handleFriendshipError(err);
         }
       }}
     >

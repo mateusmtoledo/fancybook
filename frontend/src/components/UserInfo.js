@@ -6,7 +6,14 @@ import AvatarInput from './AvatarInput';
 import { BasicUserInfo, UserInfoContainer } from 'src/styles/UserInfo';
 import UserInfoSkeleton from './Skeletons/UserInfoSkeleton';
 
-function UserInfo({ user, userLoading, friendshipStatus }) {
+function UserInfo({
+  user,
+  userLoading,
+  friendshipStatus,
+  setFriendshipStatus,
+  setFriends,
+  setFriendCount,
+}) {
   const { user: currentUser } = useContext(UserContext);
 
   if (userLoading) return <UserInfoSkeleton />;
@@ -24,7 +31,10 @@ function UserInfo({ user, userLoading, friendshipStatus }) {
       <div className="options">
         <FriendshipButtons
           friendshipStatus={friendshipStatus}
+          setFriendshipStatus={setFriendshipStatus}
           targetUserId={user._id}
+          setFriends={setFriends}
+          setFriendCount={setFriendCount}
         />
       </div>
     </UserInfoContainer>

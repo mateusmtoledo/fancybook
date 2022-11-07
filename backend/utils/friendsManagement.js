@@ -2,9 +2,10 @@ const { default: mongoose } = require('mongoose');
 const User = require('../models/User');
 
 class BadRequestError extends Error {
-  constructor(message) {
-    super(message);
+  constructor({ msg, friendshipStatus }) {
+    super(msg);
     this.statusCode = 400;
+    this.friendshipStatus = friendshipStatus;
   }
 }
 
@@ -12,21 +13,28 @@ exports.sendFriendRequest = async ({ from, to }) => {
   const fromId = new mongoose.Types.ObjectId(from);
   const toId = new mongoose.Types.ObjectId(to);
   if (fromId.equals(toId)) {
-    throw new BadRequestError("Users can't send friend requests to themselves");
+    throw new BadRequestError({
+      msg: "Users can't send friend requests to themselves",
+    });
   }
   const requester = await User.findById(fromId);
   const recipient = await User.findById(toId);
   if (!requester || !recipient) {
-    throw new BadRequestError('User not found');
+    throw new BadRequestError({
+      msg: 'User not found',
+    });
   }
   if (
     requester.friendList.some((friendship) =>
       friendship.user.equals(recipient._id),
     )
   ) {
-    throw new BadRequestError(
-      'Users are already friends or there is a pending request',
-    );
+    throw new BadRequestError({
+      msg: 'Users are already friends or there is a pending request',
+      friendshipStatus: requester.friendList.find((friendship) =>
+        friendship.user.equals(recipient._id),
+      )?.status,
+    });
   }
   requester.friendList.push({
     user: recipient._id,
@@ -43,12 +51,16 @@ exports.acceptFriendRequest = async ({ from, to }) => {
   const fromId = new mongoose.Types.ObjectId(from);
   const toId = new mongoose.Types.ObjectId(to);
   if (fromId.equals(toId)) {
-    throw new BadRequestError("Users can't send friend requests to themselves");
+    throw new BadRequestError({
+      msg: "Users can't send friend requests to themselves",
+    });
   }
   const requester = await User.findById(fromId);
   const recipient = await User.findById(toId);
   if (!requester || !recipient) {
-    throw new BadRequestError('User not found');
+    throw new BadRequestError({
+      msg: 'User not found',
+    });
   }
   const friendshipFrom = requester.friendList.find((friendship) =>
     friendship.user.equals(recipient._id),
@@ -57,26 +69,40 @@ exports.acceptFriendRequest = async ({ from, to }) => {
     friendship.user.equals(requester._id),
   );
   if (!friendshipFrom || friendshipFrom.status === 'sent') {
-    throw new BadRequestError('There is no pending request');
+    throw new BadRequestError({
+      msg: 'There is no pending request',
+      friendshipStatus: requester.friendList.find((friendship) =>
+        friendship.user.equals(recipient._id),
+      )?.status,
+    });
   }
   if (friendshipFrom.status === 'pending') {
     friendshipFrom.status = 'friends';
     friendshipTo.status = 'friends';
     return Promise.all([requester.save(), recipient.save()]);
   }
-  throw new BadRequestError('Users are already friends');
+  throw new BadRequestError({
+    msg: 'Users are already friends',
+    friendshipStatus: requester.friendList.find((friendship) =>
+      friendship.user.equals(recipient._id),
+    )?.status,
+  });
 };
 
 exports.removeFriend = async ({ from, to }) => {
   const fromId = new mongoose.Types.ObjectId(from);
   const toId = new mongoose.Types.ObjectId(to);
   if (fromId.equals(toId)) {
-    throw new BadRequestError("Users can't send friend requests to themselves");
+    throw new BadRequestError({
+      msg: "Users can't send friend requests to themselves",
+    });
   }
   const requester = await User.findById(fromId);
   const recipient = await User.findById(toId);
   if (!requester || !recipient) {
-    throw new BadRequestError('User not found');
+    throw new BadRequestError({
+      msg: 'User not found',
+    });
   }
   const friendshipFromIndex = requester.friendList.findIndex((friendship) =>
     friendship.user.equals(recipient._id),
@@ -85,7 +111,12 @@ exports.removeFriend = async ({ from, to }) => {
     friendship.user.equals(requester._id),
   );
   if (friendshipFromIndex === -1) {
-    throw new BadRequestError("There's no friendship between the users");
+    throw new BadRequestError({
+      msg: "There's no friendship between the users",
+      friendshipStatus: requester.friendList.find((friendship) =>
+        friendship.user.equals(recipient._id),
+      )?.status,
+    });
   }
   requester.friendList.splice(friendshipFromIndex, 1);
   recipient.friendList.splice(friendshipToIndex, 1);
