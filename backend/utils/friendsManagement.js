@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const User = require('../models/User');
 
 class BadRequestError extends Error {
@@ -8,22 +9,25 @@ class BadRequestError extends Error {
 }
 
 exports.sendFriendRequest = async ({ from, to }) => {
-  if (from === to || from.equals(to)) {
+  const fromId = new mongoose.Types.ObjectId(from);
+  const toId = new mongoose.Types.ObjectId(to);
+  if (fromId.equals(toId)) {
     throw new BadRequestError("Users can't send friend requests to themselves");
   }
-  const requester = await User.findById(from);
-  const recipient = await User.findById(to);
+  const requester = await User.findById(fromId);
+  const recipient = await User.findById(toId);
   if (!requester || !recipient) {
     throw new BadRequestError('User not found');
   }
   if (
-    requester.friendList.some((friendship) => friendship.user.equals(to._id))
+    requester.friendList.some((friendship) =>
+      friendship.user.equals(recipient._id),
+    )
   ) {
     throw new BadRequestError(
       'Users are already friends or there is a pending request',
     );
   }
-
   requester.friendList.push({
     user: recipient._id,
     status: 'sent',
@@ -36,11 +40,13 @@ exports.sendFriendRequest = async ({ from, to }) => {
 };
 
 exports.acceptFriendRequest = async ({ from, to }) => {
-  if (from === to || from.equals(to)) {
+  const fromId = new mongoose.Types.ObjectId(from);
+  const toId = new mongoose.Types.ObjectId(to);
+  if (fromId.equals(toId)) {
     throw new BadRequestError("Users can't send friend requests to themselves");
   }
-  const requester = await User.findById(from);
-  const recipient = await User.findById(to);
+  const requester = await User.findById(fromId);
+  const recipient = await User.findById(toId);
   if (!requester || !recipient) {
     throw new BadRequestError('User not found');
   }
@@ -58,15 +64,17 @@ exports.acceptFriendRequest = async ({ from, to }) => {
     friendshipTo.status = 'friends';
     return Promise.all([requester.save(), recipient.save()]);
   }
-  throw new BadRequestError('Users are friends already');
+  throw new BadRequestError('Users are already friends');
 };
 
 exports.removeFriend = async ({ from, to }) => {
-  if (from === to || from.equals(to)) {
+  const fromId = new mongoose.Types.ObjectId(from);
+  const toId = new mongoose.Types.ObjectId(to);
+  if (fromId.equals(toId)) {
     throw new BadRequestError("Users can't send friend requests to themselves");
   }
-  const requester = await User.findById(from);
-  const recipient = await User.findById(to);
+  const requester = await User.findById(fromId);
+  const recipient = await User.findById(toId);
   if (!requester || !recipient) {
     throw new BadRequestError('User not found');
   }
