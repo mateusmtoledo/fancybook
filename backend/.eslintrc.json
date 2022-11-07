@@ -15,7 +15,7 @@
     "no-underscore-dangle": [
       "error",
       {
-        "allow": ["_id", "__v"]
+        "allow": ["_id", "__v", "_json"]
       }
     ]
   },

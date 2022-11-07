@@ -3,8 +3,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const passportJWT = require('passport-jwt');
-const GoogleStrategy = require('passport-google-oidc');
-const axios = require('axios');
+const GoogleStrategy = require('passport-google-oauth20');
 const User = require('../models/User');
 
 passport.use(
@@ -81,27 +80,17 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: '/login/google/redirect',
     },
-    async (issuer, profile, cb) => {
+    async (accessToken, refreshToken, profile, cb) => {
       try {
+        console.log(profile._json);
         const user = await User.findOne({ googleId: profile.id });
         if (!user) {
-          const avatar = (
-            await axios.get(
-              `https://people.googleapis.com/v1/people/${profile.id}`,
-              {
-                params: {
-                  personFields: 'photos',
-                  key: process.env.GOOGLE_API_KEY,
-                },
-              },
-            )
-          ).data.photos[0].url;
           new User({
             googleId: profile.id,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName || '',
             email: profile.emails[0].value,
-            avatar,
+            avatar: profile._json.picture,
           }).save((err, user) => {
             if (err) {
               cb(err);
