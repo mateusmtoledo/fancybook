@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { UserContext } from '../contexts/UserContext';
@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import api from '../adapters/api';
 import { ToastContext } from 'src/contexts/ToastContext';
 import ReactDOM from 'react-dom';
+import { GlobalLoadingContext } from 'src/contexts/GlobalLoadingContext';
 
 jest.mock('../adapters/api', () => {
   return {
@@ -47,16 +48,19 @@ describe('Login form', () => {
 
   it('renders inputs', () => {
     render(
-      <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-        <UserContext.Provider
-          value={{
-            user: null,
-            login: loginMock,
-          }}
-        >
-          <Login />
-        </UserContext.Provider>
-      </ToastContext.Provider>,
+      <GlobalLoadingContext.Provider value={{ setGlobalLoading: jest.fn() }}>
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserContext.Provider
+            value={{
+              user: null,
+              login: loginMock,
+            }}
+          >
+            <Login />
+          </UserContext.Provider>
+        </ToastContext.Provider>
+        ,
+      </GlobalLoadingContext.Provider>,
     );
     const emailInput = screen.getByPlaceholderText(/email/i);
     expect(emailInput).toBeInTheDocument();
@@ -68,16 +72,19 @@ describe('Login form', () => {
 
   it('calls api with correct arguments', async () => {
     render(
-      <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-        <UserContext.Provider
-          value={{
-            user: null,
-            login: loginMock,
-          }}
-        >
-          <Login />
-        </UserContext.Provider>
-      </ToastContext.Provider>,
+      <GlobalLoadingContext.Provider value={{ setGlobalLoading: jest.fn() }}>
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <UserContext.Provider
+            value={{
+              user: null,
+              login: loginMock,
+            }}
+          >
+            <Login />
+          </UserContext.Provider>
+        </ToastContext.Provider>
+        ,
+      </GlobalLoadingContext.Provider>,
     );
     const emailInput = screen.getByPlaceholderText(/email/i);
     const passwordInput = screen.getByPlaceholderText(/password/i);
@@ -85,8 +92,6 @@ describe('Login form', () => {
     userEvent.type(emailInput, 'johndoe@fancybook.com');
     userEvent.type(passwordInput, 'johndoe123');
     userEvent.click(submitButton);
-    const loading = await screen.findByTestId('global-loading');
-    await waitFor(() => expect(loading).not.toBeInTheDocument());
     expect(api.post).toBeCalledWith('/login', {
       email: 'johndoe@fancybook.com',
       password: 'johndoe123',

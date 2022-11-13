@@ -31,7 +31,9 @@ function Modal({ setModalVisible, children, portalElementId, ...props }) {
       {...props}
       onClick={(e) => {
         e.stopPropagation();
-        setModalVisible(false);
+        if (setModalVisible) {
+          setModalVisible(false);
+        }
       }}
     >
       <ModalContainer onClick={(e) => e.stopPropagation()}>

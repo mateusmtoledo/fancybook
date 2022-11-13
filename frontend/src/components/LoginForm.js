@@ -6,8 +6,8 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import api from '../adapters/api';
 import Input from './Input';
-import GlobalLoading from './GlobalLoading';
 import { ToastContext } from 'src/contexts/ToastContext';
+import { GlobalLoadingContext } from 'src/contexts/GlobalLoadingContext';
 
 const GoogleSignIn = styled.button`
   margin: 0 auto;
@@ -46,21 +46,23 @@ function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { setGlobalLoading } = useContext(GlobalLoadingContext);
   const { login } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
   const navigate = useNavigate();
 
   async function submitLogin(event) {
     event.preventDefault();
-    setLoading(true);
+    setGlobalLoading(true);
     try {
       const response = await api.post('/login', { email, password });
       localStorage.setItem('token', response.data.token);
       await login();
       navigate('/');
+      setGlobalLoading(false);
     } catch (err) {
       const { invalidFields } = err?.response?.data;
+      setGlobalLoading(false);
       if (invalidFields) {
         setErrors(invalidFields);
         return;
@@ -70,12 +72,10 @@ function LoginForm() {
         text: 'Something went wrong',
       });
     }
-    setLoading(false);
   }
 
   return (
     <LoginContainer>
-      {loading && <GlobalLoading />}
       <Form onSubmit={submitLogin}>
         <Input
           type="text"
