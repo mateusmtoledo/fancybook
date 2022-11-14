@@ -1,4 +1,4 @@
-import Avatar from 'src/components/Avatar';
+import Avatar from 'src/components/UserDisplayInfo/Avatar';
 import styled from 'styled-components';
 
 export const FriendAvatar = styled(Avatar)`

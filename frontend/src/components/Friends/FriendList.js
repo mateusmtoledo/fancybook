@@ -1,13 +1,13 @@
 import Friend from './Friend';
-import PEOPLE_ICON from '../img/people.svg';
+import PEOPLE_ICON from '../../img/people.svg';
 import {
   NoFriends,
   FriendListContainer,
   Friends,
   NextPageButton,
 } from 'src/styles/FriendList';
-import FriendSkeleton from './Skeletons/FriendSkeleton';
-import MORE_VERTICAL_ICON from '../img/more-vertical.svg';
+import FriendSkeleton from '../Skeletons/FriendSkeleton';
+import MORE_VERTICAL_ICON from '../../img/more-vertical.svg';
 
 function FriendList({
   friends,

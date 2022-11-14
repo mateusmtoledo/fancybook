@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import UserInfo from '../components/UserInfo';
-import { UserContext } from '../contexts/UserContext';
-import { ToastContext } from '../contexts/ToastContext';
+import UserInfo from '../UserInfo';
+import { UserContext } from '../../../contexts/UserContext';
+import { ToastContext } from '../../../contexts/ToastContext';
 
 const currentUser = {
   _id: 'johnsid',

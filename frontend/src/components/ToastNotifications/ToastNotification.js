@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
-import Card from '../styles/Card';
-import WARNING_ICON from '../img/warning.svg';
-import ERROR_ICON from '../img/error-circle.svg';
-import SUCCESS_ICON from '../img/check-circle.svg';
-import INFO_ICON from '../img/info-circle.svg';
+import Card from '../../styles/Card';
+import WARNING_ICON from '../../img/warning.svg';
+import ERROR_ICON from '../../img/error-circle.svg';
+import SUCCESS_ICON from '../../img/check-circle.svg';
+import INFO_ICON from '../../img/info-circle.svg';
 
 function pickColor(type) {
   const result = {};

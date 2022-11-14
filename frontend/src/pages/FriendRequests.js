@@ -1,4 +1,4 @@
-import FriendRequestList from 'src/components/FriendRequestList';
+import FriendRequestList from 'src/components/FriendRequests/FriendRequestList';
 import Nav from 'src/components/Nav';
 import { Container } from 'src/styles/Home';
 import Main from 'src/styles/Main';

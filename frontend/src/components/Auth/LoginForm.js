@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import Form from '../styles/Form';
-import GOOGLE_SIGN_IN from '../img/google-sign-in.png';
+import Form from '../../styles/Form';
+import GOOGLE_SIGN_IN from '../../img/google-sign-in.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
-import { UserContext } from '../contexts/UserContext';
-import api from '../adapters/api';
-import Input from './Input';
-import { ToastContext } from 'src/contexts/ToastContext';
-import { GlobalLoadingContext } from 'src/contexts/GlobalLoadingContext';
+import { UserContext } from '../../contexts/UserContext';
+import api from '../../adapters/api';
+import Input from '../Input';
+import { ToastContext } from '../../contexts/ToastContext';
+import { GlobalLoadingContext } from '../../contexts/GlobalLoadingContext';
 
 const GoogleSignIn = styled.button`
   margin: 0 auto;

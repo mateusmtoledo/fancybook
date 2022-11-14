@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContext } from 'src/contexts/ToastContext';
 import styled from 'styled-components';
-import api from '../adapters/api';
-import Card from '../styles/Card';
-import Form from '../styles/Form';
-import GlobalLoading from './GlobalLoading';
-import Input from './Input';
+import api from '../../adapters/api';
+import Card from '../../styles/Card';
+import Form from '../../styles/Form';
+import GlobalLoading from '../GlobalLoading';
+import Input from '../Input';
 
 const StyledSignUpForm = styled.div`
   max-width: 435px;

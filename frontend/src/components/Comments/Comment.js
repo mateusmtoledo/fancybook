@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Avatar from '../Avatar';
+import Avatar from '../UserDisplayInfo/Avatar';
 import { getDateString } from '../../utils/dateFormatter';
 import { Link } from 'react-router-dom';
 

@@ -1,13 +1,13 @@
-import FriendRequest from '../components/FriendRequest';
+import FriendRequest from '../FriendRequest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../../../contexts/UserContext';
 import userEvent from '@testing-library/user-event';
-import api from '../adapters/api';
+import api from '../../../adapters/api';
 import { MemoryRouter } from 'react-router-dom';
 import { ToastContext } from 'src/contexts/ToastContext';
 
-jest.mock('../adapters/api', () => {
+jest.mock('../../../adapters/api', () => {
   return {
     put: jest.fn(),
     delete: jest.fn(),

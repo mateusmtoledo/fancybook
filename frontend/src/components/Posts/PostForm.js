@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import Avatar from '../Avatar';
+import Avatar from '../UserDisplayInfo/Avatar';
 import SEND_ICON from '../../img/send.svg';
 import api from '../../adapters/api';
 import VariableHeightTextInput from '../VariableHeightTextInput';

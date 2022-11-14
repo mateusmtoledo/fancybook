@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { UserContext } from '../contexts/UserContext';
-import api from '../adapters/api';
-import PostForm from '../components/Posts/PostForm';
+import { UserContext } from '../../../contexts/UserContext';
+import api from '../../../adapters/api';
+import PostForm from '../PostForm';
 import { MemoryRouter } from 'react-router-dom';
 import { ToastContext } from 'src/contexts/ToastContext';
 
@@ -15,7 +15,7 @@ const userContextValue = {
   login: jest.fn(),
 };
 
-jest.mock('../adapters/api', () => {
+jest.mock('../../../adapters/api', () => {
   return {
     post: jest.fn(),
   };

@@ -3,7 +3,7 @@ import USERS_ICON from '../img/users.svg';
 import HOME_ICON from '../img/home.svg';
 import { useContext } from 'react';
 import { UserContext } from 'src/contexts/UserContext';
-import Avatar from './Avatar';
+import Avatar from './UserDisplayInfo/Avatar';
 import { Link } from 'react-router-dom';
 
 const NavStyled = styled.nav`

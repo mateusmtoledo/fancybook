@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { UserContext } from '../../contexts/UserContext';
 import EDIT_ICON from '../../img/edit.svg';
-import Avatar from '../Avatar';
+import Avatar from '../UserDisplayInfo/Avatar';
 
 const EditableInfoButton = styled.button`
   display: flex;

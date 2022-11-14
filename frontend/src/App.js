@@ -4,7 +4,7 @@ import { UserContext } from './contexts/UserContext';
 import useAuth from './hooks/useAuth';
 import { ToastContext } from './contexts/ToastContext';
 import useToastNotifications from './hooks/useToastNotifications';
-import ToastNotificationList from './components/ToastNotificationList';
+import ToastNotificationList from './components/ToastNotifications/ToastNotificationList';
 import RouteHandler from './components/RouteHandler/RouteHandler';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import GlobalLoading from './components/GlobalLoading';

@@ -6,7 +6,7 @@ import api from '../../adapters/api';
 import { UserContext } from '../../contexts/UserContext';
 import Form from '../../styles/Form';
 import { ErrorMessage } from '../../styles/PostForm';
-import Avatar from '../Avatar';
+import Avatar from '../UserDisplayInfo/Avatar';
 import Loading from '../Loading';
 import VariableHeightTextInput from '../VariableHeightTextInput';
 

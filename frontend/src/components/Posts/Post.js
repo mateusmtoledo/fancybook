@@ -1,4 +1,4 @@
-import UserDisplayInfo from '../UserDisplayInfo';
+import UserDisplayInfo from '../UserDisplayInfo/UserDisplayInfo';
 import useLikes from '../../hooks/useLikes';
 import useComments from '../../hooks/useComments';
 import { useState } from 'react';

@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../../../contexts/UserContext';
 import userEvent from '@testing-library/user-event';
-import UserMenu from '../components/Header/UserMenu';
+import UserMenu from '../UserMenu';
 import { MemoryRouter } from 'react-router-dom';
 
 const user = {

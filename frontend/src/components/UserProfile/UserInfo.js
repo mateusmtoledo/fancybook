@@ -1,10 +1,10 @@
-import Avatar from './Avatar';
+import Avatar from '../UserDisplayInfo/Avatar';
 import FriendshipButtons from './FriendshipButtons';
 import { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
-import AvatarInput from './AvatarInput';
+import { UserContext } from '../../contexts/UserContext';
+import AvatarInput from '../AvatarInput';
 import { BasicUserInfo, UserInfoContainer } from 'src/styles/UserInfo';
-import UserInfoSkeleton from './Skeletons/UserInfoSkeleton';
+import UserInfoSkeleton from '../Skeletons/UserInfoSkeleton';
 
 function UserInfo({
   user,

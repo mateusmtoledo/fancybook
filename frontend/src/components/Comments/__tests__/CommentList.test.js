@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
-import CommentList from '../components/Comments/CommentList';
-import { UserContext } from '../contexts/UserContext';
+import CommentList from '../CommentList';
+import { UserContext } from '../../../contexts/UserContext';
 import { ToastContext } from 'src/contexts/ToastContext';
 
 const currentDate = Date.now();

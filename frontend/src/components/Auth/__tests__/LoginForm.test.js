@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { UserContext } from '../contexts/UserContext';
-import Login from '../pages/Login';
-import api from '../adapters/api';
-import { ToastContext } from 'src/contexts/ToastContext';
+import { UserContext } from '../../../contexts/UserContext';
+import Login from '../../../pages/Login';
+import api from '../../../adapters/api';
+import { ToastContext } from '../../../contexts/ToastContext';
 import ReactDOM from 'react-dom';
-import { GlobalLoadingContext } from 'src/contexts/GlobalLoadingContext';
+import { GlobalLoadingContext } from '../../../contexts/GlobalLoadingContext';
 
-jest.mock('../adapters/api', () => {
+jest.mock('../../../adapters/api', () => {
   return {
     post: jest.fn().mockResolvedValue(),
   };

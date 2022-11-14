@@ -12,7 +12,7 @@ import Form from 'src/styles/Form';
 import { ErrorMessage } from 'src/styles/PostForm';
 import api from '../../adapters/api';
 import { UserContext } from '../../contexts/UserContext';
-import Avatar from '../Avatar';
+import Avatar from '../UserDisplayInfo/Avatar';
 import Modal from '../Modal';
 
 function getBase64(file) {

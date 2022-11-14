@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import USER_PLUS_ICON from '../img/user-plus.svg';
-import USER_X_ICON from '../img/user-x.svg';
-import USER_CHECK_ICON from '../img/user-check.svg';
-import USER_MINUS_ICON from '../img/user-minus.svg';
-import api from '../adapters/api';
+import USER_PLUS_ICON from '../../img/user-plus.svg';
+import USER_X_ICON from '../../img/user-x.svg';
+import USER_CHECK_ICON from '../../img/user-check.svg';
+import USER_MINUS_ICON from '../../img/user-minus.svg';
+import api from '../../adapters/api';
 import styled from 'styled-components';
 import Skeleton from 'react-loading-skeleton';
 import { UserContext } from 'src/contexts/UserContext';

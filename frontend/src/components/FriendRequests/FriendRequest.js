@@ -1,15 +1,13 @@
 import styled from 'styled-components';
-import api from '../adapters/api';
-import { useContext } from 'react';
-import Avatar from './Avatar';
+import api from '../../adapters/api';
+import Avatar from '../UserDisplayInfo/Avatar';
 import Card from 'src/styles/Card';
 import {
   ButtonsContainer,
   CancelButton,
   SubmitButton,
 } from 'src/styles/AccountManagement';
-import { handleFriendshipError } from './FriendshipButtons';
-import { ToastContext } from 'src/contexts/ToastContext';
+import { handleFriendshipError } from '../UserProfile/FriendshipButtons';
 import { Link } from 'react-router-dom';
 
 const FriendRequestContainer = styled(Card)`
@@ -55,8 +53,6 @@ const AvatarContainer = styled(Link)`
 `;
 
 function FriendRequest({ friendRequest }) {
-  const { sendNotification } = useContext(ToastContext);
-
   return (
     <FriendRequestContainer>
       <AvatarContainer to={`/user/${friendRequest._id}`}>
@@ -71,7 +67,7 @@ function FriendRequest({ friendRequest }) {
             try {
               await api.put(`/users/${friendRequest._id.toString()}/friends`);
             } catch (err) {
-              handleFriendshipError(err, sendNotification);
+              handleFriendshipError();
             }
           }}
         >
@@ -84,7 +80,7 @@ function FriendRequest({ friendRequest }) {
                 `/users/${friendRequest._id.toString()}/friends`,
               );
             } catch (err) {
-              handleFriendshipError(err, sendNotification);
+              handleFriendshipError();
             }
           }}
         >

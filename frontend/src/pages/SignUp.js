@@ -1,5 +1,5 @@
 import Main from '../styles/Main';
-import SignUpForm from '../components/SignUpForm';
+import SignUpForm from '../components/Auth/SignUpForm';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 

@@ -1,9 +1,9 @@
-import FriendRequest from '../components/FriendRequest';
+import FriendRequest from './FriendRequest';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import api from 'src/adapters/api';
-import FriendRequestSkeleton from './Skeletons/FriendRequestSkeleton';
+import FriendRequestSkeleton from '../Skeletons/FriendRequestSkeleton';
 
 const FriendRequestListContainer = styled.div`
   width: 100%;

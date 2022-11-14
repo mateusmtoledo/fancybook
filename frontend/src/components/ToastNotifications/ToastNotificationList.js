@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import ToastNotification from './ToastNotification';
 import ReactDOM from 'react-dom';
 import { useContext } from 'react';
-import { ToastContext } from '../contexts/ToastContext';
+import { ToastContext } from '../../contexts/ToastContext';
 
 const ToastNotificationListContainer = styled.div`
   background: none;

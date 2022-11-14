@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import Card from 'src/styles/Card';
 import styled from 'styled-components';
-import EXPAND_ICON from '../img/expand-down.svg';
-import COLLAPSE_ICON from '../img/collapse-up.svg';
+import EXPAND_ICON from '../../img/expand-down.svg';
+import COLLAPSE_ICON from '../../img/collapse-up.svg';
 
 const NoBioMessage = styled.p`
   color: var(--color-gray-light);

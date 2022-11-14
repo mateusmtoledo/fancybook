@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../adapters/api';
-import FriendList from '../components/FriendList';
+import FriendList from '../components/Friends/FriendList';
 import PostList from '../components/Posts/PostList';
-import UserInfo from '../components/UserInfo';
+import UserInfo from '../components/UserProfile/UserInfo';
 import Main from '../styles/Main';
 import Aside from '../styles/Aside';
 import useFriends from 'src/hooks/useFriends';
-import UserAbout from 'src/components/UserAbout';
+import UserAbout from 'src/components/UserProfile/UserAbout';
 
 const UserContent = styled.div`
   display: flex;
