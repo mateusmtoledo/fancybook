@@ -30,9 +30,10 @@ function usePosts(userId) {
         const { data } = response;
         if (pageNumber === 1) setPosts(data.posts);
         // TODO implement better solution for pagination
-        setPosts((previousPosts) =>
-          getUniqueEntriesById([...previousPosts, ...data.posts]),
-        );
+        else
+          setPosts((previousPosts) =>
+            getUniqueEntriesById([...previousPosts, ...data.posts]),
+          );
         setHasNextPage(data.hasNextPage);
         setPostsLoading(false);
       })

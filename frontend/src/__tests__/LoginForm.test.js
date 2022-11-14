@@ -26,6 +26,7 @@ beforeEach(() => {
     data: {
       user: {
         firstName: 'John',
+        lastName: 'Doe',
       },
       token: 'some random token',
     },
@@ -36,16 +37,6 @@ beforeEach(() => {
 });
 
 describe('Login form', () => {
-  api.post.mockResolvedValue({
-    data: {
-      user: {
-        firstName: 'John',
-        lastName: 'Doe',
-      },
-      token: 'Some random token',
-    },
-  });
-
   it('renders inputs', () => {
     render(
       <GlobalLoadingContext.Provider value={{ setGlobalLoading: jest.fn() }}>

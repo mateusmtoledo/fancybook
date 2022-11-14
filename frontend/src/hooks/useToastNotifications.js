@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function useToastNotifications() {
   const [notifications, setNotifications] = useState([]);
-  function sendNotification({ type, text, duration = 5000 }) {
+  function sendNotification({ type = 'info', text = '', duration = 5000 }) {
     const newNotification = {
       key: uuidv4(),
       type,
