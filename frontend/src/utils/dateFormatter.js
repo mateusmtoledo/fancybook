@@ -1,5 +1,5 @@
 export function getDateString(date) {
-  let dateNumber = (new Date() - new Date(date)) / 31536000000;
+  let dateNumber = (new Date() - new Date(date)) / 31104000000;
   const dateDistances = [12, 30, 24, 60, 60, 1000];
   const dateNames = ['year', 'month', 'day', 'hour', 'minute', 'second'];
   for (let i = 0; i < dateDistances.length; i += 1) {

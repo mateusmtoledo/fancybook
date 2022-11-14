@@ -3,7 +3,7 @@ import {
   PostDate,
   UserDisplayInfoLink,
 } from 'src/styles/UserDisplayInfo';
-import { getDateString } from '../adapters/dateFormatter';
+import { getDateString } from '../utils/dateFormatter';
 import Avatar from './Avatar';
 
 function UserDisplayInfo({ user, avatarSize, postDate, bold }) {
