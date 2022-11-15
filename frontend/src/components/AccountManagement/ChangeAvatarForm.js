@@ -51,8 +51,8 @@ function AvatarForm({ setFormVisible }) {
         text: 'Avatar successfully updated!',
       });
     } catch (err) {
-      if (err.response) {
-        if (err.response.status === 400) setError('Invalid image file');
+      if (err?.response?.status === 400) {
+        setError('Invalid image file');
       } else {
         setError('Server error');
       }
