@@ -35,6 +35,7 @@ describe('/posts POST method', () => {
   });
 
   it('saves post in the database', async () => {
+    let postId;
     await request(app)
       .post('/posts')
       .auth(token, { type: 'bearer' })
@@ -42,9 +43,25 @@ describe('/posts POST method', () => {
         text: 'I love fancybook!',
       })
       .expect(200)
-      .then(async (response) => {
-        const post = await Post.findById(response.body.post._id);
-        expect(post.text).toBe('I love fancybook!');
+      .then((response) => {
+        postId = response.body.post._id;
+      });
+    const post = await Post.findById(postId);
+    expect(post.text).toBe('I love fancybook!');
+  });
+
+  it('sends invalid fields as json', async () => {
+    await request(app)
+      .post('/posts')
+      .auth(token, { type: 'bearer' })
+      .send({
+        text: 'Aa',
+      })
+      .expect(400)
+      .then((response) => {
+        expect(response.body.invalidFields.text.msg).toBe(
+          'Post must have at least 3 characters',
+        );
       });
   });
 });

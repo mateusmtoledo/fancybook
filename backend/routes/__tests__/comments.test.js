@@ -48,7 +48,7 @@ describe('comments route POST method', () => {
     await request(app).post(`/posts/${fakePosts[0]._id}/comments`).expect(401);
   });
 
-  it('adds post to the database', async () => {
+  it('adds comment to the database', async () => {
     await request(app)
       .post(`/posts/${fakePosts[0]._id}/comments`)
       .auth(fakeUsers[0].authToken, { type: 'bearer' })
@@ -61,5 +61,20 @@ describe('comments route POST method', () => {
       });
     const savedComment = await Comment.findOne({ text: 'I love fancybook!' });
     expect(savedComment.author.equals(fakeUsers[0]._id)).toBe(true);
+  });
+
+  it('responds with 400 when text has less than 3 characters', async () => {
+    await request(app)
+      .post(`/posts/${fakePosts[0]._id}/comments`)
+      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .send({
+        text: 'Aa',
+      })
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.invalidFields.text.msg).toBe(
+          'Comment must have at least 3 characters',
+        );
+      });
   });
 });

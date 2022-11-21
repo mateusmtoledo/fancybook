@@ -23,4 +23,20 @@ describe('login route', () => {
         expect(response.body.token.length).not.toBe(0);
       });
   });
+
+  it('sends json with invalid fields', async () => {
+    await request(app)
+      .post('/login')
+      .send({
+        email: '',
+        password: '',
+      })
+      .expect(400)
+      .then((response) => {
+        expect(response.body.invalidFields.email.msg).toBe('Email is required');
+        expect(response.body.invalidFields.password.msg).toBe(
+          'Password is required',
+        );
+      });
+  });
 });
