@@ -38,6 +38,8 @@ function useAuth() {
   useEffect(() => {
     if (localStorage.getItem('token')) {
       login();
+    } else {
+      setUserLoading(false);
     }
   }, [login]);
 
