@@ -10,6 +10,7 @@ exports.generateRandomUser = (avatarIndex) => {
     avatars[avatarIndex || Math.floor(Math.random() * avatars.length)];
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
+  const bio = faker.lorem.paragraphs(Math.floor(Math.random() * 5));
   const username = `${firstName} ${lastName}`.split(' ').join('').toLowerCase();
   const email = `${username}@fancybook.com`;
   const password = bcrypt.hashSync(username, 10);
@@ -20,6 +21,7 @@ exports.generateRandomUser = (avatarIndex) => {
     lastName,
     avatar,
     friendList,
+    bio,
     username,
     email,
     password,
