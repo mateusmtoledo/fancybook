@@ -52,7 +52,7 @@ const AvatarContainer = styled(Link)`
   }
 `;
 
-function FriendRequest({ friendRequest }) {
+function FriendRequest({ friendRequest, removeRequestFromArray }) {
   return (
     <FriendRequestContainer>
       <AvatarContainer to={`/user/${friendRequest._id}`}>
@@ -66,6 +66,7 @@ function FriendRequest({ friendRequest }) {
           onClick={async () => {
             try {
               await api.put(`/users/${friendRequest._id.toString()}/friends`);
+              removeRequestFromArray();
             } catch (err) {
               handleFriendshipError();
             }
@@ -79,6 +80,7 @@ function FriendRequest({ friendRequest }) {
               await api.delete(
                 `/users/${friendRequest._id.toString()}/friends`,
               );
+              removeRequestFromArray();
             } catch (err) {
               handleFriendshipError();
             }

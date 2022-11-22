@@ -7,6 +7,13 @@ import api from '../../../adapters/api';
 import { MemoryRouter } from 'react-router-dom';
 import { ToastContext } from 'src/contexts/ToastContext';
 
+const location = window.location;
+delete window.location;
+window.location = {
+  ...location,
+  reload: jest.fn(),
+};
+
 jest.mock('../../../adapters/api', () => {
   return {
     put: jest.fn(),

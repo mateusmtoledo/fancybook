@@ -33,6 +33,12 @@ function FriendRequestList() {
     });
   }, []);
 
+  function removeRequestFromArray(id) {
+    setFriendRequests((previous) =>
+      previous.filter(({ _id: itemId }) => itemId !== id),
+    );
+  }
+
   return (
     <FriendRequestListContainer>
       <h2>Friend Requests</h2>
@@ -44,6 +50,9 @@ function FriendRequestList() {
             <FriendRequest
               key={friendRequest._id}
               friendRequest={friendRequest}
+              removeRequestFromArray={() =>
+                removeRequestFromArray(friendRequest._id)
+              }
             />
           ))
         ) : (
