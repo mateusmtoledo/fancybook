@@ -1,46 +1,40 @@
+import BADGE_ICON from '../../img/badge.svg';
+import LOCK_ICON from '../../img/lock.svg';
+import { NavList, NavStyled, NavItem } from 'src/styles/Nav';
 import styled from 'styled-components';
-import { ReactComponent as BADGE_ICON } from '../../img/badge.svg';
-import { ReactComponent as LOCK_ICON } from '../../img/lock.svg';
-import NavItem from './NavItem';
 
-const AccountManagementNavContainer = styled.nav`
-  height: max-content;
-  display: flex;
-  flex: 0 0 max-content;
-  flex-direction: column;
-  gap: 32px;
-  font-family: 'Outfit', sans-serif;
-  h2 {
-    text-align: center;
-  }
+const AccountManagementNavList = styled(NavList)`
+  padding: 0;
 `;
 
-const NavList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+const AccountManagementNavContainer = styled(NavStyled)`
+  flex: 1;
+  max-width: max-content;
 
   @media (max-width: 650px) {
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex: initial;
+    max-width: none;
   }
 `;
 
 function AccountManagementNav() {
   return (
     <AccountManagementNavContainer>
-      <NavList>
-        <NavItem
-          uri="/account-management"
-          IconComponent={BADGE_ICON}
-          itemName="Personal info"
-        />
-        <NavItem
-          uri="/account-management/security"
-          IconComponent={LOCK_ICON}
-          itemName="Security"
-        />
-      </NavList>
+      <AccountManagementNavList>
+        <NavItem to="/account-management">
+          <img
+            src={BADGE_ICON}
+            alt="Personal info"
+            width="32px"
+            height="32px"
+          />
+          <p>Personal info</p>
+        </NavItem>
+        <NavItem to="/account-management/security">
+          <img src={LOCK_ICON} alt="Security" width="32px" height="32px" />
+          <p>Security</p>
+        </NavItem>
+      </AccountManagementNavList>
     </AccountManagementNavContainer>
   );
 }
