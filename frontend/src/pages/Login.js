@@ -1,3 +1,4 @@
+import SampleUserButton from 'src/components/Auth/SampleUserButton';
 import styled from 'styled-components';
 import LoginForm from '../components/Auth/LoginForm';
 import Main from '../styles/Main';
@@ -28,20 +29,30 @@ const LoginStyled = styled.div`
     max-width: 345px;
   }
 `;
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+`;
 
 function Login() {
   return (
     <Main>
-      <LoginStyled>
-        <Hero>
-          <h1>fancybook</h1>
-          <p>
-            Fancybook is a social network that helps you stay connected with
-            people who are a part of your life.
-          </p>
-        </Hero>
-        <LoginForm />
-      </LoginStyled>
+      <LoginContainer>
+        <LoginStyled>
+          <Hero>
+            <h1>fancybook</h1>
+            <p>
+              Fancybook is a social network that helps you stay connected with
+              people who are a part of your life.
+            </p>
+          </Hero>
+          <LoginForm />
+        </LoginStyled>
+        <SampleUserButton />
+      </LoginContainer>
     </Main>
   );
 }

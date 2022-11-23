@@ -34,12 +34,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use((req, res, next) => {
-//   setTimeout(() => {
-//     next();
-//   }, 3000);
-// });
-
 const signUpRouter = require('./routes/signUp');
 const loginRouter = require('./routes/login');
 const usersRouter = require('./routes/users');

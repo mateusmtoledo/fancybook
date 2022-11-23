@@ -4,14 +4,16 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const router = express.Router();
-
 const { body, validationResult } = require('express-validator');
+
+const sampleRouter = require('./sample');
 const googleRouter = require('./googleauth');
 
+router.use('/sample', sampleRouter);
 router.use('/google', googleRouter);
 
 router.post(
-  '/',
+  ['/', '/sample'],
   [
     body('email', 'Email is required').trim().isLength({ min: 1 }).escape(),
     body('password', 'Password is required')

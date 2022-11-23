@@ -21,6 +21,7 @@ function useAuth() {
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     setUser(null);
+    window.history.pushState(null, '', window.location.origin);
   }, []);
 
   useEffect(() => {
