@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { ToastContext } from 'src/contexts/ToastContext';
@@ -42,6 +42,24 @@ const user = {
 };
 
 describe('LikeButton', () => {
+  it('renders skeleton while loading', async () => {
+    render(
+      <UserContext.Provider value={{ user }}>
+        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
+          <LikeButton {...props} userHasLiked={true} />
+        </ToastContext.Provider>
+      </UserContext.Provider>,
+    );
+    const likedButton = screen.getByText(/^liked$/i);
+    userEvent.click(likedButton);
+    expect(screen.getByTestId('like-button-skeleton')).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.queryByTestId('like-button-skeleton'),
+      ).not.toBeInTheDocument(),
+    );
+  });
+
   describe('when user has not liked post', () => {
     it('renders like button', () => {
       render(
@@ -55,7 +73,7 @@ describe('LikeButton', () => {
       expect(likeButton).toBeInTheDocument();
     });
 
-    it('calls api.post with correct argument when clicked', () => {
+    it('calls api.post with correct argument when clicked', async () => {
       render(
         <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
@@ -66,11 +84,16 @@ describe('LikeButton', () => {
       const likeButton = screen.getByText(/^like$/i);
       userEvent.click(likeButton);
       expect(api.post).toBeCalledWith('/posts/somepostid/likes');
+      await waitFor(() =>
+        expect(
+          screen.queryByTestId('like-button-skeleton'),
+        ).not.toBeInTheDocument(),
+      );
     });
   });
 
   describe('when user has liked post', () => {
-    it('renders button to remove the like', () => {
+    it('renders unlike button', () => {
       render(
         <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
@@ -82,7 +105,7 @@ describe('LikeButton', () => {
       expect(likedButton).toBeInTheDocument();
     });
 
-    it('calls api.delete with correct arguments', () => {
+    it('calls api.delete with correct arguments', async () => {
       render(
         <UserContext.Provider value={{ user }}>
           <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
@@ -93,6 +116,11 @@ describe('LikeButton', () => {
       const likedButton = screen.getByText(/^liked$/i);
       userEvent.click(likedButton);
       expect(api.delete).toBeCalledWith('/posts/somepostid/likes');
+      await waitFor(() =>
+        expect(
+          screen.queryByTestId('like-button-skeleton'),
+        ).not.toBeInTheDocument(),
+      );
     });
   });
 });

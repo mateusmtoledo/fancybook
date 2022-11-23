@@ -4,6 +4,8 @@ import api from '../../adapters/api';
 import { useContext } from 'react';
 import { UserContext } from 'src/contexts/UserContext';
 import { ToastContext } from 'src/contexts/ToastContext';
+import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
 function LikeButton({
   postId,
@@ -14,8 +16,10 @@ function LikeButton({
 }) {
   const { user } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
+  const [likeButtonLoading, setLikeButtonLoading] = useState(false);
 
   async function handleClick() {
+    setLikeButtonLoading(true);
     try {
       if (userHasLiked) {
         await api.delete(`/posts/${postId}/likes`);
@@ -36,7 +40,16 @@ function LikeButton({
         text: 'Something went wrong',
       });
     }
+    setLikeButtonLoading(false);
   }
+
+  if (likeButtonLoading)
+    return (
+      <InteractionButton data-testid="like-button-skeleton">
+        <Skeleton circle width={22} height={22} />
+        <Skeleton width={37} />
+      </InteractionButton>
+    );
 
   return (
     <InteractionButton onClick={handleClick} isActive={userHasLiked}>
