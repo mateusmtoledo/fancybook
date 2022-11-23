@@ -1,5 +1,5 @@
 import FriendRequest from '../FriendRequest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { UserContext } from '../../../contexts/UserContext';
 import userEvent from '@testing-library/user-event';
@@ -72,7 +72,7 @@ describe('FriendRequest', () => {
 });
 
 describe('accept button', () => {
-  it('calls api.put with correct arguments', () => {
+  it('calls api.put with correct arguments', async () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={{ user }}>
@@ -85,11 +85,16 @@ describe('accept button', () => {
     const acceptButton = screen.getByText(/accept/i);
     userEvent.click(acceptButton);
     expect(api.put).toBeCalledWith('/users/janesid/friends');
+    await waitFor(() =>
+      expect(
+        screen.queryByTestId('friend-request-loading'),
+      ).not.toBeInTheDocument(),
+    );
   });
 });
 
 describe('decline button', () => {
-  it('calls api.delete with correct arguments', () => {
+  it('calls api.delete with correct arguments', async () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={{ user }}>
@@ -102,5 +107,10 @@ describe('decline button', () => {
     const declineButton = screen.getByText(/decline/i);
     userEvent.click(declineButton);
     expect(api.delete).toBeCalledWith('/users/janesid/friends');
+    await waitFor(() =>
+      expect(
+        screen.queryByTestId('friend-request-loading'),
+      ).not.toBeInTheDocument(),
+    );
   });
 });

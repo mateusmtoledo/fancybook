@@ -9,8 +9,11 @@ import {
 } from 'src/styles/AccountManagement';
 import { handleFriendshipError } from '../UserProfile/FriendshipButtons';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader';
+import { useState } from 'react';
 
 const FriendRequestContainer = styled(Card)`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,9 +55,28 @@ const AvatarContainer = styled(Link)`
   }
 `;
 
+const LoadingOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000b3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 function FriendRequest({ friendRequest, removeRequestFromArray }) {
+  const [loading, setLoading] = useState(false);
+
   return (
     <FriendRequestContainer>
+      {loading && (
+        <LoadingOverlay data-testid="friend-request-loading">
+          <Loader />
+        </LoadingOverlay>
+      )}
       <AvatarContainer to={`/user/${friendRequest._id}`}>
         <FriendRequestAvatar user={friendRequest} />
       </AvatarContainer>
@@ -64,18 +86,21 @@ function FriendRequest({ friendRequest, removeRequestFromArray }) {
       <ButtonsContainer column>
         <SubmitButton
           onClick={async () => {
+            setLoading(true);
             try {
               await api.put(`/users/${friendRequest._id.toString()}/friends`);
               removeRequestFromArray();
             } catch (err) {
               handleFriendshipError();
             }
+            setLoading(false);
           }}
         >
           ACCEPT
         </SubmitButton>
         <CancelButton
           onClick={async () => {
+            setLoading(true);
             try {
               await api.delete(
                 `/users/${friendRequest._id.toString()}/friends`,
@@ -84,6 +109,7 @@ function FriendRequest({ friendRequest, removeRequestFromArray }) {
             } catch (err) {
               handleFriendshipError();
             }
+            setLoading(false);
           }}
         >
           DECLINE
