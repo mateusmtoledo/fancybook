@@ -12,6 +12,16 @@ app.use(
   }),
 );
 
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.status(200).json({
+      result: 'success',
+    });
+  } else {
+    next();
+  }
+});
+
 require('./database/config/mongoSetup');
 
 const session = require('express-session');
