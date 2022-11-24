@@ -2,25 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 require('./services/passportConfig');
-const cors = require('cors');
 
 const app = express();
-
-app.use(
-  cors({
-    origin: process.env.ORIGIN,
-  }),
-);
-
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    res.status(200).json({
-      result: 'success',
-    });
-  } else {
-    next();
-  }
-});
 
 require('./database/config/mongoSetup');
 
@@ -91,4 +74,22 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
-module.exports = app;
+const allowCors = (fn) => async (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+  );
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+  return await fn(req, res);
+};
+
+module.exports = allowCors(app);
