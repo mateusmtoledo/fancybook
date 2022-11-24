@@ -1,6 +1,6 @@
 const request = require('supertest');
 const User = require('../../models/User');
-const app = require('../../app');
+const app = require('../../api/index');
 const { fakeUsers } = require('../../database/seeding/fakeUsers');
 
 const userData = fakeUsers[0];

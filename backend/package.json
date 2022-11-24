@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
   },
   "author": "mateusmtoledo",
   "license": "ISC",

@@ -1,11 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-require('./services/passportConfig');
+require('../services/passportConfig');
 
 const app = express();
 
-require('./database/config/mongoSetup');
+require('../database/config/mongoSetup');
 
 const session = require('express-session');
 
@@ -27,10 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const signUpRouter = require('./routes/signUp');
-const loginRouter = require('./routes/login');
-const usersRouter = require('./routes/users');
-const postsRouter = require('./routes/posts');
+const signUpRouter = require('../routes/signUp');
+const loginRouter = require('../routes/login');
+const usersRouter = require('../routes/users');
+const postsRouter = require('../routes/posts');
 
 app.use('/sign-up', signUpRouter);
 app.use('/login', loginRouter);
@@ -76,7 +76,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 const allowCors = (fn) => async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin');
+  res.setHeader('Access-Control-Allow-Origin', process.env.ORIGIN);
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET,OPTIONS,PATCH,DELETE,POST,PUT',
