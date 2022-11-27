@@ -99,7 +99,11 @@ function LoginForm() {
       </Form>
       <p className="small-text">OR</p>
       <GoogleSignIn>
-        <a href={`${process.env.REACT_APP_API_URL}/login/google`}>
+        <a
+          href={`${
+            process.env.REACT_APP_API_URL || 'http://localhost:3001'
+          }/login/google`}
+        >
           <img src={GOOGLE_SIGN_IN} alt="Sign in with Google" />
         </a>
       </GoogleSignIn>

@@ -64,7 +64,7 @@ passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET,
+      secretOrKey: process.env.JWT_SECRET || 'jwtsecret',
     },
     (jwtPayload, cb) =>
       User.findById(jwtPayload._id)
@@ -73,40 +73,42 @@ passport.use(
   ),
 );
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/login/google/redirect',
-    },
-    async (accessToken, refreshToken, profile, cb) => {
-      try {
-        console.log(profile._json);
-        const user = await User.findOne({ googleId: profile.id });
-        if (!user) {
-          new User({
-            googleId: profile.id,
-            firstName: profile.name.givenName,
-            lastName: profile.name.familyName || '',
-            email: profile.emails[0].value,
-            avatar: profile._json.picture,
-          }).save((err, user) => {
-            if (err) {
-              cb(err);
-              return;
-            }
-            cb(null, user);
-          });
-          return;
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: '/login/google/redirect',
+      },
+      async (accessToken, refreshToken, profile, cb) => {
+        try {
+          console.log(profile._json);
+          const user = await User.findOne({ googleId: profile.id });
+          if (!user) {
+            new User({
+              googleId: profile.id,
+              firstName: profile.name.givenName,
+              lastName: profile.name.familyName || '',
+              email: profile.emails[0].value,
+              avatar: profile._json.picture,
+            }).save((err, user) => {
+              if (err) {
+                cb(err);
+                return;
+              }
+              cb(null, user);
+            });
+            return;
+          }
+          cb(null, user);
+        } catch (err) {
+          cb(err);
         }
-        cb(null, user);
-      } catch (err) {
-        cb(err);
-      }
-    },
-  ),
-);
+      },
+    ),
+  );
+}
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

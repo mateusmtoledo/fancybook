@@ -12,8 +12,13 @@ router.get(
   }),
   async (req, res, next) => {
     try {
-      const token = await jwt.sign(req.user.toJSON(), process.env.JWT_SECRET);
-      res.redirect(`${process.env.ORIGIN}?token=${token}`);
+      const token = await jwt.sign(
+        req.user.toJSON(),
+        process.env.JWT_SECRET || 'jwtsecret',
+      );
+      res.redirect(
+        `${process.env.ORIGIN || 'http://localhost:3000'}?token=${token}`,
+      );
     } catch (err) {
       next(err);
     }

@@ -36,7 +36,7 @@ router.post(
         next(err);
         return;
       }
-      jwt.sign(user, process.env.JWT_SECRET, (err, token) => {
+      jwt.sign(user, process.env.JWT_SECRET || 'jwtsecret', (err, token) => {
         if (err) {
           next(err);
           return;

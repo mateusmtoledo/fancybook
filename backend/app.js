@@ -8,7 +8,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: process.env.ORIGIN || 'http://localhost:3000',
   }),
 );
 
@@ -18,7 +18,7 @@ const session = require('express-session');
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'sessionsecret',
     resave: false,
     saveUninitialized: true,
   }),
@@ -76,8 +76,9 @@ app.use((err, req, res, next) => {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(process.env.PORT, () => {
-    console.log(`Listening on port ${process.env.PORT}`);
+  const port = process.env.PORT ?? 3001;
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
   });
 }
 
