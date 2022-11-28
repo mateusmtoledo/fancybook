@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
+import FANCYBOOK_LOGO from '../../img/logo48.png';
 
 const StyledHeader = styled.header`
   background-color: var(--color-brown-dark);
@@ -48,9 +49,13 @@ function Header() {
       <div>
         <Link to="/">
           <h1 className="desktop">fancybook</h1>
-          <h1 title="fancybook" className="mobile">
-            f
-          </h1>
+          <img
+            height="39px"
+            width="39px"
+            className="mobile"
+            src={FANCYBOOK_LOGO}
+            alt="fancybook"
+          />
         </Link>
         <SearchBar />
       </div>
