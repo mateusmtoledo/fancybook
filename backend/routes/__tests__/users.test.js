@@ -2,18 +2,25 @@ const request = require('supertest');
 const app = require('../../app');
 const User = require('../../models/User');
 const { fakeUsers } = require('../../database/seeding/fakeUsers');
+const getSessionId = require('../../jest/utils/getSessionId');
 
 const users = [fakeUsers[0], fakeUsers[1]];
 
+let sid;
+
 beforeEach(async () => {
   await User.insertMany(users);
+  sid = await getSessionId(app, {
+    email: fakeUsers[0].email,
+    password: fakeUsers[0].plainTextPassword,
+  });
 });
 
 describe('users route GET method', () => {
   it('sends users whose names match query', async () => {
     await request(app)
       .get('/users?search=oHn dO')
-      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .set('Cookie', `connect.sid=${sid}`)
       .expect(200)
       .expect((response) => {
         expect(response.body.users.length).toBe(1);
@@ -30,7 +37,7 @@ describe('GET users/:userId route', () => {
   it("sends user's publicly available info", async () => {
     await request(app)
       .get(`/users/${users[1]._id}`)
-      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .set('Cookie', `connect.sid=${sid}`)
       .expect(200)
       .expect((response) => {
         const { user } = response.body;

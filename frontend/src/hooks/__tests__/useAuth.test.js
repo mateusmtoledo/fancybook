@@ -26,30 +26,21 @@ beforeEach(() => {
 
 describe('useAuth hook', () => {
   it('correctly sets user', async () => {
-    window.history.replaceState(null, '', window.origin + '?token=sometoken');
     const { result } = renderHook(() => useAuth());
     await waitFor(() => expect(result.current.user.firstName).toBe('John'));
-    expect(localStorage.getItem('token')).toBe('sometoken');
-    expect(api.get).toBeCalled();
-  });
-
-  it('removes token when api responds with an error', async () => {
-    localStorage.setItem('token', 'sometoken');
-    api.get.mockRejectedValue();
-    renderHook(() => useAuth());
-    await waitFor(() => expect(localStorage.getItem('token')).toBe(null));
+    expect(api.get).toBeCalledWith('/login');
   });
 
   describe('logout fn', () => {
-    it('sets user to null', async () => {
+    it('calls api.post with correct arguments', async () => {
       localStorage.setItem('token', 'sometoken');
       const { result } = renderHook(() => useAuth());
       await waitFor(() => expect(result.current.user.firstName).toBe('John'));
       act(() => {
         result.current.logout();
       });
-      expect(localStorage.getItem('token')).toBe(null);
-      expect(result.current.user).toBe(null);
+      expect(api.post).toBeCalledWith('/logout');
+      await waitFor(() => expect(result.current.user).toBe(null));
     });
   });
 });

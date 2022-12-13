@@ -1,10 +1,17 @@
 const request = require('supertest');
 const app = require('../../app');
 const { fakeUsers } = require('../../database/seeding/fakeUsersAndFriends');
+const getSessionId = require('../../jest/utils/getSessionId');
 const User = require('../../models/User');
+
+let sid;
 
 beforeEach(async () => {
   await User.insertMany(fakeUsers);
+  sid = await getSessionId(app, {
+    email: fakeUsers[0].email,
+    password: fakeUsers[0].plainTextPassword,
+  });
 });
 
 describe('friends route', () => {
@@ -18,7 +25,7 @@ describe('friends route', () => {
     it("does not send user's requests to other users", async () => {
       await request(app)
         .get(`/users/${fakeUsers[2]._id}/friends`)
-        .auth(fakeUsers[0].authToken, { type: 'bearer' })
+        .set('Cookie', `connect.sid=${sid}`)
         .expect((response) => {
           expect(response.body.friends.length).toBe(2);
           expect(response.body).not.toHaveProperty('pending');
@@ -29,7 +36,7 @@ describe('friends route', () => {
     it("sends user's requests on /me route", async () => {
       await request(app)
         .get('/users/me/friend-requests')
-        .auth(fakeUsers[0].authToken, { type: 'bearer' })
+        .set('Cookie', `connect.sid=${sid}`)
         .expect((response) => {
           expect(response.body.friendRequests.length).toBe(1);
         });
@@ -42,7 +49,7 @@ describe('friends route', () => {
       let recipientUser = fakeUsers[4];
       await request(app)
         .post(`/users/${recipientUser._id}/friends`)
-        .auth(requesterUser.authToken, { type: 'bearer' })
+        .set('Cookie', `connect.sid=${sid}`)
         .expect(200);
       recipientUser = await User.findById(recipientUser);
       const usersFriendship = recipientUser.friendList.find((friendship) =>
@@ -56,7 +63,7 @@ describe('friends route', () => {
     it('accepts existing friend request', async () => {
       await request(app)
         .put(`/users/${fakeUsers[1]._id}/friends`)
-        .auth(fakeUsers[0].authToken, { type: 'bearer' })
+        .set('Cookie', `connect.sid=${sid}`)
         .expect(200);
       const user = await User.findById(fakeUsers[0]._id);
       expect(
@@ -71,7 +78,7 @@ describe('friends route', () => {
     it('removes existing friendship between users', async () => {
       await request(app)
         .delete(`/users/${fakeUsers[1]._id}/friends`)
-        .auth(fakeUsers[0].authToken, { type: 'bearer' })
+        .set('Cookie', `connect.sid=${sid}`)
         .expect(200);
       const user = await User.findById(fakeUsers[0]._id);
       expect(user.friendList.length).toBe(3);

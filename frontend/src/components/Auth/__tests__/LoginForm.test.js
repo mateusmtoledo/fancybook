@@ -3,34 +3,22 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { UserContext } from '../../../contexts/UserContext';
 import Login from '../../../pages/Login';
-import api from '../../../adapters/api';
 import { ToastContext } from '../../../contexts/ToastContext';
 import ReactDOM from 'react-dom';
 import { GlobalLoadingContext } from '../../../contexts/GlobalLoadingContext';
-
-jest.mock('../../../adapters/api', () => {
-  return {
-    post: jest.fn().mockResolvedValue(),
-  };
-});
 
 jest.mock('react-router-dom', () => ({
   useNavigate: () => jest.fn(),
   Link: ({ children }) => <>{children}</>,
 }));
 
-const loginMock = jest.fn();
+const userContextValue = {
+  user: null,
+  login: jest.fn().mockResolvedValue(),
+  getUser: jest.fn().mockResolvedValue(),
+};
 
 beforeEach(() => {
-  api.post.mockResolvedValue({
-    data: {
-      user: {
-        firstName: 'John',
-        lastName: 'Doe',
-      },
-      token: 'some random token',
-    },
-  });
   ReactDOM.createPortal = jest.fn((element, node) => {
     return element;
   });
@@ -41,12 +29,7 @@ describe('Login form', () => {
     render(
       <GlobalLoadingContext.Provider value={{ setGlobalLoading: jest.fn() }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-          <UserContext.Provider
-            value={{
-              user: null,
-              login: loginMock,
-            }}
-          >
+          <UserContext.Provider value={userContextValue}>
             <Login />
           </UserContext.Provider>
         </ToastContext.Provider>
@@ -61,16 +44,11 @@ describe('Login form', () => {
     expect(submitButton).toBeInTheDocument();
   });
 
-  it('calls api with correct arguments', async () => {
+  it('calls login fn with correct arguments', async () => {
     render(
       <GlobalLoadingContext.Provider value={{ setGlobalLoading: jest.fn() }}>
         <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-          <UserContext.Provider
-            value={{
-              user: null,
-              login: loginMock,
-            }}
-          >
+          <UserContext.Provider value={userContextValue}>
             <Login />
           </UserContext.Provider>
         </ToastContext.Provider>
@@ -83,9 +61,11 @@ describe('Login form', () => {
     userEvent.type(emailInput, 'johndoe@fancybook.com');
     userEvent.type(passwordInput, 'johndoe123');
     userEvent.click(submitButton);
-    expect(api.post).toBeCalledWith('/login', {
-      email: 'johndoe@fancybook.com',
-      password: 'johndoe123',
-    });
+    expect(userContextValue.login).toBeCalledWith(
+      expect.objectContaining({
+        email: 'johndoe@fancybook.com',
+        password: 'johndoe123',
+      }),
+    );
   });
 });

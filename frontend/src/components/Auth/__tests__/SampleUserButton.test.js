@@ -15,9 +15,7 @@ jest.mock('../../../adapters/api', () => {
 
 beforeEach(() => {
   api.post.mockResolvedValue({
-    data: {
-      token: 'somerandomtoken',
-    },
+    data: {},
   });
 });
 
@@ -42,27 +40,6 @@ describe('SampleUserButton', () => {
       const sampleUserButton = screen.getByText(/i don't want to sign up/i);
       userEvent.click(sampleUserButton);
       expect(api.post).toBeCalledWith('/login/sample');
-    });
-
-    it('sets token according to api response', () => {
-      render(
-        <GlobalLoadingContext.Provider value={{ setGlobalLoading: jest.fn() }}>
-          <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-            <UserContext.Provider
-              value={{
-                user: null,
-                login: jest.fn(),
-              }}
-            >
-              <SampleUserButton />
-            </UserContext.Provider>
-          </ToastContext.Provider>
-          ,
-        </GlobalLoadingContext.Provider>,
-      );
-      const sampleUserButton = screen.getByText(/i don't want to sign up/i);
-      userEvent.click(sampleUserButton);
-      expect(localStorage.getItem('token')).toBe('somerandomtoken');
     });
 
     it('calls sendNotification on error', async () => {

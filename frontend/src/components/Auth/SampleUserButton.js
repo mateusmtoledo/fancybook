@@ -18,7 +18,7 @@ const SampleUserButtonStyled = styled.button`
 `;
 
 function SampleUserButton() {
-  const { login } = useContext(UserContext);
+  const { getUser } = useContext(UserContext);
   const { setGlobalLoading } = useContext(GlobalLoadingContext);
   const { sendNotification } = useContext(ToastContext);
 
@@ -27,9 +27,8 @@ function SampleUserButton() {
       onClick={async () => {
         setGlobalLoading(true);
         try {
-          const token = (await api.post('/login/sample')).data.token;
-          localStorage.setItem('token', token);
-          login();
+          await api.post('/login/sample');
+          await getUser();
         } catch (err) {
           sendNotification({
             type: 'error',

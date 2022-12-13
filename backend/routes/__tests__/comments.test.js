@@ -5,15 +5,29 @@ const { fakePosts } = require('../../database/seeding/fakePosts');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
 const Comment = require('../../models/Comment');
+const getSessionId = require('../../jest/utils/getSessionId');
+
+let sid;
 
 beforeEach(async () => {
   await User.insertMany(fakeUsers);
   await Post.insertMany(fakePosts);
+  sid = await getSessionId(app, {
+    email: fakeUsers[0].email,
+    password: fakeUsers[0].plainTextPassword,
+  });
 });
 
 describe('comments route GET method', () => {
   it('requires authentication', async () => {
     await request(app).get(`/posts/${fakePosts[0]._id}/comments`).expect(401);
+  });
+
+  it('responds with 200 when user is successfully authenticated', async () => {
+    await request(app)
+      .get(`/posts/${fakePosts[0]._id}/comments`)
+      .set('Cookie', `connect.sid=${sid}`)
+      .expect(200);
   });
 
   it('sends comments and count as response', async () => {
@@ -32,7 +46,7 @@ describe('comments route GET method', () => {
     ]);
     await request(app)
       .get(`/posts/${postWithComments._id}/comments`)
-      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .set('Cookie', `connect.sid=${sid}`)
       .expect(200)
       .expect((response) => {
         const data = response.body;
@@ -51,7 +65,7 @@ describe('comments route POST method', () => {
   it('adds comment to the database', async () => {
     await request(app)
       .post(`/posts/${fakePosts[0]._id}/comments`)
-      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .set('Cookie', `connect.sid=${sid}`)
       .send({
         text: 'I love fancybook!',
       })
@@ -66,7 +80,7 @@ describe('comments route POST method', () => {
   it('responds with 400 when text has less than 3 characters', async () => {
     await request(app)
       .post(`/posts/${fakePosts[0]._id}/comments`)
-      .auth(fakeUsers[0].authToken, { type: 'bearer' })
+      .set('Cookie', `connect.sid=${sid}`)
       .send({
         text: 'Aa',
       })

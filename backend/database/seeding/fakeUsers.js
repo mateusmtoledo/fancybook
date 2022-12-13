@@ -9,8 +9,6 @@ exports.fakeUsers = [
     password: '$2a$10$M3Py5ZGOQ8E/2CLXMhFTL.LDgJrbb6JcP87yvTV6qCwY8OswDMese',
     friendList: [],
     plainTextPassword: 'pAssWord&4r(3*',
-    authToken:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzExMzg0ZDM5ZmNlZTQ3OTRmNTY3OGMiLCJmaXJzdE5hbWUiOiJKb2huIiwibGFzdE5hbWUiOiJEb2UiLCJhdmF0YXIiOiJodHRwczovL2Nkbi5waXhhYmF5LmNvbS9waG90by8yMDE1LzEwLzA1LzIyLzM3L2JsYW5rLXByb2ZpbGUtcGljdHVyZS05NzM0NjBfOTYwXzcyMC5wbmciLCJjb3ZlclBob3RvIjoiaHR0cHM6Ly9pbWFnZXMucGV4ZWxzLmNvbS9waG90b3MvNzA2NDk4L3BleGVscy1waG90by03MDY0OTguanBlZz9hdXRvPWNvbXByZXNzJmNzPXRpbnlzcmdiJnc9MTI2MCZoPTc1MCZkcHI9MSIsImZyaWVuZExpc3QiOltdLCJlbWFpbCI6ImpvaG5kb2VAZmFuY3lib29rLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJE0zUHk1WkdPUThFLzJDTFhNaEZUTC5MRGdKcmJiNkpjUDg3eXZUVjZxQ3dZOE9zd0RNZXNlIiwic2FtcGxlIjpmYWxzZSwiX192IjowLCJmdWxsTmFtZSI6IkpvaG4gRG9lIiwiaWQiOiI2MzExMzg0ZDM5ZmNlZTQ3OTRmNTY3OGMiLCJpYXQiOjE2Njk1MjI4NjB9.cepv-v31om7nWdIYIIEggYK0q0sO8HXGFgYgtzv7jd4',
   },
   {
     _id: new mongoose.Types.ObjectId('63114a15ee51f867417b3d8a'),

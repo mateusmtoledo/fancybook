@@ -8,6 +8,7 @@ const app = express();
 
 app.use(
   cors({
+    credentials: true,
     origin: process.env.ORIGIN || 'http://localhost:3000',
   }),
 );
@@ -25,6 +26,7 @@ app.use(
 );
 
 const passport = require('passport');
+const { isAuthenticated } = require('./middleware/authentication');
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,25 +38,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const signUpRouter = require('./routes/signUp');
 const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
-
-app.use('/sign-up', signUpRouter);
-app.use('/login', loginRouter);
-app.use(
-  '/users',
-  passport.authenticate('jwt', { session: false }),
-  usersRouter,
-);
-app.use(
-  '/posts',
-  passport.authenticate('jwt', { session: false }),
-  postsRouter,
-);
 
 app.get('/', (req, res) => {
   res.send('Fancybook');
 });
+app.use('/sign-up', signUpRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/users', isAuthenticated, usersRouter);
+app.use('/posts', isAuthenticated, postsRouter);
 
 app.use((req, res) => {
   res.status(404).send('404 Not Found');

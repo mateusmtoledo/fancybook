@@ -1,6 +1,5 @@
 const express = require('express');
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -10,18 +9,8 @@ router.get(
     failureRedirect: '/login/google',
     failureMessage: true,
   }),
-  async (req, res, next) => {
-    try {
-      const token = await jwt.sign(
-        req.user.toJSON(),
-        process.env.JWT_SECRET || 'jwtsecret',
-      );
-      res.redirect(
-        `${process.env.ORIGIN || 'http://localhost:3000'}?token=${token}`,
-      );
-    } catch (err) {
-      next(err);
-    }
+  async (req, res) => {
+    res.redirect(`${process.env.ORIGIN || 'http://localhost:3000'}`);
   },
 );
 

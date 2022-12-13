@@ -19,7 +19,7 @@ const Container = styled.div`
 `;
 
 function App() {
-  const { user, setUser, login, logout, userLoading } = useAuth();
+  const { user, setUser, login, logout, getUser, userLoading } = useAuth();
 
   const { notifications, sendNotification } = useToastNotifications();
 
@@ -36,7 +36,7 @@ function App() {
       <GlobalLoadingContext.Provider
         value={{ globalLoading, setGlobalLoading }}
       >
-        <UserContext.Provider value={{ user, setUser, login, logout }}>
+        <UserContext.Provider value={{ user, setUser, login, logout, getUser }}>
           <ToastContext.Provider value={{ notifications, sendNotification }}>
             {globalLoading && <GlobalLoading />}
             <ToastNotificationList />

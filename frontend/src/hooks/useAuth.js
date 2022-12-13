@@ -5,49 +5,52 @@ function useAuth() {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
 
-  const login = useCallback(async () => {
+  const getUser = useCallback(async () => {
     setUserLoading(true);
     try {
       const response = await api.get('/login');
       setUser(response.data.user);
     } catch (err) {
-      localStorage.removeItem('token');
       setUser(null);
       console.log(err);
     }
     setUserLoading(false);
   }, []);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem('token');
+  const login = useCallback(async (credentials) => {
+    setUserLoading(true);
+    try {
+      const response = await api.post('/login', credentials);
+      setUser(response.data.user);
+    } catch (err) {
+      setUser(null);
+      console.log(err);
+    }
+    setUserLoading(false);
+  }, []);
+
+  const logout = useCallback(async () => {
+    setUserLoading(true);
+    try {
+      await api.post('/logout');
+    } catch (err) {
+      console.log(err);
+    }
     setUser(null);
+    setUserLoading(false);
     window.history.pushState(null, '', window.location.origin);
   }, []);
 
   useEffect(() => {
-    const token = new URLSearchParams(window.location.search).get('token');
-    if (token) {
-      localStorage.setItem('token', token);
-      window.history.replaceState(
-        null,
-        '',
-        window.location.origin + window.location.pathname,
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      login();
-    } else {
-      setUserLoading(false);
-    }
-  }, [login]);
+    getUser();
+    setUserLoading(false);
+  }, [getUser]);
 
   return {
     user,
     setUser,
     login,
+    getUser,
     logout,
     userLoading,
   };

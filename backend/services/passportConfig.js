@@ -2,7 +2,6 @@ require('dotenv').config();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
-const passportJWT = require('passport-jwt');
 const GoogleStrategy = require('passport-google-oauth20');
 const User = require('../models/User');
 
@@ -12,7 +11,6 @@ passport.use(
       usernameField: 'email',
       passwordField: 'password',
     },
-
     (email, password, cb) => {
       User.findOne({ email }, '+password', (err, user) => {
         if (err) {
@@ -57,21 +55,15 @@ passport.use(
   ),
 );
 
-const JWTStrategy = passportJWT.Strategy;
-const ExtractJWT = passportJWT.ExtractJwt;
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 
-passport.use(
-  new JWTStrategy(
-    {
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET || 'jwtsecret',
-    },
-    (jwtPayload, cb) =>
-      User.findById(jwtPayload._id)
-        .then((user) => cb(null, user))
-        .catch((err) => cb(err)),
-  ),
-);
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
 
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   passport.use(
@@ -109,13 +101,3 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     ),
   );
 }
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    done(err, user);
-  });
-});

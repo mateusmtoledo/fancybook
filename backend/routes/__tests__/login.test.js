@@ -10,7 +10,7 @@ beforeEach(async () => {
 });
 
 describe('login route', () => {
-  it('sends jwt as POST response', async () => {
+  it('sends set-cookie header with session id as POST response', async () => {
     await request(app)
       .post('/login')
       .send({
@@ -19,8 +19,8 @@ describe('login route', () => {
       })
       .expect(200)
       .then((response) => {
-        expect(typeof response.body.token).toBe('string');
-        expect(response.body.token.length).not.toBe(0);
+        expect(typeof response.headers['set-cookie'][0]).toBe('string');
+        expect(response.headers['set-cookie'][0]).toMatch(/^connect.sid=/);
       });
   });
 

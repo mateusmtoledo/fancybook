@@ -1,6 +1,5 @@
 const express = require('express');
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const router = express.Router();
@@ -8,6 +7,7 @@ const { body, validationResult } = require('express-validator');
 
 const sampleRouter = require('./sample');
 const googleRouter = require('./googleauth');
+const { isAuthenticated } = require('../middleware/authentication');
 
 router.use('/sample', sampleRouter);
 router.use('/google', googleRouter);
@@ -30,33 +30,20 @@ router.post(
       error.statusCode = 400;
       error.invalidFields = errors.mapped();
       next(error);
+    } else {
+      next();
     }
-    passport.authenticate('local', { session: false }, (err, user) => {
-      if (err) {
-        next(err);
-        return;
-      }
-      jwt.sign(user, process.env.JWT_SECRET || 'jwtsecret', (err, token) => {
-        if (err) {
-          next(err);
-          return;
-        }
-        res.json({
-          token,
-        });
-      });
-    })(req, res);
+  },
+  passport.authenticate('local'),
+  (req, res) => {
+    res.json('Successfully signed in!');
   },
 );
 
-router.get('/', [
-  passport.authenticate('jwt', { session: false }),
-
-  (req, res) => {
-    res.json({
-      user: req.user.toObject(),
-    });
-  },
-]);
+router.get('/', isAuthenticated, (req, res) => {
+  res.json({
+    user: req.user,
+  });
+});
 
 module.exports = router;

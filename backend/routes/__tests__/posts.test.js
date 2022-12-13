@@ -4,12 +4,17 @@ const { fakeUsers } = require('../../database/seeding/fakeUsersAndFriends');
 const { fakePosts } = require('../../database/seeding/fakePosts');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
+const getSessionId = require('../../jest/utils/getSessionId');
 
-const token = fakeUsers[0].authToken;
+let sid;
 
 beforeEach(async () => {
   await User.insertMany(fakeUsers);
   await Post.insertMany(fakePosts);
+  sid = await getSessionId(app, {
+    email: fakeUsers[0].email,
+    password: fakeUsers[0].plainTextPassword,
+  });
 });
 
 describe('/posts GET method', () => {
@@ -20,7 +25,7 @@ describe('/posts GET method', () => {
   it('only sends posts created by friends', async () => {
     await request(app)
       .get('/posts')
-      .auth(token, { type: 'bearer' })
+      .set('Cookie', `connect.sid=${sid}`)
       .expect(200)
       .expect(async (response) => {
         const { posts } = response.body;
@@ -38,7 +43,7 @@ describe('/posts POST method', () => {
     let postId;
     await request(app)
       .post('/posts')
-      .auth(token, { type: 'bearer' })
+      .set('Cookie', `connect.sid=${sid}`)
       .send({
         text: 'I love fancybook!',
       })
@@ -53,7 +58,7 @@ describe('/posts POST method', () => {
   it('sends invalid fields as json', async () => {
     await request(app)
       .post('/posts')
-      .auth(token, { type: 'bearer' })
+      .set('Cookie', `connect.sid=${sid}`)
       .send({
         text: 'Aa',
       })

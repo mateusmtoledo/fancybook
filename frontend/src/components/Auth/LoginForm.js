@@ -4,7 +4,6 @@ import GOOGLE_SIGN_IN from '../../img/google-sign-in.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import api from '../../adapters/api';
 import Input from '../Input';
 import { ToastContext } from '../../contexts/ToastContext';
 import { GlobalLoadingContext } from '../../contexts/GlobalLoadingContext';
@@ -47,7 +46,7 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState(null);
   const { setGlobalLoading } = useContext(GlobalLoadingContext);
-  const { login } = useContext(UserContext);
+  const { login, getUser } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
   const navigate = useNavigate();
 
@@ -55,9 +54,8 @@ function LoginForm() {
     event.preventDefault();
     setGlobalLoading(true);
     try {
-      const response = await api.post('/login', { email, password });
-      localStorage.setItem('token', response.data.token);
-      await login();
+      await login({ email, password });
+      await getUser();
       navigate('/');
       setGlobalLoading(false);
     } catch (err) {
