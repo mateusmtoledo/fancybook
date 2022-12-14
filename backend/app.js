@@ -16,12 +16,19 @@ app.use(
 require('./database/config/mongoSetup');
 
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const mongoose = require('mongoose');
+
+const { connection } = mongoose;
+const store =
+  process.env.NODE_ENV === 'test' ? undefined : MongoStore.create(connection);
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'sessionsecret',
     resave: false,
     saveUninitialized: true,
+    store,
   }),
 );
 
