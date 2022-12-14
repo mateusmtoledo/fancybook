@@ -4,7 +4,6 @@
   "description": "",
   "main": "backend/app.js",
   "scripts": {
-    "build": "cd frontend/ && npm run build",
     "backend-install": "npm --prefix backend/ install backend/",
     "frontend-install": "npm --prefix frontend/ install frontend/",
     "postinstall": "concurrently \"npm run backend-install\" \"npm run frontend-install\"",

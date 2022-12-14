@@ -16,12 +16,21 @@ app.use(
 require('./database/config/mongoSetup');
 
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
+const store =
+  process.env.NODE_ENV === 'test'
+    ? undefined
+    : MongoStore.create({
+        mongoUrl: process.env.MONGODB_URL,
+      });
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'sessionsecret',
     resave: false,
     saveUninitialized: true,
+    store,
   }),
 );
 
