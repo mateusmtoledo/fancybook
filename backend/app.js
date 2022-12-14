@@ -17,11 +17,13 @@ require('./database/config/mongoSetup');
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose');
 
-const { connection } = mongoose;
 const store =
-  process.env.NODE_ENV === 'test' ? undefined : MongoStore.create(connection);
+  process.env.NODE_ENV === 'test'
+    ? undefined
+    : MongoStore.create({
+        mongoUrl: process.env.MONGODB_URL,
+      });
 
 app.use(
   session({
@@ -33,7 +35,6 @@ app.use(
 );
 
 const passport = require('passport');
-const { isAuthenticated } = require('./middleware/authentication');
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -41,40 +42,13 @@ app.use(passport.session());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+const apiRoutes = require('./routes/apiRoutes');
 
-const signUpRouter = require('./routes/signUp');
-const loginRouter = require('./routes/login');
-const logoutRouter = require('./routes/logout');
-const usersRouter = require('./routes/users');
-const postsRouter = require('./routes/posts');
+app.use(process.env.NODE_ENV === 'test' ? '/' : '/api', apiRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Fancybook');
-});
-app.use('/sign-up', signUpRouter);
-app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
-app.use('/users', isAuthenticated, usersRouter);
-app.use('/posts', isAuthenticated, postsRouter);
-
-app.use((req, res) => {
-  res.status(404).send('404 Not Found');
-});
-
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  console.log(err);
-  if (err.statusCode) {
-    res
-      .status(err.statusCode)
-      .json(err.invalidFields || err.friendshipStatus ? err : err.message);
-  } else if (err.http_code) {
-    res.status(err.http_code).json(err.message);
-  } else {
-    res.status(500).json('Something went wrong');
-  }
-  res.status(500);
+app.use(express.static(path.join(__dirname, '../frontend', 'build')));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
 });
 
 if (process.env.NODE_ENV !== 'test') {
