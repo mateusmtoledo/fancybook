@@ -7,13 +7,14 @@ import LOGOUT_ICON from '../../img/log-out.svg';
 import { Link, useLocation } from 'react-router-dom';
 
 const UserMenuDropdown = styled(Card)`
+  background-color: #201d1d;
   display: flex;
   flex-direction: column;
   gap: 16px;
   align-items: center;
-  position: fixed;
-  top: 64px;
-  right: 8px;
+  position: absolute;
+  top: 42px;
+  right: 0;
   max-width: calc(100vw - 31px);
   width: 400px;
   z-index: 2;
@@ -26,11 +27,6 @@ const UserMenuDropdown = styled(Card)`
     border: none;
     border-top: 1px solid var(--color-gray-dark);
     width: 100%;
-  }
-
-  @media (max-width: 450px) {
-    position: fixed;
-    top: 64px;
   }
 `;
 
@@ -50,7 +46,7 @@ const UserFullName = styled.p`
 
 const ManageAccountButton = styled.button`
   border: 1px solid var(--color-gray-dark);
-  background-color: var(--color-brown-light);
+  background-color: var(--color-brown-dark);
   padding: 8px 16px;
   border-radius: 32px;
   width: max-content;
