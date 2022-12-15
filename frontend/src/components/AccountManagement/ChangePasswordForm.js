@@ -65,6 +65,8 @@ function ChangePasswordForm({ setFormVisible }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               error={errors?.password?.msg}
+              autoComplete="current-password"
+              autoFocus
             />
           </InputContainer>
           <InputContainer>
@@ -75,6 +77,7 @@ function ChangePasswordForm({ setFormVisible }) {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               error={errors?.newPassword?.msg}
+              autoComplete="new-password"
             />
           </InputContainer>
           <InputContainer>
@@ -85,6 +88,7 @@ function ChangePasswordForm({ setFormVisible }) {
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
               error={errors?.confirmNewPassword?.msg}
+              autoComplete="new-password"
             />
           </InputContainer>
           <ButtonsContainer>

@@ -57,6 +57,7 @@ function ChangeBioForm({ setFormVisible }) {
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               className={errors?.bio && 'invalid'}
+              autoFocus
             />
             {errors?.bio && <ErrorMessage>{errors.bio.msg}</ErrorMessage>}
           </InputContainer>

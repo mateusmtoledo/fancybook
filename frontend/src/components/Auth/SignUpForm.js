@@ -61,18 +61,19 @@ function SignUp() {
         type: 'success',
         text: 'User successfully registered!',
       });
+      setLoading(false);
     } catch (err) {
-      const { invalidFields } = err.response.data;
+      const invalidFields = err?.response?.data?.invalidFields;
       if (invalidFields) {
         setErrors(invalidFields);
-        return;
+      } else {
+        sendNotification({
+          type: 'error',
+          text: 'Something went wrong',
+        });
       }
-      sendNotification({
-        type: 'error',
-        text: 'Something went wrong',
-      });
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -89,6 +90,8 @@ function SignUp() {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               error={errors?.firstName?.msg}
+              autoComplete="given-name"
+              autoFocus
             />
             <Input
               type="text"
@@ -98,6 +101,7 @@ function SignUp() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               error={errors?.lastName?.msg}
+              autoComplete="family-name"
             />
           </div>
           <hr />
@@ -108,6 +112,7 @@ function SignUp() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             error={errors?.email?.msg}
+            autoComplete="email"
           />
           <Input
             type="password"
@@ -117,6 +122,7 @@ function SignUp() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             error={errors?.password?.msg}
+            autoComplete="new-password"
           />
           <Input
             type="password"
@@ -126,6 +132,7 @@ function SignUp() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             error={errors?.confirmPassword?.msg}
+            autoComplete="new-password"
           />
           <input type="submit" value="Sign up" />
           <p>

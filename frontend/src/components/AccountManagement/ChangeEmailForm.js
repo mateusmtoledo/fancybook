@@ -54,6 +54,8 @@ function ChangeEmailForm({ setFormVisible }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               error={errors?.email?.msg}
+              autoComplete="email"
+              autoFocus
             />
           </InputContainer>
           <ButtonsContainer>

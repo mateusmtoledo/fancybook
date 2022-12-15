@@ -86,6 +86,8 @@ function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           error={errors?.email?.msg}
+          autoComplete="email"
+          autoFocus
         />
         <Input
           type="password"
@@ -95,6 +97,7 @@ function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           error={errors?.password?.msg}
+          autoComplete="current-password"
         />
         <input type="submit" value="Sign in" />
       </Form>

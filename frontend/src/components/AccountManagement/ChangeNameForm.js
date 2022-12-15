@@ -53,6 +53,8 @@ function ChangeNameForm({ setFormVisible }) {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               error={errors?.firstName?.msg}
+              autoComplete="given-name"
+              autoFocus
             />
           </InputContainer>
           <InputContainer>
@@ -64,6 +66,7 @@ function ChangeNameForm({ setFormVisible }) {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               error={errors?.lastName?.msg}
+              autoComplete="family-name"
             />
           </InputContainer>
           <ButtonsContainer>
