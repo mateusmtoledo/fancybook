@@ -6,7 +6,7 @@ const router = express.Router();
 router.get(
   '/redirect',
   passport.authenticate('google', {
-    failureRedirect: '/login/google',
+    failureRedirect: 'api/login/google',
     failureMessage: true,
   }),
   async (req, res) => {

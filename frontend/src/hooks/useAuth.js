@@ -10,23 +10,17 @@ function useAuth() {
     try {
       const response = await api.get('/login');
       setUser(response.data.user);
+      setUserLoading(false);
     } catch (err) {
       setUser(null);
-      console.log(err);
+      setUserLoading(false);
+      throw err;
     }
-    setUserLoading(false);
   }, []);
 
   const login = useCallback(async (credentials) => {
-    setUserLoading(true);
-    try {
-      const response = await api.post('/login', credentials);
-      setUser(response.data.user);
-    } catch (err) {
-      setUser(null);
-      console.log(err);
-    }
-    setUserLoading(false);
+    const response = await api.post('/login', credentials);
+    setUser(response.data.user);
   }, []);
 
   const logout = useCallback(async () => {
@@ -42,8 +36,11 @@ function useAuth() {
   }, []);
 
   useEffect(() => {
-    getUser();
-    setUserLoading(false);
+    getUser()
+      .then(() => setUserLoading(false))
+      .catch((err) => {
+        if (err?.statusCode === 401) return;
+      });
   }, [getUser]);
 
   return {

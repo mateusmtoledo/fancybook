@@ -7,6 +7,7 @@ import { UserContext } from '../../contexts/UserContext';
 import Input from '../Input';
 import { ToastContext } from '../../contexts/ToastContext';
 import { GlobalLoadingContext } from '../../contexts/GlobalLoadingContext';
+import api from 'src/adapters/api';
 
 const GoogleSignIn = styled.button`
   margin: 0 auto;
@@ -59,18 +60,20 @@ function LoginForm() {
       navigate('/');
       setGlobalLoading(false);
     } catch (err) {
-      const { invalidFields } = err?.response?.data;
-      setGlobalLoading(false);
+      const invalidFields = err?.response?.data?.invalidFields;
       if (invalidFields) {
         setErrors(invalidFields);
-        return;
+      } else {
+        sendNotification({
+          type: 'error',
+          text: 'Something went wrong',
+        });
       }
-      sendNotification({
-        type: 'error',
-        text: 'Something went wrong',
-      });
+      setGlobalLoading(false);
     }
   }
+
+  const googleAuthUrl = api.defaults.baseURL + '/login/google';
 
   return (
     <LoginContainer>
@@ -97,11 +100,7 @@ function LoginForm() {
       </Form>
       <p className="small-text">OR</p>
       <GoogleSignIn>
-        <a
-          href={`${
-            process.env.REACT_APP_API_URL || 'http://localhost:3001'
-          }/login/google`}
-        >
+        <a href={googleAuthUrl}>
           <img src={GOOGLE_SIGN_IN} alt="Sign in with Google" />
         </a>
       </GoogleSignIn>
