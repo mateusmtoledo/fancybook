@@ -1,8 +1,9 @@
 [build]
-  publish = "/frontend/build"
+  base = "/frontend"
+  publish = "/build"
   command = "CI= npm run build"
   node_bundler = "esbuild"
-  functions = "/backend/functions"
+  functions = "../backend/functions"
 
 [[redirects]]
   from = "*"
