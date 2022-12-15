@@ -1,6 +1,6 @@
 [build]
   publish = "/frontend/build"
-  command = "npm run build"
+  command = "CI= npm run build"
   node_bundler = "esbuild"
   functions = "/backend/functions"
 
