@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../app');
+const { app } = require('../../functions/app');
 const { fakeUsers } = require('../../database/seeding/fakeUsers');
 const { fakePosts } = require('../../database/seeding/fakePosts');
 const User = require('../../models/User');

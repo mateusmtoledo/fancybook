@@ -1,5 +1,10 @@
 [build]
+  publish = "/frontend/build"
   command = "npm run build"
+  node_bundler = "esbuild"
+  functions = "/backend/functions"
 
-[functions]
-  directory = "backend/"
+[[redirects]]
+  from = "*"
+  to = "/.netlify/functions/app"
+  status = 200

@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../app');
+const { app } = require('../../functions/app');
 const { fakeUsers } = require('../../database/seeding/fakeUsersAndFriends');
 const getSessionId = require('../../jest/utils/getSessionId');
 const User = require('../../models/User');
