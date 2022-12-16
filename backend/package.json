@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node functions/app.js",
+    "dev": "nodemon functions/app.js"
   },
   "author": "mateusmtoledo",
   "license": "ISC",
