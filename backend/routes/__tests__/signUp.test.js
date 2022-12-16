@@ -1,6 +1,6 @@
 const request = require('supertest');
 const User = require('../../models/User');
-const app = require('../../app');
+const { app } = require('../../functions/app');
 
 const userData = {
   firstName: 'John',

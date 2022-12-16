@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
+const serverless = require('serverless-http');
 const path = require('path');
-require('./services/passportConfig');
+require('../services/passportConfig');
 const cors = require('cors');
 
 const app = express();
@@ -13,7 +14,7 @@ app.use(
   }),
 );
 
-require('./database/config/mongoSetup');
+require('../database/config/mongoSetup');
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -42,7 +43,7 @@ app.use(passport.session());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-const apiRoutes = require('./routes/apiRoutes');
+const apiRoutes = require('../routes/apiRoutes');
 
 app.use(process.env.NODE_ENV === 'test' ? '/' : '/api', apiRoutes);
 
@@ -58,4 +59,5 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
-module.exports = app;
+module.exports.app = app;
+module.exports.handler = serverless(app);

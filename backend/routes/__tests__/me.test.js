@@ -2,7 +2,7 @@ const request = require('supertest');
 const bcrypt = require('bcryptjs');
 const { fakeUsers } = require('../../database/seeding/fakeUsersAndFriends');
 const User = require('../../models/User');
-const app = require('../../app');
+const { app } = require('../../functions/app');
 const getSessionId = require('../../jest/utils/getSessionId');
 
 const superLongText =

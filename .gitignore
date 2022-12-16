@@ -1,3 +1,6 @@
 node_modules/
 .prettierignore
 .vercel
+
+# Local Netlify folder
+.netlify
