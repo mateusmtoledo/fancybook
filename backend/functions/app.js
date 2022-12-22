@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const serverless = require('serverless-http');
-const path = require('path');
 require('../services/passportConfig');
 const cors = require('cors');
 
@@ -46,11 +45,6 @@ app.use(express.urlencoded({ extended: true }));
 const apiRoutes = require('../routes/apiRoutes');
 
 app.use(process.env.NODE_ENV === 'test' ? '/' : '/api', apiRoutes);
-
-app.use(express.static(path.join(__dirname, '../frontend', 'build')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
-});
 
 if (process.env.NODE_ENV !== 'test') {
   const port = process.env.PORT ?? 3001;
