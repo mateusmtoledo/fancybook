@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Card from '../../styles/Card';
 import Post from './Post';
 import PostForm from './PostForm';
 import STICKY_NOTES_ICON from '../../img/sticky-notes.svg';
@@ -11,17 +10,26 @@ import { UserContext } from 'src/contexts/UserContext';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 
-const NoPosts = styled(Card)`
+const NoPostsContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const NoPostsMessage = styled.div`
+  aspect-ratio: 1 / 1;
+  height: 230px;
   display: flex;
   flex-direction: column;
+  gap: 16px;
   font-size: 1.1rem;
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 16px;
-  padding: 28px;
-  height: 100%;
-  max-height: ${(props) => (props.maxHeight ? props.maxHeight : '400px')};
+  border-radius: 100%;
+  border: 3px solid white;
 `;
 
 const StyledPostList = styled.ul`
@@ -80,15 +88,17 @@ function PostList({ userId, renderForm }) {
           ),
         )}
       {!postsLoading && !posts.length && (
-        <NoPosts maxHeight={!userId && '250px'}>
-          <img
-            src={STICKY_NOTES_ICON}
-            alt="No posts yet"
-            width="84px"
-            height="84px"
-          />
-          <p>No posts yet</p>
-        </NoPosts>
+        <NoPostsContainer>
+          <NoPostsMessage>
+            <img
+              src={STICKY_NOTES_ICON}
+              alt="No posts yet"
+              width="84px"
+              height="84px"
+            />
+            <p>No posts yet</p>
+          </NoPostsMessage>
+        </NoPostsContainer>
       )}
       {postsLoading &&
         new Array(8).fill().map((_, index) => <PostSkeleton key={index} />)}
