@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Form from '../../styles/Form';
-import GOOGLE_SIGN_IN from '../../img/google-sign-in.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
@@ -8,13 +7,8 @@ import Input from '../Input';
 import { ToastContext } from '../../contexts/ToastContext';
 import { GlobalLoadingContext } from '../../contexts/GlobalLoadingContext';
 import api from 'src/adapters/api';
-
-const GoogleSignIn = styled.button`
-  margin: 0 auto;
-  img {
-    height: 42px;
-  }
-`;
+import OAuthButton from './OAuthButton';
+import GOOGLE_ICON from '../../img/google.svg';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -40,6 +34,17 @@ const LoginContainer = styled.div`
     color: var(--color-orange);
     font-weight: 700;
   }
+`;
+
+const OAuthButtonsContainer = styled.div`
+  display: grid;
+  grid-template-columns: max-content;
+  justify-content: center;
+`;
+
+const GoogleButton = styled(OAuthButton)`
+  background-color: #258ded;
+  color: white;
 `;
 
 function LoginForm() {
@@ -102,11 +107,9 @@ function LoginForm() {
         <input type="submit" value="Sign in" />
       </Form>
       <p className="small-text">OR</p>
-      <GoogleSignIn>
-        <a href={googleAuthUrl}>
-          <img src={GOOGLE_SIGN_IN} alt="Sign in with Google" />
-        </a>
-      </GoogleSignIn>
+      <OAuthButtonsContainer>
+        <GoogleButton name="Google" icon={GOOGLE_ICON} url={googleAuthUrl} />
+      </OAuthButtonsContainer>
       <p>
         Not registered? <Link to="/sign-up">Create account</Link>
       </p>
