@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get(
   '/redirect',
-  passport.authenticate('google', {
+  passport.authenticate('github', {
     failureRedirect: '/',
     failureMessage: true,
   }),
@@ -14,11 +14,6 @@ router.get(
   },
 );
 
-router.get(
-  '/',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'],
-  }),
-);
+router.get('/', passport.authenticate('github', { scope: ['user:email'] }));
 
 module.exports = router;

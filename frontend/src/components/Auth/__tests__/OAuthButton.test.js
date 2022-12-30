@@ -12,7 +12,7 @@ describe('OAuthButton', () => {
 
   it('renders name', () => {
     render(<OAuthButton name="Google" icon="someicon" url="someurl" />);
-    expect(screen.getByText('Sign in with Google')).toBeInTheDocument();
+    expect(screen.getByText('Google')).toBeInTheDocument();
   });
 
   it('links to the received url', () => {

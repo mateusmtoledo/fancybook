@@ -9,6 +9,8 @@ import { GlobalLoadingContext } from '../../contexts/GlobalLoadingContext';
 import api from 'src/adapters/api';
 import OAuthButton from './OAuthButton';
 import GOOGLE_ICON from '../../img/google.svg';
+import GITHUB_ICON from '../../img/github-icon.png';
+import TWITTER_ICON from '../../img/twitter.svg';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -37,14 +39,34 @@ const LoginContainer = styled.div`
 `;
 
 const OAuthButtonsContainer = styled.div`
-  display: grid;
-  grid-template-columns: max-content;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 4px;
+  @media (max-width: 400px) {
+  }
 `;
 
 const GoogleButton = styled(OAuthButton)`
   background-color: #258ded;
   color: white;
+`;
+
+const TwitterButton = styled(OAuthButton)`
+  background-color: #00a1ea;
+  color: white;
+  img {
+    padding: 6px;
+  }
+`;
+
+const GithubButton = styled(OAuthButton)`
+  background-color: #171515;
+  color: white;
+
+  img {
+    padding: 6px;
+  }
 `;
 
 function LoginForm() {
@@ -79,6 +101,8 @@ function LoginForm() {
   }
 
   const googleAuthUrl = api.defaults.baseURL + '/login/google';
+  const githubAuthUrl = api.defaults.baseURL + '/login/github';
+  const twitterAuthUrl = api.defaults.baseURL + '/login/twitter';
 
   return (
     <LoginContainer>
@@ -106,13 +130,19 @@ function LoginForm() {
         />
         <input type="submit" value="Sign in" />
       </Form>
-      <p className="small-text">OR</p>
-      <OAuthButtonsContainer>
-        <GoogleButton name="Google" icon={GOOGLE_ICON} url={googleAuthUrl} />
-      </OAuthButtonsContainer>
       <p>
         Not registered? <Link to="/sign-up">Create account</Link>
       </p>
+      <p className="small-text">Or sign in with</p>
+      <OAuthButtonsContainer>
+        <GoogleButton name="Google" icon={GOOGLE_ICON} url={googleAuthUrl} />
+        <GithubButton name="Github" icon={GITHUB_ICON} url={githubAuthUrl} />
+        <TwitterButton
+          name="Twitter"
+          icon={TWITTER_ICON}
+          url={twitterAuthUrl}
+        />
+      </OAuthButtonsContainer>
     </LoginContainer>
   );
 }

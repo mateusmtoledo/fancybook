@@ -3,6 +3,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const GoogleStrategy = require('passport-google-oauth20');
+const GitHubStrategy = require('passport-github2');
+const TwitterStrategy = require('passport-twitter');
 const User = require('../models/User');
 
 passport.use(
@@ -75,7 +77,6 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
       },
       async (accessToken, refreshToken, profile, cb) => {
         try {
-          console.log(profile._json);
           const user = await User.findOne({ googleId: profile.id });
           if (!user) {
             new User({
@@ -84,6 +85,78 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
               lastName: profile.name.familyName || '',
               email: profile.emails[0].value,
               avatar: profile._json.picture,
+            }).save((err, user) => {
+              if (err) {
+                cb(err);
+                return;
+              }
+              cb(null, user);
+            });
+            return;
+          }
+          cb(null, user);
+        } catch (err) {
+          cb(err);
+        }
+      },
+    ),
+  );
+}
+
+if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+  passport.use(
+    new GitHubStrategy(
+      {
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: '/api/login/github/redirect',
+        scope: ['user:email'],
+      },
+      async (accessToken, refreshToken, profile, cb) => {
+        try {
+          const user = await User.findOne({ githubId: profile.id });
+          if (!user) {
+            new User({
+              githubId: profile.id,
+              firstName: profile.displayName || profile.username,
+              lastName: '',
+              email: profile?.emails[0]?.value,
+              avatar: profile.photos[0].value,
+            }).save((err, user) => {
+              if (err) {
+                cb(err);
+                return;
+              }
+              cb(null, user);
+            });
+            return;
+          }
+          cb(null, user);
+        } catch (err) {
+          cb(err);
+        }
+      },
+    ),
+  );
+}
+
+if (process.env.TWITTER_CLIENT_ID && process.env.TWITTER_CLIENT_SECRET) {
+  passport.use(
+    new TwitterStrategy(
+      {
+        consumerKey: process.env.TWITTER_API_KEY,
+        consumerSecret: process.env.TWITTER_API_KEY_SECRET,
+        callbackURL: '/api/login/twitter/redirect',
+      },
+      async (accessToken, refreshToken, profile, cb) => {
+        try {
+          const user = await User.findOne({ twitterId: profile.id });
+          if (!user) {
+            new User({
+              twitterId: profile.id,
+              firstName: profile.displayName || profile.username,
+              lastName: '',
+              avatar: profile.photos[0].value,
             }).save((err, user) => {
               if (err) {
                 cb(err);

@@ -1,21 +1,24 @@
 import styled from 'styled-components';
 
 const StyledLink = styled.a`
-  width: 100%;
+  flex: 1;
+  max-width: 100px;
 `;
 
 const OAuthButtonContainer = styled.button`
-  align-self: center;
-  height: 42px;
+  padding-right: 8px;
+  height: 36px;
   font-size: 1rem;
   display: flex;
   align-items: center;
   border-radius: 4px;
   font-weight: 700;
   width: 100%;
+  gap: 4px;
 
-  p {
-    padding: 4px 8px;
+  img {
+    height: 100%;
+    max-width: 36px;
   }
 `;
 
@@ -23,8 +26,8 @@ export default function OAuthButton({ name, icon, url, className }) {
   return (
     <StyledLink href={url}>
       <OAuthButtonContainer className={className}>
-        <img src={icon} alt={name} height="100%" />
-        <p>{`Sign in with ${name}`}</p>
+        <img src={icon} alt={name} />
+        <p>{name}</p>
       </OAuthButtonContainer>
     </StyledLink>
   );

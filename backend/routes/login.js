@@ -7,10 +7,14 @@ const { body, validationResult } = require('express-validator');
 
 const sampleRouter = require('./sample');
 const googleRouter = require('./googleauth');
+const githubRouter = require('./githubauth');
+const twitterRouter = require('./twitterauth');
 const { isAuthenticated } = require('../middleware/authentication');
 
 router.use('/sample', sampleRouter);
 router.use('/google', googleRouter);
+router.use('/github', githubRouter);
+router.use('/twitter', twitterRouter);
 
 router.post(
   ['/', '/sample'],

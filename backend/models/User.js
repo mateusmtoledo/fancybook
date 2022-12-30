@@ -50,7 +50,6 @@ const UserSchema = new Schema(
     username: { type: String, maxLength: 35 },
     email: {
       type: String,
-      required: true,
       minLength: 7,
       maxLength: 254,
     },
@@ -61,6 +60,8 @@ const UserSchema = new Schema(
     },
     sample: { type: Boolean, default: false },
     googleId: { type: String },
+    twitterId: { type: String },
+    githubId: { type: String },
   },
   {
     toObject: { virtuals: true },
