@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   :root {
@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
     --color-gray-dark: #555555;
     --color-gray: #7B7B7B;
     --color-gray-light: #BBBBBB;
+    --color-gray-lighter: #D3D3D3;
     --shadow-card: 0px 3px 7px -3px rgba(0, 0, 0, 0.3),
       0px 6px 12px -2px rgba(50, 50, 50, 0.25);
   }

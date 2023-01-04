@@ -1,11 +1,11 @@
-import InteractionButton from '../../styles/InteractionButton';
-import { ReactComponent as LikeIcon } from '../../img/thumbs-up.svg';
-import api from '../../adapters/api';
-import { useContext } from 'react';
-import { UserContext } from 'src/contexts/UserContext';
-import { ToastContext } from 'src/contexts/ToastContext';
-import { useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import InteractionButton from "../../styles/InteractionButton";
+import { ReactComponent as LikeIcon } from "../../img/thumbs-up.svg";
+import api from "../../adapters/api";
+import { useContext } from "react";
+import { UserContext } from "src/contexts/UserContext";
+import { ToastContext } from "src/contexts/ToastContext";
+import { useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 function LikeButton({
   postId,
@@ -36,8 +36,8 @@ function LikeButton({
     } catch (err) {
       console.log(err);
       sendNotification({
-        type: 'error',
-        text: 'Something went wrong',
+        type: "error",
+        text: "Something went wrong",
       });
     }
     setLikeButtonLoading(false);
@@ -54,7 +54,7 @@ function LikeButton({
   return (
     <InteractionButton onClick={handleClick} isActive={userHasLiked}>
       <LikeIcon />
-      <p>{userHasLiked ? 'Liked' : 'Like'}</p>
+      <p>Like</p>
     </InteractionButton>
   );
 }

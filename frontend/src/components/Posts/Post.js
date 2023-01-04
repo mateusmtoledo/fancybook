@@ -1,18 +1,18 @@
-import UserDisplayInfo from '../UserDisplayInfo/UserDisplayInfo';
-import useLikes from '../../hooks/useLikes';
-import useComments from '../../hooks/useComments';
-import { useState } from 'react';
-import LikeList from '../Likes/LikeList';
-import LikeButton from '../Likes/LikeButton';
-import LikeCounter from '../Likes/LikeCounter';
-import CommentCounter from '../Comments/CommentCounter';
-import CommentButton from '../Comments/CommentButton';
-import CommentList from '../Comments/CommentList';
+import UserDisplayInfo from "../UserDisplayInfo/UserDisplayInfo";
+import useLikes from "../../hooks/useLikes";
+import useComments from "../../hooks/useComments";
+import { useState } from "react";
+import LikeList from "../Likes/LikeList";
+import LikeButton from "../Likes/LikeButton";
+import LikeCounter from "../Likes/LikeCounter";
+import CommentCounter from "../Comments/CommentCounter";
+import CommentButton from "../Comments/CommentButton";
+import CommentList from "../Comments/CommentList";
 import {
   PostContainer,
   PostStatsContainer,
   ButtonsContainer,
-} from 'src/styles/Post';
+} from "src/styles/Post";
 
 function Post({ post }) {
   const [likeListVisible, setLikeListVisible] = useState(false);

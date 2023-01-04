@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import Card from './Card';
+import styled from "styled-components";
+import Card from "./Card";
 
 export const PostContainer = styled(Card)`
   display: flex;
@@ -7,6 +7,7 @@ export const PostContainer = styled(Card)`
   gap: 16px;
   word-break: break-word;
   width: 100%;
+  padding-bottom: 4px;
 
   hr {
     border: none;
@@ -18,7 +19,7 @@ export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 80px;
+  gap: 8px;
 
   @media (max-width: 400px) {
     gap: 0;
