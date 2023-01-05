@@ -6,7 +6,7 @@ export const LikeCounterStyled = styled.div`
     color: var(--color-gray-lighter);
 
     :hover {
-      color: var(--color-orange);
+      text-decoration: underline;
     }
   }
 `;

@@ -2,31 +2,24 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
-import EXPAND_ICON from "../../img/expand-down.svg";
 import Loading from "../Loading";
 
-const CommentListContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-`;
+const CommentListContainer = styled.ul``;
 
 const LoadMoreCommentsButton = styled.button`
-  display: flex;
-  gap: 4px;
   color: var(--color-white);
   align-items: center;
   justify-content: center;
   width: 100%;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 700;
   position: relative;
-  margin-top: -16px;
+  margin-bottom: 8px;
 
   ::before {
     position: absolute;
     width: calc(100% + 32px);
-    height: calc(1.6em + 32px);
+    height: calc(1.6em + 8px);
     right: -16px;
     border-radius: 8px;
     transition: box-shadow 0.3s;
@@ -40,7 +33,7 @@ const LoadMoreCommentsButton = styled.button`
 
   :hover {
     ::before {
-      box-shadow: inset 0px -10px 10px -10px var(--color-orange);
+      box-shadow: inset 0px -5px 5px -5px var(--color-orange);
     }
   }
 `;
@@ -76,8 +69,7 @@ const CommentList = React.forwardRef(
         {commentsLoading && <Loading transparent positionStatic />}
         {hasNextCommentPage && !commentsLoading && (
           <LoadMoreCommentsButton onClick={loadNextCommentPage}>
-            <p>Show more</p>
-            <img alt="Show more comments" src={EXPAND_ICON} />
+            Show more comments
           </LoadMoreCommentsButton>
         )}
       </CommentListContainer>

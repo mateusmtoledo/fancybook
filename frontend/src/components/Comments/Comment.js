@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import Avatar from '../UserDisplayInfo/Avatar';
-import { getDateString } from '../../utils/dateFormatter';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import Avatar from "../UserDisplayInfo/Avatar";
+import { getDateString } from "../../utils/dateFormatter";
+import { Link } from "react-router-dom";
 
 const CommentContainer = styled.li`
   display: grid;
@@ -9,6 +9,7 @@ const CommentContainer = styled.li`
   grid-column-gap: 8px;
   grid-row-gap: 4px;
   max-width: 100%;
+  margin-bottom: 32px;
 `;
 
 const CommentAvatar = styled(Link)`

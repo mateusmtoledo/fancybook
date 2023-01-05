@@ -5,6 +5,6 @@ export const CommentCounterContainer = styled.button`
   color: var(--color-gray-lighter);
 
   &:hover {
-    color: var(--color-orange);
+    text-decoration: underline;
   }
 `;

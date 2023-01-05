@@ -1,4 +1,4 @@
-import { CommentCounterContainer } from 'src/styles/CommentCounter';
+import { CommentCounterContainer } from "src/styles/CommentCounter";
 
 function CommentCounter({ commentCount, setCommentListVisible }) {
   return (

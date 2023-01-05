@@ -1,4 +1,4 @@
-import { LikeCounterStyled } from 'src/styles/LikeCounter';
+import { LikeCounterStyled } from "src/styles/LikeCounter";
 
 function LikeCounter({ likeCount, setLikeListVisible }) {
   return (

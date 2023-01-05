@@ -14,6 +14,7 @@ const CommentFormContainer = styled(Form)`
   position: relative;
   flex-direction: row;
   gap: 16px;
+  margin-bottom: 32px;
 `;
 
 const CommentInputs = styled.div`
@@ -45,75 +46,77 @@ const CancelCommentButton = styled(CommentButton)`
   background-color: var(--color-gray-dark);
 `;
 
-const CommentForm = React.forwardRef(({ postId, setComments }, ref) => {
-  const { user } = useContext(UserContext);
-  const [text, setText] = useState("");
-  const [buttonsVisible, setButtonsVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState(null);
-  const { sendNotification } = useContext(ToastContext);
+const CommentForm = React.forwardRef(
+  ({ postId, setComments, commentPageNumber, commentsLoading }, ref) => {
+    const { user } = useContext(UserContext);
+    const [text, setText] = useState("");
+    const [buttonsVisible, setButtonsVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState(null);
+    const { sendNotification } = useContext(ToastContext);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setLoading(true);
-    setErrors(null);
-    try {
-      const response = await api.post(`/posts/${postId}/comments`, { text });
-      const { comment } = response.data;
-      setText("");
-      setButtonsVisible(false);
-      setComments((prev) => [comment, ...prev]);
-    } catch (err) {
-      if (!err.response.data) {
-        sendNotification({
-          type: "error",
-          text: "Something went wrong",
-        });
-        return;
+    async function handleSubmit(event) {
+      event.preventDefault();
+      setLoading(true);
+      setErrors(null);
+      try {
+        const response = await api.post(`/posts/${postId}/comments`, { text });
+        const { comment } = response.data;
+        setText("");
+        setButtonsVisible(false);
+        setComments((prev) => [comment, ...prev]);
+      } catch (err) {
+        if (!err.response.data) {
+          sendNotification({
+            type: "error",
+            text: "Something went wrong",
+          });
+          return;
+        }
+        const { invalidFields } = err.response.data;
+        invalidFields && setErrors(invalidFields);
       }
-      const { invalidFields } = err.response.data;
-      invalidFields && setErrors(invalidFields);
+      setLoading(false);
     }
-    setLoading(false);
-  }
 
-  return (
-    <CommentFormContainer onSubmit={handleSubmit}>
-      {loading && <Loading />}
-      <Link to={`/user/${user._id}`}>
-        <Avatar size="36px" user={user} />
-      </Link>
-      <CommentInputs>
-        <div>
-          <VariableHeightTextInput
-            text={text}
-            setText={setText}
-            placeholder="Comment on this post"
-            aria-label="Comment on this post"
-            onFocus={() => setButtonsVisible(true)}
-            className={errors?.text && "invalid"}
-            ref={ref}
-          />
-          {errors?.text && <ErrorMessage>{errors.text.msg}</ErrorMessage>}
-        </div>
-        {buttonsVisible && (
-          <CommentButtons>
-            <CancelCommentButton
-              type="button"
-              onClick={() => {
-                setText("");
-                setButtonsVisible(false);
-                setErrors(null);
-              }}
-            >
-              CANCEL
-            </CancelCommentButton>
-            <SubmitCommentButton>SUBMIT</SubmitCommentButton>
-          </CommentButtons>
-        )}
-      </CommentInputs>
-    </CommentFormContainer>
-  );
-});
+    return (
+      <CommentFormContainer onSubmit={handleSubmit}>
+        {loading && <Loading />}
+        <Link to={`/user/${user._id}`}>
+          <Avatar size="36px" user={user} />
+        </Link>
+        <CommentInputs>
+          <div>
+            <VariableHeightTextInput
+              text={text}
+              setText={setText}
+              placeholder="Comment on this post"
+              aria-label="Comment on this post"
+              onFocus={() => setButtonsVisible(true)}
+              className={errors?.text && "invalid"}
+              ref={ref}
+            />
+            {errors?.text && <ErrorMessage>{errors.text.msg}</ErrorMessage>}
+          </div>
+          {buttonsVisible && (
+            <CommentButtons>
+              <CancelCommentButton
+                type="button"
+                onClick={() => {
+                  setText("");
+                  setButtonsVisible(false);
+                  setErrors(null);
+                }}
+              >
+                CANCEL
+              </CancelCommentButton>
+              <SubmitCommentButton>SUBMIT</SubmitCommentButton>
+            </CommentButtons>
+          )}
+        </CommentInputs>
+      </CommentFormContainer>
+    );
+  }
+);
 
 export default CommentForm;
