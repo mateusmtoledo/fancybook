@@ -1,11 +1,31 @@
 import InteractionButton from "../../styles/InteractionButton";
 import { ReactComponent as LikeIcon } from "../../img/thumbs-up.svg";
 import api from "../../adapters/api";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "src/contexts/UserContext";
 import { ToastContext } from "src/contexts/ToastContext";
-import { useState } from "react";
-import Skeleton from "react-loading-skeleton";
+import styled from "styled-components";
+
+const LikeIconStyled = styled(LikeIcon)`
+  &[data-beenclicked="true"][data-liked="true"] {
+    animation: liked 0.5s 1;
+  }
+
+  @keyframes liked {
+    0% {
+      transform: none;
+    }
+    33% {
+      transform: rotate(-15deg) scale(1.3);
+    }
+    67% {
+      transform: rotate(-15deg) scale(1.3);
+    }
+    100% {
+      transform: none;
+    }
+  }
+`;
 
 function LikeButton({
   postId,
@@ -16,22 +36,29 @@ function LikeButton({
 }) {
   const { user } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
-  const [likeButtonLoading, setLikeButtonLoading] = useState(false);
+  const [beenClicked, setbeenClicked] = useState(false);
 
   async function handleClick() {
-    setLikeButtonLoading(true);
+    if (!beenClicked) setbeenClicked(true);
     try {
       if (userHasLiked) {
-        await api.delete(`/posts/${postId}/likes`);
         setLikeCount((prev) => prev - 1);
         setLikes((prev) => prev.filter((like) => like.author._id !== user._id));
         setUserHasLiked(false);
+        await api.delete(`/posts/${postId}/likes`);
       } else {
-        const response = await api.post(`/posts/${postId}/likes`);
-        const { like } = response.data;
+        const like = {
+          author: user,
+          date: Date.now(),
+        };
         setLikeCount((prev) => prev + 1);
-        setLikes((prev) => [like, ...prev]);
+        setLikes((prev) =>
+          prev.some((like) => like.author._id === user._id)
+            ? prev
+            : [like, ...prev]
+        );
         setUserHasLiked(true);
+        await api.post(`/posts/${postId}/likes`);
       }
     } catch (err) {
       console.log(err);
@@ -40,20 +67,18 @@ function LikeButton({
         text: "Something went wrong",
       });
     }
-    setLikeButtonLoading(false);
   }
 
-  if (likeButtonLoading)
-    return (
-      <InteractionButton data-testid="like-button-skeleton">
-        <Skeleton circle width={22} height={22} />
-        <Skeleton width={37} />
-      </InteractionButton>
-    );
-
   return (
-    <InteractionButton onClick={handleClick} isActive={userHasLiked}>
-      <LikeIcon />
+    <InteractionButton
+      onClick={handleClick}
+      isActive={userHasLiked}
+      data-active={userHasLiked}
+    >
+      <LikeIconStyled
+        data-beenclicked={beenClicked}
+        data-liked={userHasLiked}
+      />
       <p>Like</p>
     </InteractionButton>
   );

@@ -12,10 +12,13 @@ const InteractionButton = styled.button`
   flex: 1;
   max-width: 150px;
 
-  color: ${(props) =>
-    props.isActive ? "var(--color-orange)" : "var(--color-gray-lighter)"};
-  stroke: ${(props) =>
-    props.isActive ? "var(--color-orange)" : "var(--color-gray-lighter)"};
+  color: var(--color-gray-lighter);
+  stroke: var(--color-gray-lighter);
+
+  &[data-active="true"] {
+    color: var(--color-orange);
+    stroke: var(--color-orange);
+  }
 
   :hover {
     background-color: rgba(255, 255, 255, 0.03);

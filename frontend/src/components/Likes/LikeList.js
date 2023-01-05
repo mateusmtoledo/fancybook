@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import Card from '../../styles/Card';
-import Like from './Like';
-import X_ICON from '../../img/x.svg';
-import React, { useCallback, useRef } from 'react';
-import Modal from '../Modal';
-import { useEffect } from 'react';
-import Loading from '../Loading';
+import styled from "styled-components";
+import Card from "../../styles/Card";
+import Like from "./Like";
+import X_ICON from "../../img/x.svg";
+import React, { useCallback, useRef } from "react";
+import Modal from "../Modal";
+import { useEffect } from "react";
+import Loading from "../Loading";
 
 const LikeListContainer = styled(Card)`
   width: 400px;
@@ -16,7 +16,7 @@ const LikeListContainer = styled(Card)`
   gap: 16px;
 
   h2 {
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
   }
 
   .header {
@@ -72,7 +72,7 @@ function LikeList({
       });
       if (node) observer.current.observe(node);
     },
-    [loadNextLikePage, hasNextLikePage, likesLoading],
+    [loadNextLikePage, hasNextLikePage, likesLoading]
   );
 
   useEffect(() => {
@@ -101,10 +101,14 @@ function LikeList({
           {likes.map((like, index) => {
             if (index + 1 === likes.length) {
               return (
-                <Like ref={lastLikeRef} key={like._id} author={like.author} />
+                <Like
+                  ref={lastLikeRef}
+                  key={like.author._id}
+                  author={like.author}
+                />
               );
             }
-            return <Like key={like._id} author={like.author} />;
+            return <Like key={like.author._id} author={like.author} />;
           })}
           {likesLoading && <Loading transparent positionStatic />}
         </ul>

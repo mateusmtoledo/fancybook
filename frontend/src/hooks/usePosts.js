@@ -1,8 +1,8 @@
-import { useCallback } from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import getUniqueEntriesById from 'src/utils/getUniqueEntriesById';
-import api from '../adapters/api';
+import { useCallback } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import getUniqueEntriesById from "src/utils/getUniqueEntriesByProperty";
+import api from "../adapters/api";
 
 function usePosts(userId) {
   const [pageNumber, setPageNumber] = useState(1);
@@ -10,7 +10,7 @@ function usePosts(userId) {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [postsLoading, setPostsLoading] = useState(true);
 
-  const uri = userId ? `/users/${userId}/posts` : '/posts';
+  const uri = userId ? `/users/${userId}/posts` : "/posts";
 
   const loadNextPostPage = useCallback(() => {
     setPageNumber((previous) => previous + 1);
@@ -32,7 +32,7 @@ function usePosts(userId) {
         // TODO implement better solution for pagination
         else
           setPosts((previousPosts) =>
-            getUniqueEntriesById([...previousPosts, ...data.posts]),
+            getUniqueEntriesById([...previousPosts, ...data.posts])
           );
         setHasNextPage(data.hasNextPage);
         setPostsLoading(false);

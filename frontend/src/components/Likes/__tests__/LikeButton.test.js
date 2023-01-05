@@ -42,24 +42,6 @@ const user = {
 };
 
 describe("LikeButton", () => {
-  it("renders skeleton while loading", async () => {
-    render(
-      <UserContext.Provider value={{ user }}>
-        <ToastContext.Provider value={{ sendNotification: jest.fn() }}>
-          <LikeButton {...props} userHasLiked={true} />
-        </ToastContext.Provider>
-      </UserContext.Provider>
-    );
-    const likeButton = screen.getByText(/^like$/i);
-    userEvent.click(likeButton);
-    expect(screen.getByTestId("like-button-skeleton")).toBeInTheDocument();
-    await waitFor(() =>
-      expect(
-        screen.queryByTestId("like-button-skeleton")
-      ).not.toBeInTheDocument()
-    );
-  });
-
   describe("when user has not liked post", () => {
     it("renders like button", () => {
       render(
