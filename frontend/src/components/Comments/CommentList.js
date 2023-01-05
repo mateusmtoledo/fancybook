@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import styled from 'styled-components';
-import Comment from './Comment';
-import CommentForm from './CommentForm';
-import EXPAND_ICON from '../../img/expand-down.svg';
-import Loading from '../Loading';
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import Comment from "./Comment";
+import CommentForm from "./CommentForm";
+import EXPAND_ICON from "../../img/expand-down.svg";
+import Loading from "../Loading";
 
 const CommentListContainer = styled.ul`
   display: flex;
@@ -30,7 +30,7 @@ const LoadMoreCommentsButton = styled.button`
     right: -16px;
     border-radius: 8px;
     transition: box-shadow 0.3s;
-    content: '';
+    content: "";
   }
 
   img {
@@ -45,39 +45,44 @@ const LoadMoreCommentsButton = styled.button`
   }
 `;
 
-function CommentList({
-  postId,
-  comments,
-  commentPageNumber,
-  setComments,
-  hasNextCommentPage,
-  loadNextCommentPage,
-  commentListVisible,
-  commentsLoading,
-}) {
-  useEffect(() => {
-    if (commentListVisible && commentPageNumber === 0) {
-      loadNextCommentPage();
-    }
-  }, [commentListVisible, commentPageNumber, loadNextCommentPage]);
+const CommentList = React.forwardRef(
+  (
+    {
+      postId,
+      comments,
+      commentPageNumber,
+      setComments,
+      hasNextCommentPage,
+      loadNextCommentPage,
+      commentListVisible,
+      commentsLoading,
+    },
+    ref
+  ) => {
+    useEffect(() => {
+      if (commentListVisible && commentPageNumber === 0) {
+        loadNextCommentPage();
+      }
+    }, [commentListVisible, commentPageNumber, loadNextCommentPage]);
 
-  if (!commentListVisible) return null;
+    if (!commentListVisible) return null;
 
-  return (
-    <CommentListContainer>
-      <CommentForm postId={postId} setComments={setComments} />
-      {comments.map((comment) => (
-        <Comment key={comment._id} comment={comment} />
-      ))}
-      {commentsLoading && <Loading transparent positionStatic />}
-      {hasNextCommentPage && !commentsLoading && (
-        <LoadMoreCommentsButton onClick={loadNextCommentPage}>
-          <p>Show more</p>
-          <img alt="Show more comments" src={EXPAND_ICON} />
-        </LoadMoreCommentsButton>
-      )}
-    </CommentListContainer>
-  );
-}
+    return (
+      <CommentListContainer>
+        <CommentForm ref={ref} postId={postId} setComments={setComments} />
+        {comments.map((comment) => (
+          <Comment key={comment._id} comment={comment} />
+        ))}
+        {commentsLoading && <Loading transparent positionStatic />}
+        {hasNextCommentPage && !commentsLoading && (
+          <LoadMoreCommentsButton onClick={loadNextCommentPage}>
+            <p>Show more</p>
+            <img alt="Show more comments" src={EXPAND_ICON} />
+          </LoadMoreCommentsButton>
+        )}
+      </CommentListContainer>
+    );
+  }
+);
 
 export default CommentList;

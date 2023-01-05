@@ -1,10 +1,12 @@
 import InteractionButton from "../../styles/InteractionButton";
 import { ReactComponent as CommentIcon } from "../../img/comment.svg";
 
-function CommentButton({ commentListVisible, setCommentListVisible }) {
+function CommentButton({ commentListVisible, focusCommentInput }) {
   return (
     <InteractionButton
-      onClick={() => setCommentListVisible((prev) => !prev)}
+      onClick={() => {
+        focusCommentInput();
+      }}
       isActive={commentListVisible}
     >
       <CommentIcon />

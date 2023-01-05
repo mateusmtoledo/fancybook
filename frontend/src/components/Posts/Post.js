@@ -1,7 +1,7 @@
 import UserDisplayInfo from "../UserDisplayInfo/UserDisplayInfo";
 import useLikes from "../../hooks/useLikes";
 import useComments from "../../hooks/useComments";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import LikeList from "../Likes/LikeList";
 import LikeButton from "../Likes/LikeButton";
 import LikeCounter from "../Likes/LikeCounter";
@@ -13,6 +13,7 @@ import {
   PostStatsContainer,
   ButtonsContainer,
 } from "src/styles/Post";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 function Post({ post }) {
   const [likeListVisible, setLikeListVisible] = useState(false);
@@ -29,7 +30,8 @@ function Post({ post }) {
     likesLoading,
   } = useLikes(post._id, post.likeCount, post.userHasLiked);
 
-  const [commentListVisible, setCommentListVisible] = useState(false);
+  const [commentListVisible, setCommentListVisible] =
+    useStateWithCallbackLazy(false);
   const {
     comments,
     setComments,
@@ -39,6 +41,15 @@ function Post({ post }) {
     commentCount,
     commentsLoading,
   } = useComments(post._id, post.commentCount);
+
+  const commentInputRef = useRef(null);
+  function focusCommentInput() {
+    if (!commentListVisible) {
+      setCommentListVisible(true, () => commentInputRef.current.focus());
+      return;
+    }
+    commentInputRef.current.focus();
+  }
 
   return (
     <PostContainer>
@@ -70,7 +81,7 @@ function Post({ post }) {
         />
         <CommentButton
           commentListVisible={commentListVisible}
-          setCommentListVisible={setCommentListVisible}
+          focusCommentInput={focusCommentInput}
         />
       </ButtonsContainer>
       <LikeList
@@ -91,6 +102,7 @@ function Post({ post }) {
         loadNextCommentPage={loadNextCommentPage}
         commentListVisible={commentListVisible}
         commentsLoading={commentsLoading}
+        ref={commentInputRef}
       />
     </PostContainer>
   );

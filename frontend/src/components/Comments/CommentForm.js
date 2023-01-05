@@ -1,14 +1,14 @@
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ToastContext } from 'src/contexts/ToastContext';
-import styled from 'styled-components';
-import api from '../../adapters/api';
-import { UserContext } from '../../contexts/UserContext';
-import Form from '../../styles/Form';
-import { ErrorMessage } from '../../styles/PostForm';
-import Avatar from '../UserDisplayInfo/Avatar';
-import Loading from '../Loading';
-import VariableHeightTextInput from '../VariableHeightTextInput';
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { ToastContext } from "src/contexts/ToastContext";
+import styled from "styled-components";
+import api from "../../adapters/api";
+import { UserContext } from "../../contexts/UserContext";
+import Form from "../../styles/Form";
+import { ErrorMessage } from "../../styles/PostForm";
+import Avatar from "../UserDisplayInfo/Avatar";
+import Loading from "../Loading";
+import VariableHeightTextInput from "../VariableHeightTextInput";
 
 const CommentFormContainer = styled(Form)`
   position: relative;
@@ -45,9 +45,9 @@ const CancelCommentButton = styled(CommentButton)`
   background-color: var(--color-gray-dark);
 `;
 
-function CommentForm({ postId, setComments }) {
+const CommentForm = React.forwardRef(({ postId, setComments }, ref) => {
   const { user } = useContext(UserContext);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const [buttonsVisible, setButtonsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
@@ -60,14 +60,14 @@ function CommentForm({ postId, setComments }) {
     try {
       const response = await api.post(`/posts/${postId}/comments`, { text });
       const { comment } = response.data;
-      setText('');
+      setText("");
       setButtonsVisible(false);
       setComments((prev) => [comment, ...prev]);
     } catch (err) {
       if (!err.response.data) {
         sendNotification({
-          type: 'error',
-          text: 'Something went wrong',
+          type: "error",
+          text: "Something went wrong",
         });
         return;
       }
@@ -91,7 +91,8 @@ function CommentForm({ postId, setComments }) {
             placeholder="Comment on this post"
             aria-label="Comment on this post"
             onFocus={() => setButtonsVisible(true)}
-            className={errors?.text && 'invalid'}
+            className={errors?.text && "invalid"}
+            ref={ref}
           />
           {errors?.text && <ErrorMessage>{errors.text.msg}</ErrorMessage>}
         </div>
@@ -100,7 +101,7 @@ function CommentForm({ postId, setComments }) {
             <CancelCommentButton
               type="button"
               onClick={() => {
-                setText('');
+                setText("");
                 setButtonsVisible(false);
                 setErrors(null);
               }}
@@ -113,6 +114,6 @@ function CommentForm({ postId, setComments }) {
       </CommentInputs>
     </CommentFormContainer>
   );
-}
+});
 
 export default CommentForm;
