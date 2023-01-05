@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import Loading from '../Loading';
-import SearchResult from './SearchResult';
-import USER_ICON from '../../img/user.svg';
+import styled from "styled-components";
+import Loading from "../Loading";
+import SearchResult from "./SearchResult";
+import USER_ICON from "../../img/user.svg";
 
 const StyledSearchResultsList = styled.div`
   position: absolute;
@@ -15,11 +15,21 @@ const StyledSearchResultsList = styled.div`
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px,
     rgba(0, 0, 0, 0.3) 0px 7px 14px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   min-height: 48px;
+  animation: appear 0.2s;
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
   .results-type {
     display: flex;
     gap: 4px;
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     align-items: center;
     color: var(--color-orange);
     margin-bottom: 8px;
