@@ -21,7 +21,7 @@ router.get("/", async (req, res, next) => {
       await Like.paginate({ post: postId }, paginateOptions),
     ]);
     res.json({
-      userHasLiked,
+      userHasLiked: !!userHasLiked,
       likes: likes.docs,
       count: likes.totalDocs,
       hasNextPage: likes.hasNextPage,

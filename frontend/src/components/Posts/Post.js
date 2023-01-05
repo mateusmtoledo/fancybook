@@ -80,6 +80,8 @@ function Post({ post }) {
           userHasLiked={userHasLiked}
           setUserHasLiked={setUserHasLiked}
           postId={post._id}
+          likePageNumber={likePageNumber}
+          likesLoading={likesLoading}
         />
         <CommentButton
           commentListVisible={commentListVisible}

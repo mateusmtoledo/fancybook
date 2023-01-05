@@ -33,6 +33,8 @@ function LikeButton({
   setUserHasLiked,
   setLikes,
   setLikeCount,
+  likePageNumber,
+  likesLoading,
 }) {
   const { user } = useContext(UserContext);
   const { sendNotification } = useContext(ToastContext);
@@ -52,11 +54,12 @@ function LikeButton({
           date: Date.now(),
         };
         setLikeCount((prev) => prev + 1);
-        setLikes((prev) =>
-          prev.some((like) => like.author._id === user._id)
-            ? prev
-            : [like, ...prev]
-        );
+        if (likePageNumber > 1 || (likePageNumber === 1 && !likesLoading))
+          setLikes((prev) =>
+            prev.some((like) => like.author._id === user._id)
+              ? prev
+              : [like, ...prev]
+          );
         setUserHasLiked(true);
         await api.post(`/posts/${postId}/likes`);
       }
