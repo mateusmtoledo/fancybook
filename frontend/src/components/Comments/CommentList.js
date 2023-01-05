@@ -4,7 +4,19 @@ import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import Loading from "../Loading";
 
-const CommentListContainer = styled.ul``;
+const CommentListContainer = styled.ul`
+  margin-top: 16px;
+`;
+
+const WriteACommentButton = styled.button`
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
 
 const LoadMoreCommentsButton = styled.button`
   color: var(--color-white);
@@ -61,18 +73,35 @@ const CommentList = React.forwardRef(
     if (!commentListVisible) return null;
 
     return (
-      <CommentListContainer>
-        <CommentForm ref={ref} postId={postId} setComments={setComments} />
-        {comments.map((comment) => (
-          <Comment key={comment._id} comment={comment} />
-        ))}
-        {commentsLoading && <Loading transparent positionStatic />}
-        {hasNextCommentPage && !commentsLoading && (
-          <LoadMoreCommentsButton onClick={loadNextCommentPage}>
-            Show more comments
-          </LoadMoreCommentsButton>
-        )}
-      </CommentListContainer>
+      <>
+        <hr />
+        <CommentListContainer>
+          <CommentForm ref={ref} postId={postId} setComments={setComments} />
+          {comments.map((comment) => (
+            <Comment key={comment._id} comment={comment} />
+          ))}
+          {commentsLoading && <Loading transparent positionStatic />}
+          {!commentsLoading && (
+            <WriteACommentButton
+              onClick={() => {
+                if (ref) {
+                  ref.current.focus({
+                    preventScroll: true,
+                  });
+                  ref.current.scrollIntoView();
+                }
+              }}
+            >
+              Write a comment
+            </WriteACommentButton>
+          )}
+          {hasNextCommentPage && !commentsLoading && (
+            <LoadMoreCommentsButton onClick={loadNextCommentPage}>
+              Show more comments
+            </LoadMoreCommentsButton>
+          )}
+        </CommentListContainer>
+      </>
     );
   }
 );

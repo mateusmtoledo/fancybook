@@ -12,6 +12,7 @@ import {
   PostContainer,
   PostStatsContainer,
   ButtonsContainer,
+  PostText,
 } from "src/styles/Post";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
@@ -57,10 +58,10 @@ function Post({ post }) {
         user={post.author}
         postDate={post.date}
         avatarSize="36px"
+        marginBottom="16px"
         bold
       />
-      <p>{post.text}</p>
-      <hr />
+      <PostText>{post.text}</PostText>
       <PostStatsContainer>
         <LikeCounter
           likeCount={likeCount}
@@ -71,6 +72,7 @@ function Post({ post }) {
           setCommentListVisible={setCommentListVisible}
         />
       </PostStatsContainer>
+      <hr />
       <ButtonsContainer>
         <LikeButton
           setLikes={setLikes}

@@ -1,14 +1,15 @@
 import {
   AuthorName,
   PostDate,
+  UserDisplayInfoContainer,
   UserDisplayInfoLink,
-} from 'src/styles/UserDisplayInfo';
-import { getDateString } from '../../utils/dateFormatter';
-import Avatar from './Avatar';
+} from "src/styles/UserDisplayInfo";
+import { getDateString } from "../../utils/dateFormatter";
+import Avatar from "./Avatar";
 
-function UserDisplayInfo({ user, avatarSize, postDate, bold }) {
+function UserDisplayInfo({ user, avatarSize, postDate, bold, marginBottom }) {
   return (
-    <div>
+    <UserDisplayInfoContainer marginBottom={marginBottom}>
       <UserDisplayInfoLink to={`/user/${user._id}`}>
         <Avatar user={user} size={avatarSize} />
         <div>
@@ -18,7 +19,7 @@ function UserDisplayInfo({ user, avatarSize, postDate, bold }) {
           )}
         </div>
       </UserDisplayInfoLink>
-    </div>
+    </UserDisplayInfoContainer>
   );
 }
 

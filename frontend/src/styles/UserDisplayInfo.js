@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export const AuthorName = styled.p`
   font-size: 1rem;
   font-weight: 700;
-  font-weight: ${(props) => (props.bold ? '700' : '300')};
+  font-weight: ${(props) => (props.bold ? "700" : "300")};
 `;
 
 export const PostDate = styled.p`
@@ -26,4 +26,8 @@ export const UserDisplayInfoLink = styled(Link)`
     -webkit-box-orient: vertical;
     word-break: break-all;
   }
+`;
+
+export const UserDisplayInfoContainer = styled.div`
+  margin-bottom: ${(props) => (props.marginBottom ? props.marginBottom : "0")};
 `;
