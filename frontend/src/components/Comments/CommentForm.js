@@ -14,7 +14,7 @@ const CommentFormContainer = styled(Form)`
   position: relative;
   flex-direction: row;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 `;
 
 const CommentInputs = styled.div`

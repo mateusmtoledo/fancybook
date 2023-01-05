@@ -1,24 +1,30 @@
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-import { CommentCounterContainer } from 'src/styles/CommentCounter';
-import InteractionButton from 'src/styles/InteractionButton';
-import { LikeCounterStyled } from 'src/styles/LikeCounter';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { CommentCounterContainer } from "src/styles/CommentCounter";
+import InteractionButton from "src/styles/InteractionButton";
+import { LikeCounterStyled } from "src/styles/LikeCounter";
 import {
   ButtonsContainer,
   PostContainer,
   PostStatsContainer,
-} from 'src/styles/Post';
+  PostText,
+} from "src/styles/Post";
 import {
   AuthorName,
   PostDate,
   UserDisplayInfoLink,
-} from 'src/styles/UserDisplayInfo';
+} from "src/styles/UserDisplayInfo";
 
 function PostSkeleton() {
   return (
     <PostContainer>
       <div>
-        <UserDisplayInfoLink as="div">
+        <UserDisplayInfoLink
+          as="div"
+          style={{
+            marginBottom: "16px",
+          }}
+        >
           <Skeleton circle width={32} height={32} />
           <div>
             <AuthorName>
@@ -30,10 +36,9 @@ function PostSkeleton() {
           </div>
         </UserDisplayInfoLink>
       </div>
-      <p>
+      <PostText>
         <Skeleton count={2} />
-      </p>
-      <hr />
+      </PostText>
       <PostStatsContainer>
         <LikeCounterStyled as="div">
           <Skeleton width={60} />
@@ -42,6 +47,7 @@ function PostSkeleton() {
           <Skeleton width={60} />
         </CommentCounterContainer>
       </PostStatsContainer>
+      <hr />
       <ButtonsContainer>
         <InteractionButton as="div">
           <Skeleton circle width={24} height={24} />

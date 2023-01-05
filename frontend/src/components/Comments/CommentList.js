@@ -80,7 +80,9 @@ const CommentList = React.forwardRef(
           {comments.map((comment) => (
             <Comment key={comment._id} comment={comment} />
           ))}
-          {commentsLoading && <Loading transparent positionStatic />}
+          {commentsLoading && (
+            <Loading transparent positionStatic margin="8px" />
+          )}
           {!commentsLoading && (
             <WriteACommentButton
               onClick={() => {
