@@ -8,7 +8,7 @@ async function insertSampleUser() {
       ? Math.floor(Math.random() * (avatars.length - 50)) + 50
       : Math.floor(Math.random() * avatars.length);
   const allSampleUsers = await User.find({ sample: true });
-  const newSampleUser = await new User(generateRandomUser(avatarIndex)).save();
+  const newSampleUser = await new User(generateRandomUser(avatarIndex, false)).save();
 
   if (!allSampleUsers.length) return newSampleUser;
 

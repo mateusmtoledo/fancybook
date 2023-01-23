@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const avatars = require('./avatars.json');
 
-exports.generateRandomUser = (avatarIndex) => {
+exports.generateRandomUser = (avatarIndex, sample = true) => {
   const _id = mongoose.Types.ObjectId();
   const avatar =
     avatars[avatarIndex || Math.floor(Math.random() * avatars.length)];
@@ -25,7 +25,7 @@ exports.generateRandomUser = (avatarIndex) => {
     username,
     email,
     password,
-    sample: true,
+    sample,
   };
 };
 
