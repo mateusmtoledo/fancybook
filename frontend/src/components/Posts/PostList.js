@@ -10,26 +10,22 @@ import { UserContext } from 'src/contexts/UserContext';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 
-const NoPostsContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const NoPostsMessage = styled.div`
-  aspect-ratio: 1 / 1;
-  height: 230px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  font-size: 1.1rem;
+  font-size: 1.6rem;
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin: 16px;
+`;
+
+const NoPostsImgContainer = styled.div`
   border-radius: 100%;
-  border: 3px solid white;
+  padding: 32px;
+  border: 3px solid var(--color-white);
 `;
 
 const StyledPostList = styled.ul`
@@ -88,17 +84,18 @@ function PostList({ userId, renderForm }) {
           ),
         )}
       {!postsLoading && !posts.length && (
-        <NoPostsContainer>
           <NoPostsMessage>
-            <img
-              src={STICKY_NOTES_ICON}
-              alt="No posts yet"
-              width="84px"
-              height="84px"
-            />
+            <NoPostsImgContainer>
+              <img
+                src={STICKY_NOTES_ICON}
+                alt="No posts yet"
+                width="84px"
+                height="84px"
+              />
+
+            </NoPostsImgContainer>
             <p>No posts yet</p>
           </NoPostsMessage>
-        </NoPostsContainer>
       )}
       {postsLoading &&
         new Array(8).fill().map((_, index) => <PostSkeleton key={index} />)}
