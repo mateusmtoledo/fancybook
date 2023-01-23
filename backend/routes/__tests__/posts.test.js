@@ -65,7 +65,7 @@ describe('/posts POST method', () => {
       .expect(400)
       .then((response) => {
         expect(response.body.invalidFields.text.msg).toBe(
-          'Post must have at least 3 characters',
+          'Your post must have 3 to 2048 characters',
         );
       });
   });

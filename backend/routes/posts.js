@@ -20,9 +20,9 @@ router.get('/', getPosts, async (req, res) => {
 });
 
 router.post('/', [
-  body('text', 'Post must have at least 3 characters')
+  body('text', 'Your post must have 3 to 2048 characters')
     .trim()
-    .isLength({ min: 3 })
+    .isLength({ min: 3, max: 2048 })
     .escape(),
   async (req, res, next) => {
     const errors = validationResult(req);
