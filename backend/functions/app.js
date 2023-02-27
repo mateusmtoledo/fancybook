@@ -1,25 +1,25 @@
-require('dotenv').config();
-const express = require('express');
-const serverless = require('serverless-http');
-require('../services/passportConfig');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const serverless = require("serverless-http");
+require("../services/passportConfig");
+const cors = require("cors");
 
 const app = express();
 
 app.use(
   cors({
     credentials: true,
-    origin: process.env.ORIGIN || 'http://localhost:3000',
-  }),
+    origin: process.env.ORIGIN.split(" ") || "http://localhost:3000",
+  })
 );
 
-require('../database/config/mongoSetup');
+require("../database/config/mongoSetup");
 
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 const store =
-  process.env.NODE_ENV === 'test'
+  process.env.NODE_ENV === "test"
     ? undefined
     : MongoStore.create({
         mongoUrl: process.env.MONGODB_URL,
@@ -27,26 +27,26 @@ const store =
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'sessionsecret',
+    secret: process.env.SESSION_SECRET || "sessionsecret",
     resave: false,
     saveUninitialized: true,
     store,
-  }),
+  })
 );
 
-const passport = require('passport');
+const passport = require("passport");
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-const apiRoutes = require('../routes/apiRoutes');
+const apiRoutes = require("../routes/apiRoutes");
 
-app.use(process.env.NODE_ENV === 'test' ? '/' : '/api', apiRoutes);
+app.use(process.env.NODE_ENV === "test" ? "/" : "/api", apiRoutes);
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   const port = process.env.PORT ?? 3001;
   app.listen(port, () => {
     console.log(`Listening on port ${port}`);
