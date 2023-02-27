@@ -9,7 +9,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.ORIGIN.split(" ") || "http://localhost:3000",
+    origin: process.env.ORIGIN || "http://localhost:3000",
   })
 );
 
