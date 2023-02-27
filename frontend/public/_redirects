@@ -1,2 +1,3 @@
+https://fancybook-app.netlify.app/* https://fancybook.mateustoledo.com/:splat 301!
 /api/*  /.netlify/functions/app  200
 /*  /index.html  200
